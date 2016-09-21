@@ -1,0 +1,1142 @@
+%\documentclass[pdftex,12pt,a4paper]{article}
+\documentclass[pdftex,12pt,a4paper]{report}
+
+
+\usepackage[pdftex]{graphicx}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{array}
+%\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{stmaryrd}
+\usepackage{makeidx}
+\usepackage{upgreek}
+\usepackage{setspace}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata,positioning,intersections}
+\usetikzlibrary{shapes,shapes.multipart}
+%\usetikzlibrary{quotes,angles}
+
+\onehalfspacing
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\makeindex
+
+\begin{document}
+
+\input{./title.tex}
+
+\chapter{Introduction}
+\section{Planning}
+\subsection{Planners Characteristics/Requirements}
+\begin{enumerate}
+\item  How to handle failures $\shortrightarrow$ Replanning avoiding loops
+\item  How to represent uncertainty $\shortrightarrow$ Probabilistic reasoning
+\item  How to deal with Exogenous Events $\shortrightarrow$ Implicit/Explicit Modelling 
+\item  Hyerarchical Tasks
+\item  Frame Problem: how to represent the fact that things do not arbitrarly changes.
+\item  Qualification problem: how to deal with the things that prevent me from achieving my intendend result (impossibility of list alla preconditions). 
+\item  How to model/deal time (explicit/implicit)
+\item  World-based (STRIPS) vs Plan-based Planner (Partial-order Planning)
+\item  Total-order (HTN) vs Partial-order planning
+\item  Variables Observation, Exception generation and handling
+\item  Evaluate solution quality, planning time and the ability to avoid deadend states
+\item  Exploit the restrictions placed on the states and actions, on observability, and on the value function    and optimality criterion
+\item Computational complexity of the plan existence problem
+\item Tradeoff between complexity of representation and execution
+\end{enumerate}
+
+\subsection{Partial Ordering}
+\noindent
+Partial-order planning, as opposed to total-ordering, is a search in plan space where every node of the problem represents a partial plan. A plan is complete iff every precondition is achieved and that happen when the precondition is the effect of an earlier step and no possibly intervening step undoes it.
+A plan is represented as
+\begin{itemize}
+\item a set of steps
+\item ordering constraints
+\item causal links from outcome of one step to precondition of another
+\item open preconditions
+\end{itemize}
+A start step has the initial state description as its effect while a finish step has the goal description as its precondition. 
+The search procedure picks one open precondition of an action \textit{B}, and one action of \textit{A} that achieves the precondition of \textit{B}. Add the causal links for the actions and the ordering constraints for \textit{A},\textit{B}, \textit{Start}, \textit{Finish} and tries to resolve conflicts when possible, otherwise backtracks. A conflict is resolved by adding ordering constraints called demotion and promotion that move the conflictual action after of before the causal link, respectively. When there are no more open preconditions the goal is satisfied.
+Partial-order planning produces more trivial serializability than total-order planning that allows performing quickly when dealing with goals that contain sub-goals. A sub-goal is trivially or laboriously serializable depending on the search space. For the stated properties,Partial-order planning is more likely to find the quickest path.
+Not only, it could be very difficult to write good knowledge bases for Total-order planner because the total-ordering requirement for the subtasks is restrictive. 
+One drawback of this type of planning system is that it requires a lot more computational power for each node.
+This depends on the higher complexity of this type of algorithms and has a huge impact on the applicability on robots in real world scenarios because the energy consumption.
+
+\subsection{Uncertainty}
+Uncertainties generally interfere with two aspects of planning:
+\begin{itemize}
+\item \textbf{Predictability:} due to uncertainties it is not known what will happen in the future when certain actions are applied. This means that future states are not necessarily predictable.
+\item \textbf{Sensing:} due to uncertainties, the current state is not necessarily known. Information regarding the state is obtained from initial conditions, sensors, and the memory of previously applied actions.
+\end{itemize}
+
+\noindent
+Classical planning is fast, but cannot reason about multiple action outcomes, unreliable observations, or multiple possible worlds. Decision-theoretic planning, by contrast, produces a policy maximizing the probability of success (expected value) from any belief state the robot might reach during plan execution, taking account of the probabilities of every possible action outcome in those states. Decision-theoretic planning handles multiple action outcomes (Markov decision processes, MDPs) and unreliable observations (POMDPs), but at an infeasible computational cost given the size of typical robot domains.
+
+\subsection{Epistemic}
+
+\subsection{Exogenous Event}
+
+A robotic system must deal with the external world that is, by its own nature, a dynamic system itself.
+This external world produce a series of stimuli that must be treated carefully when accomplish a task. 
+The interaction between the two systems is two-way, since the robot could influence the state of the world through its action and vice versa. The actions performed by the robot are called \textit{control} actions, while the actions that the world exert on the robot are called \textit{exogenous} actions.
+Is it possible to model this events in two ways: implicit-event model and explicit-event model.
+In implicit-event models the effects of the exogenous event are folded into the transition probabilities associated with the action. 
+Instead, when the effects of actions are decomposed so that a transition is determined by the effects of agent actions and external events that occur with a certain probability we call it explicit-event model.\\
+
+\subsection{qualification problem, ramification problem, frame problem}
+PDDL
+\begin{itemize}
+\item Frame problem: everything not explicitly change by effects persist.
+\item Qualification problem: as SitCalc,can never finish listing all the required preconditions and possible conditional outcomes of actions
+\end{itemize}
+\newpage
+
+\chapter{Related Works}
+\section{Human Robot Interaction}
+
+\paragraph{Social Rules} Norms of human being imitated/reproduced by the robot in order to encourage collaboration and that are socially acceptable.\\ 
+
+\noindent
+Cooperation doesn't mean necessarily social, and this is the case of classic automation approach. The most promimenent cases are the ones in which the human is encouraged to collaborate by the means of a reward (griedy case). Human are also curious, so encourage this part could also help in establish and mantain a collaboration through time. (curiosity case)
+The third and most interesting case for this study is the scenario in which the robot itself starts the collaboration. There are many aspects to take into account in this, and I will enlist the most important in the following.
+A robot must be capable of discerning cases in which an interaction is desirable and cases in which is not. Like in the simple case of a "welcome robot", where is important that the robot says "hi" when a person shows in front of him but it must also take into account the fact that a person could appear in front of him multiple times. 
+Another important but maybe trickier case is to equip the robot with the capability of understanding the mood of the person and than react consequently. Although this could be seen as a fictional case, since is impossible at the moment even for the most complex cognitive robot to understand emotions, there are some simple cases that could be treated. The goal, in this case, is not to reproduce a perfect model of the human mind state and how it could react to some sorts of events, but rather discover some patterns that could lead to undesirable outcomes. For instance, a person could be busy with its work and the interference of the robot, when is not helpful in the context of the human task, could be perceived as noise. Thus is important to maintain a representation of the person daily routines and enrich this when is possible with the information that comes from the social interactions that occurs from time to time between the two. If we are interested in developing robots strictly social, we cannot leave aside the emotional aspect of the interaction. \\
+
+\noindent
+Main Questions:
+\begin{enumerate}
+\item How to start/mantain interaction
+\item How to represent parallel/serial interaction
+\item How to represent/update common knowledge
+\end{enumerate}
+
+\subsection{Industrial Cases (No HRI)}
+Those are the cases in which robot and human are both aware of the plan and they cooperate deterministically in order to achieve the goal. There is no HRI as the human is seen as another agent in the environment.
+\begin{itemize}
+\item Assisted assembly
+\item Logistic 
+\item Space
+\end{itemize}
+
+\subsection{Almost Social Cases (HRI Not Mandatory)}
+In this cases the interaction between the human and the robot is minimal. The human is a target and the interaction is a secondary objective. No representation of the human state is requred.
+\begin{itemize}
+\item Patrolling
+\item Search \& Rescue
+\end{itemize}
+
+\subsection{Strictly Social Cases (HRI Mandatory)}
+Those cases represents the most significant for this work. In this case the interaction is the principal objective and the robot itself could start the interaction. A representation of the human state is mantained.
+\begin{itemize}
+\item COACHES
+\item Assistance task
+\item Waitress Robot
+\end{itemize}
+\noindent
+%Typically involve (PO)MDP to model uncertainty and not derministic outcomes of the actions and any of the other formalisms. Often used: ASP, PDDL.
+
+\chapter{Plan Representation}\label{sec:formalism}
+\section{Formalisms}\label{sec:formalism}
+\subsection{STRIPS (Classical Planning)}
+\noindent STRIPS\cite{strips} stand for STanford Research Institute Problem Solver. 
+\\\noindent It is a formal language (and a planner) used to describe deterministic, static, fully observable domains. 
+\\\noindent In STRIPS the initial state is assumed to be known with certainty and any action taken at any state has at most one successor (no multiple outcomes). It is not possible to describe indirect effects of actions, as action preconditions/postconditions are expressed simply as conjunction of literals (positive for preconditions).
+\\\noindent More formally, a STRIPS instance is a quadruple $<P,O,I,G>$, where:
+\begin{itemize}
+\item $P$ is a set of conditions (propositional variables).
+\item $O$ is a set of operators (actions). Each action is itself a quadruple with four set of conditions specifying which conditions must be true/false for the action to execute and which conditions are made true/false after the execution
+\item $I$ is the initial state, specified by a set of conditions that are initially true (all others are false).
+\item $G$ specify the goal conditions. This is a pair of two set specifying which conditions must hold true/false in a state in order to be considered a goal.
+\end{itemize}
+\noindent A plan computed by STRIPS is a linear sequence of actions from initial state to goal state with no branches (i.e. no conditional effects).
+\\\noindent This makes STRIPS very fast: the search is done off-line and then the found plan is executed on-line with "eyes closed". 
+\\\noindent On other hand it cannot deal with uncertainty in both sensing/knowledge, like unreliable observations, incomplete/incorrect information or multiple possible worlds.  
+\\\noindent An expanded version of STRIPS is Action Description Language (ADL)\cite{adl}, which expand STRIPS with some syntactics features:
+\begin{itemize}
+\item state representation: allows also negative literals.
+\item action specification: add conditional effects and logical operators for express them.
+\item goal specification: quantified sentences and disjunctions.
+\end{itemize}
+
+\subsection{PDDL}\label{pddl}
+\noindent PDDL\cite{pddl} is the standard de facto for planning domains description. It generalizes both STRIPS\cite{strips} and Action Description Language (ADL \cite{adl}).
+\\\noindent It is intended to describe the "physics" of a domain in terms of predicates, possible actions and their effects.
+\\\noindent States are represented as a set of predicates with grounded variables and arbitrary function-free first-order logical sentences are allowed to describe goals. 
+Action effects are the only source of change for the state of the world and could be universally quantified and conditional. This makes PDDL asymmetric: action preconditions are considerably more expressive than action effects.
+\\\noindent The standard version of PDDL divide the planning problem in two parts: domain description and problem description. Domain description contains all the element that are common to every problem of the problem domain while the problem description contains only the elements that are specific for that instance of problem. This two constitute the input for the planner. The output is not specified by PDDL but it is usually a totally/partially ordered plan (a sequence of actions that may be also executed in parallel).
+The domain description consist of:
+\begin{itemize}
+\item \textbf{domain-name}. 
+\item \textbf{requirements}. declares to planner which features are used. some examples are strips, universal-preconditions, existential-preconditions, disjunctive-preconditions, adl. When a requirement is not specified, the planner skips over the definition of that domain and won't cope with its syntax.
+\item \textbf{object-type hierarchy}.
+\item \textbf{constant objects}.
+\item \textbf{predicates}.
+\item \textbf{actions}. are operators-schemas with parameters, that will be grounded/instantiated during execution. They had parameters (variables to be instantiated), preconditions and effects. Effects could be also conditional. 
+\end{itemize}
+The problem description is composed by:
+\begin{itemize}
+\item \textbf{problem-name}.
+\item \textbf{domain-name}. to which domain the problem is related.
+\item \textbf{objects}. the definition of all possible objects (atoms).
+\item \textbf{initial conditions}. conjunction of true/false facts, initial state of the planning environment.
+\item \textbf{goal-states}. a logical expression over facts that must be true/false in a goal-state.
+\end{itemize}
+\noindent I refer to \cite{pddl} for a more formal definition of the syntax.
+\noindent Through the years PDDL has received several updates (the last version is PDDL 3.1) and extensions.
+The most notable are:
+\begin{itemize}
+\item PPDDL\cite{ppddl} is a probabilistic version of PDDL. 
+\\\noindent It extends PDDL 2.1 with probabilistic effects, reward fluents, goal rewards and goal-achieved fluents. This allows realising Markov Decision Process (MDP) planning in a fully observable environment with uncertainty in state-transitions
+\item RDDL\cite{rddl} introduce the concept of partial observability in PDDL. It allows to describe (PO)MDP representing states,actions and observations with variables. Semantically, RDDL represent a Dynamic Bayes Net (DBN) with many intermediate layers and extended with a simple influence diagram utility node reresenting immediate reward.
+\item KPDDL\cite{kpddl} add to PDDL some constructs to represent the incomplete knowledge of the agent about the environment. 
+\\\noindent It is discussed in next section.
+\end{itemize}
+
+%\subsection{HATP}
+%\textit{Characteristics}
+%\begin{itemize}
+%\item world representetation = collection of entities of type agent/object
+%\item Entity = data values + relations with other entities
+%\item Initial world state = instantiation of entities with values for attributes
+%\item Agent = 1st class entities
+%\item Static vs dynamic attributes value (refers to planning); atomic vs set values 
+%\item Domain as HTN + variables with controlled binding (SELECT, SELECTORDERED, SELECTONCE)
+%\item Partial-ordering allowed for subtasks
+%\item Social rules as constraints on parameters/filters, discriminates planes
+%\item Geometric reasoning by the means of an interface with geometric planner $\shortrightarrow$ “evaluable predicates”—predicates in HATP preconditions that are evaluated by calling associated external procedures
+%\end{itemize}
+%
+%\textit{Examples}
+%\begin{itemize}
+%\item Assisted assembly
+%\item Dock-worker robot
+%\end{itemize}
+
+\subsection{$ALCK_{NF}$}
+It is an autoepistemic logic, an extension of ALC with the add of the epistemic operator \textbf{K} and default assumption operator \textbf{A}. It is presented in \cite{alck}.
+\\\noindent The logic ontology assumes the existence of \textit{concepts} and \textit{roles}. 
+\\\noindent A concept represent a class of \textit{individuals} while the roles model the relations between classes.
+\\\noindent The interpretation structure of Default logics is a Kripke structure, with labelled nodes and edges.
+Each node represents an individual and is labelled with the concept corresponding to the individual while each edge is a role. 
+\\\noindent This structures could be interpreted as a dynamic system where the individuals are the states of the system that holds the properties valid in that state (like fluents in situation calculus). Edges represent transactions between system states and are labelled with the action that causes the change in state.
+\\\noindent So each node/individual represent an \textit{epistemic state} of the robot so that there is an edge between two nodes if the associated action modifies the source epistemic state in the destination epistemic state.
+\\\noindent There are two types of actions: ordinary actions and sensing actions.
+\\\noindent  Ordinary actions are deterministic actions with effects that depend on the context they are applied, while the sensing actions do not modify the environment but the knowledge of the agent since they evaluate boolean properties of the environment.
+\\\noindent  Thanks to the latter it is possible to explicitly model the effects that this type of actions has on the knowledge and to characterise plans that the agent could actually execute.
+\\\noindent It is also possible to specify actions that can run in parallel. Parallel actions in a state can be executed iff each could be executed individually in that state and the effects of the actions are mutually consistent.
+\\\noindent For what concerns the Frame problem, the language use default axioms to represent the persistence of properties and frame axioms that express the causal persistence of rules.
+\\\noindent Epistemic operators guarantee that the generated plan is actually executable, unlike first-order logic, and sensing actions produces ramifications that could help to reach the goal. This type of plan, with sensing plus ordinary actions, is called conditional plan.
+
+%\subsubsection{Syntax}
+%$C \shortrightarrow A$ $|$ $\top$ $|$ $\bot$ $|$ $C_1 \sqcap C_2$ $|$ $C_1 \sqcup C_2$ $|$ $ \neg C$ $|$ 
+%$\exists Q.C$ $|$ $ \forall Q.C$ $|$ $\textbf{K}C$ $|$ $\textbf{A}C$ $|$ $Q \shortrightarrow R$ $|$ $R_1 \sqcap ... \sqcap R_n$ $|$ $\textbf{K}R$ $|$ $\textbf{A}R$ 
+%
+%\noindent where
+%\begin{itemize}
+%\item $A$ is an atomic concept, there is described only by the name.
+%\item $C$ is a complex concept
+%\item $R$ is an atomic relation
+%\item $Q$ is a complex relation
+%\end{itemize}
+%
+%\noindent An $ALCK_{NF}$ knowledge base is a couple $\Sigma = <T, A>$ where:
+%\begin{itemize}
+%\item T (TBox
+%) is a finite set of inclusion assertions 
+%\item A (ABox) is a finite set of assertions of membership C(a) o R(a,b) with a and b individuals names.
+%\end{itemize}
+
+\subsection{KPDDL}\label{kpddl_descr}
+KPDDL\cite{kpddl} is an extension of PDDL based on the logic $ALCK_{NF}$. 
+\\\noindent Its aim is to augment the planning domain with the (incomplete) knowledge of the agent about the environment. 
+\\\noindent KPDDL introduces several specifications:
+\begin{itemize}
+\item \textit{sense terms}. effects of actions that helps to disambiguate the true state of the environment.
+\item \textit{non-inertial terms}. specifies non-inertial properties. 
+\item \textit{strongly-persist terms}. specifies strongly persistence properties.
+\item \textit{formula-init term}. is the specification for an incomplete initial state.
+\end{itemize}
+The fundamental contribute of KPDDL from the semantic viewpoint is the interpretation of a dynamical system through its epistemic state. An epistemic state represents what the agent knows about the world, that could be different from what is true in the world, and the planning is realised by modelling at this meta-level. 
+%I refer to \cite{alck} for a complete definition of the introduced constructs.
+\\\noindent A planning problem can be specified as:
+\begin{center}
+$KB \cup \phi (init) \models \pi_{\psi} (init)$
+\end{center}
+where $KB$ is the set of axioms representing the planning domain, $\phi (init)$ is the assertion representing the initial state and $\pi_{\psi} (init)$ is an $ALCK_{NF}$ assertion that is true in the initial state iff executing the plan agent knows $\psi$. 
+\noindent The associated planner produces conditional plans in the form of conditional trees (or direct acyclic graphs), in which the root is the initial states, the leaves are goal states and the branches are different results of sensing. Conditional plans are distinguished in \textit{weak/strong}, whether or not are present leaves that are not goal states and from which a goal state could not be reached. Plans could be also \textit{cyclic}, in which case the termination is not guaranteed.
+Formally, a plan is defined as quadruple $P = <G(V,E),I,F_G,F_F>$ where:
+\begin{itemize}
+\item $G$ is a direct graph, with $V$ nodes and $E$ edges.
+\item $I \in V$ is the initial state.
+\item $F_G \subseteq V$ is the set of final states in which the goal is achieved.
+\item $F_F \subseteq V$ is the set of final states in which the goal is not achieved.
+\end{itemize}
+
+\subsection{Answer Set Programming (ASP)}
+\noindent Answer set programming (ASP) is a form of declarative programming oriented towards difficult, primarily NP-hard, search problems. \cite{wiasp} \cite{asp}
+\\\noindent It's declarative in the sense that it describe the problem, not how to solve it.
+\\\noindent In particular, a problem instance $I$ is translated into a non-monotonic logic program $P$ and passed to an ASP solver which will search the stable models of $P$. From these, the solution of $I$ is extracted.
+\\\noindent ASP programs are composed of Prolog-like rules, but it uses a different computational system. In fact, ASP solvers are based on DPLL algorithm, that in general guarantees the termination (unlike SLDNF resolution in Prolog).
+\newline
+
+\noindent A rule has the form:
+\begin{verbatim}
+<head> :- <body>
+\end{verbatim}
+where $<head>$ is a disjunction of positive/negative literals, while $<tail>$ is a conjunction of positive/negative literals. 
+\\\noindent The symbol :- is dropped if $<body>$ is empty; this are called \textit{facts}. Rules with an empty $<head>$ are called \textit{constraints} and are used to reduce the number of possible solutions (stable models). 
+These are useful to express action preconditions like in other formalism (for instance \ref{pddl}).
+\\\noindent ASP includes two form of negation: strong ("classical") negation and negations as failure. This allow to represent defaults, useful in order to express the closed world assumption and characterize a solution to the frame problem (inertia of the world: \textit{"everything is presumed to remain in the state in which it is"}).
+\newline
+
+\noindent I will now introduce some examples from \cite{wiasp} to illustrate ASP properties:
+\begin{verbatim}
+(1) p :- q.
+(2) cross :- not train.
+(3) cross :- -train.
+\end{verbatim}
+\textbf{(1)} is an example of a classic Prolog like rule. It can be interpreted as $q \shortrightarrow p$, that is \textit{"if \textbf{q} hold, than \textbf{p} is in the stable model"}. 
+\\\noindent \textbf{(2)} represent an example of negation as failure. This rule represent the knowledge: \textit{"it is safe cross if there are no information about an approaching train"} (not a good idea indeed).
+\\\noindent \textbf{(3)} is preferable in this case, since uses the strong negation: \textit{"it is safe cross if it is known that the train is not approaching"}.
+\\\noindent If we combine both negations it is possible to express the closed world assumption (\textit{"a predicate does not hold unless there is evidence that he does"}):
+\begin{verbatim}
+-q(X,Y) :- not q(X,Y), p(X), q(Y).
+\end{verbatim}
+interpreted as \textit{"\textbf{q} does not hold for a pair of element of \textbf{p} if there are no evidence that it does"}. This allow to include also negative facts about $q$, so to specify the closed world assumption for some predicates and leave the others with the open world assumption.
+\\\noindent Finally, it is possible to express time explicitly with constants. This feature is used to define a metric for plans and for express the \textit{"frame default"}:
+\begin{verbatim}
+p(T+1) :- p(T), not -p(T+1), time(T).
+\end{verbatim}
+\textit{"\textbf{p} will remain true at time \textbf{T+1} if there is no evidence that becomes false"}.
+\noindent ASP programs are often organized in three sections: generate, test and define. The \textit{"generate"} section describes the set of possible solutions while the \textit{"test"} section is used to discard bad solutions. The \textit{"define"} section defines auxiliary predicates used in the constraints. The order of the rules in an ASP program doesn't matter.
+\newline
+
+\noindent ASP has been widely used in the service robotics context, both in simulated or real scenarios. Some examples are \cite{asp_ex1} and \cite{asp_ex2}.
+\\\noindent However, ASP is not well suited for modelling/reasoning about uncertainty in a domain. Incomplete information cannot be handled correctly due to the fact that stable model semantics is restricted to boolean values. Not only, there is no notion of probability and thus all stable models are equally probable. Some extension to ASP with probabilistic information has been proposed, like in \cite{asp+unc1} where Markov Logic Networks (MLN) are used. %TODO add some references (ReearchGate requested, Zhang)
+\newline
+
+\subsection{Situation Calculus}
+Situation Calculus\cite{sitcalc1}\cite{sitcalc2} is a logic formalism used to represent and reason about dynamical systems. It allows to express qualitative uncertainty about the initial situation of the world and the effects of actions through disjunctive knowledge.
+\\\noindent The state is represented as a set of first-order logic formulae. The basic elements are actions, fluents and situations.
+\\\noindent A \textit{Situation} is a first order term denoting a state and is characterised by the sequence of actions applied to the initial state in order to reach it. 
+\\\noindent \textit{Fluents} are functions or predicates that have as last argument the situation of application and represents properties of a particular situation. Actions may also be parametrized with variables. A fluent differs from a (normal) predicate or function symbol as its value may change from situation to situation.
+\\\noindent The binary function symbol $do(\alpha, s) \rightarrow s'$ represent the result of apply action $\alpha$ on a situation $s$, where $s'$ is the resulting situation.
+\\\noindent The binary predicate symbol $Poss(.,.)$ represents the possibility of executing an action. For instance, $Poss(\alpha,s)$ is true iff is possible to apply $\alpha$ in situation $s$.
+
+\noindent A Planning Problem in the Situation Calculus is then defined as 
+\begin{center}
+ $\mathcal{D} \vDash \exists s.Goal(s)$ 
+\end{center}
+\noindent where $\mathcal{D}$ is a theory of actions, which consists of: 
+\begin{itemize}
+\item \textbf{Axioms for the Initial Situation}. A formula that represent properties verified in the initial situation $S_0$.
+\item \textbf{Unique Name Axioms for the Actions}.
+\begin{center}
+$do(\alpha_1 , s_1 ) = do(\alpha_2 , s_2 ) \Rightarrow \alpha_1 = \alpha_2 \wedge s_1 = s_2$
+\end{center}
+Unique name for actions and situations.
+\item \textbf{Precondition Axioms}. They codify necessary properties in order to execute actions. 
+\item \textbf{Successor State Axioms}. For each fluent establish if is true after the execution of an action. 
+Those axioms solve the frame problem as they enforce the persistence of those properties that are not involved or changed by the current actions, describing the causal laws of the domain with an axiom per fluent.
+\end{itemize}
+\noindent A plan is a sequence of actions that brings the system from the initial situation to a situation that satisfies the condition \textit{Goal(s)}, whenever the formula representing the goal is satisfiable.
+
+%\subsection{$\mathcal{E}^+$}
+%The semantics is based on description logic (propositional? more expressive?), that is less expressive than first-order predicate logic but usually decidable wrt it.
+%This language allows sensing actions under the assumption that the agent’s sensors are perfect, actions with probabilistic effects, and actions with non-deterministic effects.
+
+\subsection{Markov Decision Process (MDP)}\label{MDP}
+\noindent A Markov Decision Process is a stochastic machine state representation of a dynamic system, in which every transition has assigned a probability. This process  is 'Markovian' since Markov property hold, that is the future state depends only on the current action and state and not from the past states.   
+\\\noindent The actions to take in every state are specified by a utility function, that guide the agent through the goal and represent the utility of being in a state or take an action. This function specifies a preference over the paths of the graph.
+\\\noindent Actions are the only source of change and are assumed to be instantaneous.
+\\\noindent In MDP there is no explicit modelling of time. Nor the world dynamics or the reward function depend on absolute time.
+\\\noindent A policy $\pi : S \shortrightarrow A$ is a total function that specifies for each state the action to take. The planning problem is then an optimisation problem in which the objective is to find the policy that maximises the expected utility associated with the states and the action.
+The goal is represented as a reward and is a deterministic function of the current state.
+\\\noindent This it is a quantitative representation, unlike the previously introduced formalisms, in which the uncertainty is represented through probabilistic means (see also \ref{POMDP}).
+\newline
+
+\noindent More formally, an MDP is a 5-tuple $\sum = <S, A, P(.,.), R(.,.), \gamma >$ where:
+\begin{itemize}
+\item $S$ is a finite set of states
+\item $A$ is a finite set of actions
+\item $P_a(s'|s)$ is the probability that action $ a \in A$ in state $ s \in S$ at time $t$ will lead to state $s' \in S$ at time $t+1$. Notice that $\sum_{s'\in S} P(s,a,s')=1$.
+\item $R_a(s'|s)$ is the immediate reward received after the transition from $s$ to $s'$.
+\item $\gamma \in [0,1]$ is the discount factor, which weights the importance of the future versus the present rewards.
+\end{itemize}
+
+\noindent The probability of a sequence of states $<s_0, s_1, ... , s_n>$ is called history and is defined given a policy as:
+
+\begin{center}
+\noindent $P(h | \pi) = \prod\limits_{i \geqslant 0} P_{\pi(s_i)}(s_{i+1}|s_i)$
+\end{center}
+
+\noindent The utility function is specified by associating for each $<state, action>$ a cost/reward depending on the value that transition must have for the agent. If we define a cost function as $C : S \times A \shortrightarrow {\rm I\!R}$ and a reward function as $R : S\shortrightarrow {\rm I\!R}$, is it possible to define the utility of execute an action $a$ in the state $s$ as:
+\begin{center}
+\noindent $V(s|a) = R(s) - C(s,a)$
+\end{center}
+
+\noindent Consequently the utility of a policy $\pi$ in a state $s$ is defined as:
+\begin{center}
+\noindent $V(s|\pi) = R(s) - C(s,\pi(s))$
+\end{center}
+
+\noindent and thus for the history:
+\begin{center}
+\noindent $V(h|\pi) = \sum\limits_{i \geqslant 0} R(s_i) - C(s_i,\pi(s_i))$
+\end{center}
+
+\noindent This sum usually doesn't converge and we need a discount factor $\gamma$ in order to reduce the effect of costs/rewards distant from the actual state.
+\\\noindent Introducing $\gamma$, we can rewrite the utility of the history as:
+\begin{center}
+\noindent $V(h|\pi) = \sum\limits_{i \geqslant 0} \gamma_i (R(s_i) - C(s_i,\pi(s_i)))$
+\end{center}
+
+\noindent with $0 < \gamma < 1$. With a value of $\gamma$ near 1 we promote immediate rewards over futures, while with $\gamma \cong 0$ the vice versa.
+\noindent From the history utility is possible to calculate the expected value of a policy utility by considering all the history that the policy induce.
+Given $H$ as the et of all possible history induced by $\pi$, this expected value is:
+\begin{center}
+\noindent $E(\pi) = \sum_{h \in H} P(h|\pi)V(h|\pi)$
+\end{center}
+
+\noindent a policy $\pi^*$ is said to be optimal for a stochastic system $\Upsigma$ if:
+\begin{center}
+\noindent $E(\pi^*) \geqslant E(\pi) \,\,\,\, \forall\pi$ 
+\end{center}
+
+\noindent where $\pi$ is an admissible policy for $\Upsigma$.
+A solution to an MDP is then a policy that, once found, is applied in any state in a deterministic fashion.
+\newline
+
+\subsection{Partially Observable MDP (POMDP)}\label{POMDP}
+In many cases, the assumption of complete observability for the state is too strict so Partially Observable MDP was introduced.
+\\\noindent In this case, a set of observations is defined that characterise the observable part of the stochastic system $\Upsigma$. 
+%This subset of the states is represented by probability distributions over the states themselves, introducing a representation of the uncertainty.
+
+\noindent A POMDP is a stochastic system $\Upsigma = <S,A,P(.,.)>$ as defined in \ref{MDP}, with the addition a finite set of observations $O$ with probability $P_a(o|s)$ for all $a \in A, s \in S, o \in O$. $P_a(o|s)$ represent the probability of observe $o$ in the state $s$ after the execution of $a$. This is defined for every state/action and the condition  $\sum\limits_{o \in O} P(o|s)=1$ hold.
+
+\noindent More than one observations could correspond to one state (i.e. $P_a(o|s) = P_a(o|s')$) and thus is not possible to obtain the actual state from the observations.
+Analogously the same state could correspond to different observations depending on the action executed, that is 
+$P_a'(o|s) = P_a(o|s)$. 
+Thus observations depend both on the state and on the action. For instance, a sensing action does not modify the state of the system but could lead to a different observation.
+
+\noindent Probability distributions over the states are called \textit{belief states}. Let be $b$ one belief state and $B$ the set of all belief states. Then $b(s)$ denotes the probability for the system to be in state $s$.
+
+\noindent In order for $b(s)$ to be a probability distributions both $0 \leqslant b(s) \leqslant 1$ and $\sum\limits_{s \in S} b(s)=1 \,\,\, \forall b \in B$ must hold.
+Given an action $a$ and a belief state $b$, the next belief state deriving from apply $a$ in $b$ is:
+\begin{center}
+\noindent $b_a(s) = \sum\limits_{s' \in S} P_a(s|s')b(s')$ 
+\end{center}
+
+\noindent Similarly we could compute the probability of observe $o$ given the action $a$:
+\begin{center}
+\noindent $b_a(o) = \sum\limits_{s \in S} P_a(o|s)b(s)$ 
+\end{center}
+
+\noindent At last, we can compute the probability of being in $s$ after executing $a$ and observing $o$:
+\begin{center}
+\noindent $b_{a,o}(s) = \frac{P_a(o|s)b_s(s)}{b_a(o)}$ 
+\end{center}
+
+\noindent Planning in POMDPs is formulated as an optimization problem over the belief space to determine the optimal policy $\pi^* : B \shortrightarrow A$ with respect to an utility function defined as in \ref{MDP}. In fact we can see at a POMDP as a continuous MDP where the continuous space is the belief space.
+\\\noindent The expected value for the utility of a belief state $b$ is defined as:
+\begin{center}
+\noindent $E(b) = \min\limits_{a \in A} C(b,a) + \gamma \sum\limits_{o \in O}b_a(o)E(b_{a,o})$ 
+\end{center}
+\noindent where:
+\begin{center}
+\noindent $C(b,a) = \sum\limits_{s \in S}C(s,a)b(s)$ 
+\end{center}
+
+\subsection{Analysis of Formalisms}\label{analysis}
+The introduced formalisms and models show the essential bond between expressiveness and computational complexity. The planning problem in classic logic is decidable but the complexity varies from constant to EXPTIME depending on which characteristics are added to the language. 
+\newline
+
+\noindent For instance, STRIPS is the less expressive of the presented formalisms, still deciding whether a plan exists is PSPACE-complete \cite{strips_comp}. Many restrictions can be enforced in order to make this problem decidable in polynomial time, like restricting the type of formulas or the number of pre-postconditions. 
+\newline
+
+\noindent $ALCK_{NF}$ is an example of decidable formalism with a good expressiveness, since it allows to express the agent epistemic state explicitly. However the planning in its most general case falls in PSPACE complexity, thus intractable for an online approach. In this and similar cases, partial planning and restricted version of the formalism are used in order to solve the complexity problem.
+\newline
+
+\noindent In KPDDL is it possible to express incomplete information through epistemic states and define sensing actions that help to disambiguate the states. In practice, however, it was seen that even a small variation in the number of states makes the problem intractable, proving that the class of complexity is at least PSPACE (instance checking/reasoning in $ALCK_{NF}$ is PSPACE-complete \cite{alck}). 
+\newline
+
+\noindent Talking about POMDPs models, they are often computationally intractable to solve exactly and thus it is necessary to introduce methods to approximate solutions. Some examples are \cite{belief_compression} and \cite{belief_particle}, where particle filters and PCA are respectively used to represent the belief state compactly or exploit its properties.
+
+%\newpage
+\section{Bechmarks Experiments} \label{sec:benchmarks}
+In the following I will enlist some benchmarks domain problems. \\ 
+Most are common to the planning community and are taken from international competitions like IPC (International Planning Competition). \\
+Others are obtained reasoning about problems with particular structures or properties useful to test the chosen planners.\\
+It is somehow difficult to derive a complete and unbiased problem instance 
+%TODO citare e riportare paper sui benchmarks 
+
+\subsection{STRIPS/PDDL}
+\begin{itemize}
+\item Block World
+\item Classical Planning Domains (IPC problems collection)
+\end{itemize}
+
+\subsection{HATP}
+\begin{itemize}
+\item Assisted assembly
+\item Dock-worker robot
+\end{itemize}
+
+\subsection{ASP}
+\begin{itemize}
+\item Evolutionary studies
+\item Natural language processing: Dependency parsing, linguistics, taxonomy, inferring Phylogenetic Trees
+\item Graphs: graph colouring, Large clique, Hamiltonian cycle
+\item Decision Support for the Space Shuttle
+\item Automated Product Configuration
+\item Coaches
+\end{itemize}
+
+\subsection{MDP}
+\begin{itemize}
+\item SPUDD: grid world, coaches
+\item Often in combination with other formalisms, any task with probabilistic outcomes (perception/state)
+\end{itemize}
+\subsection{POMDP}
+\begin{itemize}
+\item grid world with probabilistic outcomes (faulty navigation)
+\end{itemize}
+
+\subsection{Various}
+\subsubsection{Waitress Robot}
+A mobile Robot with wheels and two arms has to serve clients in a restaurant environment. One of the arms is a tray where he can put 3 food/cocktail at maximum. He has also sensors to perceive the environment.
+He transports the goods from the kitchen to the clients, taking ordinations from them and welcoming incoming persons. After he has received a client, he must bring him to the table and take the ordination. He could take multiple ordinations, but he must reply sooner to the cook when a food is ready. Every food has its maximum delivery time before it gets cold (discrete values from 1 to 3 minutes). Cocktails have no delivery time.
+People could also recall the attention of the robot by the means of a button on the table so that they can order more foods/drinks. So the task priority is:
+\begin{enumerate}
+\item deliver goods
+\item welcome person and take ordination
+\item take random ordinations
+\end{enumerate}
+
+\noindent  An object on the tray could fall down with a probability 0.4, so every time the robot deliver goods he must check if the object is effectively on the tray. If not he must notify the kitchen. The kitchen and the main room are connected via a door that could be both closed or open with equal probability and the robot must check its condition each item. Due to the ambient condition, he could also fail any perceive action with probability 0.2. If the door is closed and the robot doesn't perceive it, all the goods will fall certainly (if is there are any). The goal is to minimize the waiting time both for the clients and the cook given the previous priority list.
+
+\subsubsection{Assisted Assembly}
+This example is inspired by the one presented in \cite{alami}.\\
+In assisted assembly task a robot must bring tools to a worker and helps him with a welding procedure. The robot is a humanoid, thus with two arms and two legs, and has a perception system. The environment contains cavities that only the robot could pass in order to reach the worker or move a particular tool from one room to another. The worker is standing in front of its working table. 
+The worker access is working station through a manhole that remains open all the time, costituting a threat for the robot. If the robot cross all the the worker room he could fall down in the hole with probability 0.6.
+Tools are placed randomly in other rooms and the robot knows exactly where they are through a system of external cameras. When the worker requires a tool, he must bring him as soon as a possible minimizing the traveled rooms. There are 8 rooms and they are all accessible through the cavities. Cavities requires that the robot assumes particular configurations in order to pass through. Each configuration of the robot could be evaluated by a predicate that tells in constant time if the robot will pass or not, but this valid configurations changes according to the number and the type of tools transported. The robot has N degrees of freedom. For the assembly part of the task, the input of the problem is the kinematic model of the robot with its initial configuration, the representation of the environment and the tools required by the worker. The output is all the configurations that the robot must assumes in order to full fill the requirements, that are brings all the tools and minimize worker waiting time. \\
+
+\noindent In the assisted welding the robot stays in the same room of the worker and, since he has better understanding of spatial geometry, he must indicate to the worker the exact trajectory of the welding.
+In this case the input of the problem are the initial configurations of both the robot and the worker, and the output must be a sequence of configurations that minimizes the change in stance of the worker according to some comfort measurement parameter that evaluates worker configurations.
+
+\subsubsection{COACHES}
+This examples are taken from \cite{coaches}.
+\newline
+\\\noindent \textbf{Basic Service Robot}\\
+A robot is able to execute two activities A and B upon request of the user, but the user does not know about these robot abilities. The robot is normally in a waiting state. Whenever a user is detected in front of the robot (for example, with a simple face detector procedure), the robot can decide whether to start an interaction (for example, through a spoken dialogue) and, if so, it describes the activities that it can do A and B. The user can now select one of them or answer that s/he is not interested (for example by selecting an option on a user interface or by a speech command). If a goal is selected, the robot executes a task for achieving it. Each goal can be achieved with two alternatives tasks \textit{TaskA1} and \textit{TaskA2} for \textit{A} and \textit{TaskB1} and \textit{TaskB2} for \textit{B}. After the execution of the task, the robot comes back to the wait state, waiting for a next user. During the execution, the following inconveniences may occur: the user does not complete the interaction (for example, s/he does not answer the robot question), any task may fail for reasons not modeled in the task description, and any task may be aborted according to some external command or condition.
+\newline
+\\\noindent \textbf{Service Robot assisting customers of a shop-ping mall}\\
+A robot operates in the corridor of a shopping mall including several shops. Each shop-keeper can define a set of advertisements that the robot is asked to communicate to customers of the mall and each advertisement has an associated reward for the shopping mall. The robot can execute the following actions in the environment: move to any location (i.e., in front of any shop), approach a specific person or a group of people, perform advertisement actions, perform other assistive actions upon request, bring a person to any location in the mall. The problem we want to solve is the following: given the current position of the robot, the information about shops and advertisements and an initial probability distribution of the presence of people in the shopping mall (for example, provided by an external system of video-cameras), plan and execute the behavior that maximizes the global actual reward, also recovering from possible failures due to unpredicted or erroneous interactions with people.
+
+\chapter{Foundation Tools}
+
+\section{Petri Net Plan}\label{petrinet}
+We need a language that can represent non-instantaneous and conditional actions. \\
+Petri Net Plans (PNP)\cite{pnp}\cite{pnp2} is a formalism for represent complex plans using an high-level description.
+It is inspired by languages for reasoning about actions, like the ones presented in \ref{sec:formalism}, but it more expressive and offer all the operators needed for representing conditional plans, concurrent actions and even more (multi-agent plans, for instance).\\
+They also offer non-deterministic choice operator for representing non-deterministic choice action, useful in learning algorithms. \\
+The execution of a PNP is very efficient, and allow the design of real-time and active behaviours.
+Some examples of PNPs applications are \cite{pnp_app}\cite{pnp_app2}\cite{pnp_app3}.	
+
+\subsection{Formal Definition}
+A PetriNet Plan is a PetriNet augmented with a set of goal markings $G$.
+More formally, it is a tuple $<P,T,F,W,M_0,G>$ where:
+\begin{itemize}
+\item P = \{$p_0, ... ,p_n$\} is a finite set of places.
+\item T = \{$t_0, ... ,t_n$\} is a finite set of transitions.
+\item $F \subseteq (P \times T) \cup (T \times P)$ is a set of edges.
+\item $W: F \Rightarrow {1,2,3,...}$ is a weighting function.
+\item $M_0: P \Rightarrow {0,1,2,...}$ is the initial marking.
+\item $P \cup T \neq  0 $ and $P \cap T = 0$
+\end{itemize} 
+
+\noindent Petri Nets represent the structure of a system as a directed, weighted and bipartite graph with two type of nodes: places and transitions. With this tools we can model complex systems in terms of their internal state and its changes.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{images/place_trans_token.png}
+	\caption{(1) a place. (2) a transition. (3) a place with one token.}
+	\label{fig:mall_1}
+\end{figure}
+\noindent Places represent the execution phases of an action, while transitions represent events.
+In particular each action is represented by three states: initial, execution and final state. Between them there are action starting transition, action terminating transition and there might be some action interrupts and/or control transitions. \\
+The evolution of the Petri Net is described by the firing rule: a transition is enabled when the number of tokens for its initial places is equal at least to the number of tokens of the edge weight.
+When the transition fires, a number of tokens equal to the weight of the input edges is removed from the initial places and a number of tokens equal to the output edges is added to output nodes.
+Petri Net Plans are defined in terms of actions and operators. There are three types of actions:
+\begin{enumerate}
+\item \textbf{no-action}. is a PNP with one place and no transition.
+\item \textbf{ordinary-action}. is a PNP with three places and two transitions, as described before.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{images/ordinary_action.png}
+	\caption{an ordinary action.}
+	\label{fig:mall_1}
+\end{figure}
+\item \textbf{sensing-action}. this are used when the action involve a property to evaluate at run time, and places/transitions are defined accordingly.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{images/sensing_action.png}
+	\caption{a sensing action.}
+	\label{fig:mall_1}
+\end{figure}
+\end{enumerate}
+
+\noindent Actions could be combined in order to achieve complex behaviours. These are called operators.
+\begin{itemize}
+\item \textbf{sequence}. allows the execution of two actions in sequence.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{images/sequence.png}
+	\caption{sequence operator.}
+	\label{fig:mall_1}
+\end{figure}
+\item \textbf{conditional}. combining sensing action with ordinary actions is possible to obtain conditional structure.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{images/conditional.png}
+	\caption{conditional operator.}
+	\label{fig:mall_1}
+\end{figure}
+\item \textbf{interrupt}. allows to interrupt the execution of an action, if some condition is met, and to continue the execution on a new branch.
+\item \textbf{loop}. using an interrupt, is possible to define action that iterates until a condition is true.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{images/loop.png}
+	\caption{loop operator.}
+	\label{fig:mall_1}
+\end{figure}
+\item \textbf{fork/join}. allows concurrency. fork generates multiple threads starting from one, while join allow the synchronization of multiple threads into one.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{images/fork_join.png}
+	\caption{(left) fork operator. (right) join operator.}
+	\label{fig:mall_1}
+\end{figure}
+\end{itemize}
+
+\noindent In the following page there is an example of a complete PNP, with an interrupt defined during the action \textit{followperson}:
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5, angle=270, trim=20mm 10mm 10mm 10mm]{images/go_and_follow_person.png}
+	\label{fig:mall_1}
+\end{figure}
+
+
+\section{Robot Operating System (ROS)}
+"Robot Operating System (ROS) is a collection of software frameworks for robot software development, providing operating system-like functionality on a heterogeneous computer cluster. ROS provides standard operating system services such as hardware abstraction, low-level device control, implementation of commonly used functionality, message-passing between processes, and package management. Running sets of ROS-based processes are represented in a graph architecture where processing takes place in nodes that may receive, post and multiplex sensor, control, state, planning, actuator and other messages." \footnote{\url{https://en.wikipedia.org/wiki/Robot_Operating_System}}
+\newline
+
+\noindent ROS was originally developed at Stanford Artificial Intelligence Laboratory in support of the Stanford AI Robot STAIR (STanford AI Robot) project. From 2008 to 2013 the development take place at Willow Garage, a robotics research institute. Finally, from 2013, ROS become part of the Open Source Robotics Foundation.\\
+During all this time, ROS has growth in importance and diffusion. \\
+In fact, before ROS advent, each laboratory or research group had to write down from scratch specific code for his platform and for every task, even the more mundane. This not only is a time expensive task but restrains the diffusion of new algorithms and ideas.
+With the layer of abstraction offered by ROS, it is possible to write nodes for common tasks and specific hardware that are reusable and so more easy to diffuse. For instance, ROS offers packages for perception, object identification, segmentation and recognition, face recognition, planning, grasping, localization, mapping and much more. The main limitation of ROS resides in its latency since is built on top of Linux and is not a real-time OS. This led to the born of ROS 2.0, which support real-time operations, and RT-ROS, which is natively real-time. %TODO talke about STAGE
+\newpage
+\section{ROSPlan}
+
+\chapter{Conditional Planning and Execution}
+\section{Our Approach}
+\label{sec:approach}
+
+\begin{itemize}
+\item world/agents state
+\item environment representation/map (semantic/topology)
+\item action (preconditions/effects)
+\item interaction (if social)
+\item time (explicit/implicit)
+\end{itemize}
+
+\noindent Different planning formalisms try to capture different aspects of real-world problems. By the way they model and abstract the world, they also produce different solution concepts.\\
+Is not always obvious in advance which formalism is the best for a specific problem. Less expressive formalism are often preferred due to the fact that are less expensive in terms of computational power.\\
+For instance if we consider decidable logic formalisms, $ALCK_{NF}$ is one of the more expressive and yet the planning in general it's included in PSPACE, so too complex to run on a real robot on realtime.\\ 
+Classical Planning models only deterministic actions, and the planner is often embedded in a controlled execution loop that replan on unexpected outcomes. In fully-observable and non-deterministic planners, actions are assumed to be non-deterministic but there is no uncertainty about the perception. They produce strategies that are guaranteed to reach the goal. \\
+If we expand the domain and consider also probabilistic planners, they introduce also outcome probabilities and the aim, in this case, is to maximise a cumulative reward. They are also the most expensive and often intractable at representation and/or execution level. This brief analysis shows that there is a compromise between expressivity and computational complexity. \\ 
+Rule-bases are not manageable when they become larger. This rules are created by experts that express their knowledge through the rules and it is difficult to find all the inconsistencies and the side-effects when new rules are inserted.
+Epistemic logic could helps us to deal with all the uncertainties the real world introduce in the domain of a problem but, again, it is very likely that the state space grows exponentially. A solution could be to decompose the state in subgroups and use separate approach for each group.
+If we assume that the only strong uncertainty comes from the state of mind of the human agent, we could think to subdivide the state and combine different formalisms in order to deal with each group. \\
+A possible subdivision could be between environmental and human state variables: 
+\begin{center}
+$|Y|$ + $|2^Z|$ $<<$ $|2^X|$ and $X = Y \cup Z$
+\end{center}
+
+
+\noindent The next step is to identify the desirable characteristics of each formalism for each of the task benchmarks we have defined in \ref{sec:benchmarks}. \\
+This is done in the following table: 
+\begin{itemize}
+\item Huge state space
+\item Decomposable
+\item Hard Synchronization
+\item Non-deterministic observation
+\item Non-deterministic outcomes
+\end{itemize}
+  
+
+\noindent Summarizing, our aim is to define an architecture capable of combine different formalisms in order to satisfy tasks requirements, while finding the best trade-off between complexity and expressivity. \\
+
+\noindent In the next section I will use the examples in \ref{sec:benchmarks} to describe possible domains using the formalisms presented in \ref{sec:formalism}. \\
+In particular, I will characterize the input/output of each problem and provide a sketch for a possible optimal solution.
+
+
+
+\section{Motivating Example}
+\label{sec:motivating}
+%\subsection{Example : Waitress Robot}
+%We first focus on an instance of the problem where a person is sitting waiting to order.
+%Initially we cannot assume nothing about the client state (is he hungry? is he thirsty?), but in the plan we must consider all the situation equally probable.
+%A possible set of variables describing the state of the environment could be: \\ 
+%$Y = \{OpenDoor, ClosedDoor, FoodReady, DrinkReady\}$\\
+%A minimal set of properties describing the human state could be:\\
+%$Z = \{H, T\}$\\
+%\noindent where $H$ stands for hungry and $T$ for thirsty. \\
+%For the actions we have the set:\\
+%$\{OrderDrink, OrderFood, OpenDoor, EnterDoor, Wait\}$
+%Consider this instance of the problem, where a person is sitting at the table waiting to order. The following graph shows a possible solution for ordering problem:
+%
+%\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+%                    thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+%
+%  \node[main node] (1) [label=above:INIT]{};
+%  \node[main node] (2) [xshift=-2cm, yshift=-2cm, below left = of 1]{};
+%  \node[main node] (3) [yshift=-1.5cm, below  = of 1]{};
+%  \node[main node] (4) [xshift=1cm, yshift=-1cm, below  = of 1]{};
+%  \node[main node] (5) [xshift=4cm,yshift=-2cm,below right = of 1]{};
+%  \node[main node] (6) [below = of 2]{};
+%  \node[main node] (7) [below = of 3]{};
+%  \node[main node] (8) [below = of 4]{};
+%  \node[main node] (9) [below = of 5]{};
+%  \node[main node] (10) [below = of 6]{};
+%  \node[main node] (11) [below = of 7]{};
+%  \node[main node] (12) [below = of 8]{};
+%  \node[main node] (13) [below = of 10]{};
+%
+%
+%\path[red] (1) edge node[left] {$H \wedge T$} (2);
+%\path[red] (1) edge node[left] {$H \wedge \neg T$} (3);
+%\path[red] (1) edge node[right] {$\neg H \wedge T$} (4);
+%\path[red] (1) edge node[right] {$\neg H \wedge \neg T$} (5);
+%\path (2) edge node[left] {$OrderFood$}(6);
+%\path (3) edge node[left] {$OrderFood$}(7);
+%\path (4) edge node[right] {$OrderDrink$}(8);
+%\path (5) edge node[right] {$Wait$}(9);
+%\path (6) edge node[left] {$OrderDrink$}(10);
+%\path (7) edge node[left] {$Wait$}(11);
+%\path (8) edge node[right] {$Wait$}(12);
+%\path (10) edge node[left] {$Wait$} (13);
+%
+%
+%\end{tikzpicture}
+%
+%\noindent In this graph is it clear the interleaving between deterministic states and epistemic ones.
+
+\subsection{Example: Service Robot assisting customers of a shopping mall}
+This example is taken from \cite{coaches}. \\
+The input to the problem is:
+\begin{itemize}
+\item a qualitative information about the location of the robot and the person
+\item an information indicating if the person is moving or if he stop for a certain time 
+\item the advertisements of the shop
+\end{itemize} 
+The output is the executed behaviour which maximizes the global actual reward, which can be defined depending on the present needs (advertise the major number of people, save energy by not wandering too much around, etc). 
+The robot could execute some actions and provide a some services. These are: 
+\begin{itemize}
+\item move to a location
+\item approach a person or a group of people
+\item perform advertisement
+\item bring a person to a location
+\item help people carry things
+\end{itemize}
+For the sake of clarity, we introduce a simple example in which we focus on the aspects of the interaction and we do not consider other uncertainties coming from the robotic system (issues in localization and navigation, face detection, etc). 
+Consider the situation in the following image:
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{images/mall_situation1.png}
+	\caption{A snapshot of the mall, where $R$ is the Robot and $H_i$ a person}
+	\label{fig:mall_1}
+\end{figure}
+
+\noindent The qualitative information about the people locations indicates that there is a person in front of shop 2, another wandering nearby shop 6 and a third person in front of him. 
+\noindent So the set of actions could be represented as \\ 
+
+$A = \{sense\_person, move, bringto, approach\_person, approach\_group, advertise, \\ 
+       carry\_bags, wait, ask\_clothes, ask\_food, ask\_object, bye\}$\\ 
+
+where $X$ could be a generic location or the position of a shop.
+\noindent The robot is able to represent knowledge about the environment and try to guess people wishes.
+For instance, based on the people locations and information like the time, he tries to infer from its knowledge if a person is interested in one particular shop or services and could provide an advertisement. 
+He maintains an internal database of all the goods for sale, divided by category, so he can better individuate people needs.
+If we recap the formula introduced in \ref{sec:approach}, we have that: \\
+
+\centerline{$X = Y \cup Z$}
+
+\noindent where $X$ represents the state variables, $Y$ are the environmental state variables while $Z$ are the  human state variables. \\
+
+\noindent $Z = \{food, clothes, object, WC, help, none\}$\\
+\noindent $Y = \{time, person\_atX, group\_atX, RLocation, foodCategory_i, genericGood_j, \\ clothingStore_k \}$\\
+
+\noindent where $food, clothes, WC, help, none$ represent the person interest in a service, while $FoodCategory_i, GenericGood_j, ClothingStore_k$ represents the specific required goods.\\
+Consider person $H2$, that is standing in front of shop 2. \\
+Lets assume that 
+\begin{itemize}
+\item shop 2 and shop 4 are clothes store. The first is a sportive clothes store, while the second is an high fashion store.
+\item shop 3 is a WC
+\item shop 1 is a market
+\item shop 5 and shop 6 are a chinese and an italian restaurant.
+\end{itemize}
+This situation is summarized in the following figure:
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{images/mall_situation2.png}
+	\caption{}
+	\label{fig:mall_1}
+\end{figure} 
+\noindent We can reasonably think that the person is looking for a specific article inside this shop, or another clothing shop, and that he's not certainly hungry. \\
+So a possible plan for $H2$ would be:
+\begin{figure}[H]
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.5cm,
+                    thin,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+%  \tikzset{every loop/.style={min distance=7mm,in=30,looseness=10}}
+%  \node[main node, initial by arrow, initial text={}] [label=right:INIT](S0){\small $S_0$};
+%  \node[main node] [below = of S0] (S1){\small $S_1$};
+%  \node[main node] [below = of S1] (S2){\small $S_2$};
+%  \node[main node] [below left = 2cm of S2] (S3){\small $S_3$};
+%  \node[main node] [below = 2cm of S2, right = 2cm of S3] (S4){\small $S_4$};
+%  \node[main node] [below = 2cm of S3] (S5){\small $S_5$};
+%  \node[main node] [below = 2cm of S4] (S6){\small $S_6$};
+%  \node[main node] [below right = of S4] (S7){\small $S_7$};
+%  \node[main node] [below = of S7] (S8){\small $S_8$};
+%  \node[main node] [below right = 2cm of S7] (S9){\small $S_9$};
+%  \node[main node] [below right = 3.5cm of S6] [label=below:GOAL](S10){\small $S_{10}$};
+%
+%\path (S0) edge [loop above] node {\small $wait$} ();
+%\path (S0) edge node {\small $goto\_2$} (S1);
+%\path (S1) edge node {\small $approach$} (S2);
+%\path (S2) edge node[left] {\small \coloIn this way robot can make assumption about the state of the world, characterize its knowledge, and replan when the outcomes are unexpected.\\r{red} $ask\_clothes$} (S3);
+%\path (S2) edge node[right] {\small \color{red} $\neg \,\, ask\_clothes$} (S4);
+%\path (S3) edge node[left] {\small $advertise$} (S5);
+%\path (S3) edge node[below] {\small $bringto\_X$} (S4);
+%\path (S4) edge node[left] {\small $bringto\_WC$} (S6);
+%\path (S4) edge node[right] {\small $ask\_food$} (S7);
+%\path (S4) edge[bend left=90] node[right] {\small $none$} (S9);
+%\path (S5) edge[bend right] node[left] {\small $bye$} (S10);
+%\path (S6) edge node[left] {\small $bye$} (S10);
+%\path (S7) edge node[right] {\small $bringto\_X$} (S8);
+%\path (S8) edge node[right] {\small $bye$} (S10);
+%\path (S9) edge node[right] {\small $bye$} (S10);
+
+  \tikzset{every loop/.style={min distance=7mm,in=30,looseness=10}}
+  \node[main node, line width=0.5mm][label=right:INIT](init){};
+  \node[draw,rectangle] [below = of init](sensep)[label=left:\color{blue}$sense\_person$] {};
+  \node[main node] [below = of sensep] (choice1){};
+%  \node[draw=none] [left = of choice1] (3dot1) {...};
+%  \node[draw=none] [right = of choice1] (3dot2) {...};
+  \node[main node] [below = of choice1] (circle1){};
+  \node[draw,rectangle] [below = of circle1] [label=right:\color{blue}$ask\_clothes$] (askclot){};
+  \node[main node] [below left = of askclot] (choice2){};
+  \node[draw,rectangle] [below right = 3cm of askclot] [label=right:\color{blue}$ask\_object$] (askobj){};
+  \node[main node, line width=1mm] [below left = of choice2] [label=below:\small\textbf{clothes}](goal1){};
+  \node[main node] [below right = of choice2] (circle2){};
+  \node[main node, line width=1mm] [below = of circle2] [label=below:\small\textbf{clothes}](goal2){};
+  \node[main node] [below left = of askobj] (circle3){};
+  \node[draw,rectangle] [below right = 4cm of askobj] [label=right:\color{blue}$ask\_food$] (askfood){};
+  \node[main node] [below = of circle3] (circle4){};
+  \node[main node, line width=1mm] [below = of circle4][label=below:\small\textbf{object}](goal3){};
+  \node[main node] [below left = of askfood] (choice3){};
+  \node[main node] [below right = of askfood] (circle5){};
+  \node[main node, line width=1mm] [below = of circle5][label=below:\small\textbf{none}](goal4){};
+  \node[main node] [below left = of choice3] (circle6){};
+  \node[main node] [below right = of choice3] (circle7){};
+  \node[main node, line width=1mm] [below = 2.cm of circle6][label=below:\small\textbf{food}](goal5){};
+  \node[main node, line width=1mm] [below = 2.cm of circle7][label=below:\small\textbf{food}](goal6){};
+
+\path (init) edge node[left] {\small $wait$} (sensep);
+%\path (sensep) edge [bend right] node[right] {\small \color{red} F} (init);
+%\path (sensep) edge node[right] {\small \color{red} T} (choice1);
+\draw[name path=e1] (sensep) to [bend right] node[right] {\small \color{red} $F$} (init);
+\draw[name path=e2] (sensep) to node[left] {\small \color{red} $T$} (choice1);
+\path[name path=arc1] (sensep) circle (1);
+\draw[name intersections={of=e1 and arc1, by=i1},
+      name intersections={of=e2 and arc1, by=i2},
+      -,shorten >=1pt,thick]
+  (i1) to[bend left] (i2); 
+  
+%\path (choice1) edge node[above left] {$goto\_Sh6$} (3dot1);
+%\path (choice1) edge node[above right] {$goto\_Entr1$} (3dot2);
+\path (choice1) edge node[right] {\small $move$} (circle1);
+\path (circle1) edge node[right] {\small $approach\_person$} (askclot);
+\path (askclot) edge node[left] {\small \color{red} T}(choice2);
+\path (askclot) edge node[right] {\small \color{red} F}(askobj);
+\path (choice2) edge node[left] {\small $advertise$} (goal1);
+\path (choice2) edge node[right] {\small $bringto\_Sh4$} (circle2);
+\path (circle2) edge node[left] {\small $advertise$} (goal2);
+\path (askobj) edge node[left] {\small \color{red} T}(circle3);
+\path (askobj) edge node[right] {\small \color{red} F}(askfood);
+\path (circle3) edge node[right] {\small $bringto\_Market$}(circle4);
+\path (circle4) edge node[left] {\small $advertise$}(goal3);
+\path (askfood) edge node[left] {\small \color{red} T}(choice3);
+\path (askfood) edge node[right] {\small \color{red} F}(circle5);
+\path (circle5) edge node[right] {\small $bye$}(goal4);
+\path (choice3) edge node[left] {\small $bringto\_5$}(circle6);
+\path (choice3) edge node[right] {\small $bringto\_6$}(circle7);
+\path (circle6) edge node[left] {\small $advertise$} (goal5);
+\path (circle7) edge node[left] {\small $advertise$} (goal6);
+
+\end{tikzpicture}
+\caption{a plan for H2}
+\end{figure}
+
+\noindent Where the squares ($ \square $) represents "sensing actions", that are non deterministic actions used by the robot in order to investigate about environment properties. We assume that a state in which at least one of the $Z$ properties holds is a goal state. 
+
+\noindent I will now show possible solutions for this problem using some of the introduced formalisms. 
+
+\subsubsection{PDDL}
+First, I will present a solution in PDDL (ver. 1.2), which is a standard "de facto" for the specification of planning problems. 
+\\In order to do that, we must characterize objects, predicates, actions, initial and final states.\\
+I have used FF (ver. 2.3) \cite{ff} planner in order to produce the planes and check the satisfiability of the problem.
+In this domain description I will consider only $H\_2$ for the sake of clarity \\
+
+\noindent For the predicates we have:
+\begin{verbatim}
+(:predicates
+            ;robot and person properties
+            (person ?x) (robot ?x)
+            (at-robot ?x) (at-person ?x)
+            (close-to ?x)(wait ?x)(bags-loaded ?x)
+
+            ;needs represents the person necessity
+            (needs-help ?x) (needs-WC ?x) (needs-obj ?x)
+            (needs-food ?x) (needs-clothes ?x)
+
+            ;desire predicates used to disambiguate which food/cloth
+            (desire-italian ?x) (desire-chinese ?x)
+            (desire-sportive ?x) (desire-fashion ?x)
+
+            ;locations predicates
+            (SHOP ?x) (entrance ?x) (WC ?x) (market ?x)
+            (sportive-clothes ?x) (fashion-clothes ?x)
+            (chinese-restaurant ?x) (italian-restaurant ?x)
+
+            ; 'sensing' actions
+            (ask-italian ?p) (ask-chinese ?p)
+            (ask-sportive ?p) (ask-fashion ?p)
+            (ask-obj ?p) (satisfied ?x)
+
+)
+\end{verbatim}
+
+\noindent I will not enlist all the actions specifications, but instead I will focus on sensing actions:
+\begin{verbatim}
+(:action sense-person
+                      :parameters ( ?r ?p)
+                      :precondition (and(person ?p)(robot ?r)(wait ?r))
+                      :effect (not(wait ?r))
+)
+\end{verbatim}
+
+\begin{verbatim}
+(:action ask_clothes
+           :parameters ( ?r ?p ?x)
+           :precondition (and (person ?p)(robot ?r)(close-to ?p))
+           :effect (and
+                        (needs-clothes ?p)
+                        (when
+                              (and (at-person ?x)(sportive-clothes ?x))
+                              (desire-sportive ?p)
+                        )
+                        (when
+                              (and (at-person ?x)(fashion-clothes ?x))
+                              (desire-fashion ?p)
+                        )
+                   )
+)
+\end{verbatim}
+
+\begin{verbatim}
+(:action ask_food
+             :parameters ( ?r ?p ?x)
+             :precondition (and (person ?p)(robot ?r)(close-to ?p)(at-person ?x))
+             :effect (and
+                          (needs-food ?p)
+                          (when
+                                (italian-restaurant ?x)
+                                (desire-italian ?p)
+                          )
+                          (when
+                                (chinese-restaurant ?x)
+                                (desire-chinese ?p)
+                          )
+                     )
+)
+\end{verbatim}
+
+\begin{verbatim}
+(:action ask_object 
+             :parameters ( ?r ?p ?x)
+             :precondition (and (person ?p)(robot ?r)(close-to ?p)(at-person ?x)(market ?x))
+             :effect (needs-obj ?p)
+)
+\end{verbatim}
+
+\noindent It is clear from the specifications that they are not real sensing actions. In fact they plan a priori the human agents needs and there are no not-deterministic effects.
+
+The objects are:
+\begin{verbatim}
+  (:objects shop1 shop2 shop3
+          shop4 shop5 shop6
+          entr1 entr2
+          food clothes obj
+          WC help none
+          r h2
+  )
+\end{verbatim}
+\noindent where $\{food, clothes, obj, WC, help, none\}$ models the Z variables presented in \ref{sec:motivating}.\\
+\noindent We can then characterize the initial and final state as:
+\begin{verbatim}
+(:init (robot r)(person h2)
+       (wait r)
+	   (at-robot shop4) (at-person shop2)
+       (entrance entr1)(entrance entr2)
+       (SHOP shop1)(SHOP shop2)(SHOP shop3)
+       (SHOP shop4)(SHOP shop5)(SHOP shop6)
+       (market shop1)(WC shop3)
+       (sportive-clothes shop2)(fashion-clothes shop4)
+       (chinese-restaurant shop5)(italian-restaurant shop6)
+)
+\end{verbatim}
+
+\begin{verbatim}
+(:goal
+    (satisfied h2)
+)
+\end{verbatim}
+\noindent The goal is thus to satisfy the human needs. \\
+\noindent PDDL was meant to express the "physics of a domain, and not instrisic properties of an agent.
+In particular, in order to implement sensing actions, we must extend PDDL with the concept of knowledge. An example can be found in \cite{kpddl}, in which the authors have introduced in the PDDL action definition the notion of inertial and sensing effects.
+
+\subsubsection{KPDDL}
+
+\chapter{System Overview}
+
+\subsubsection{PNPgen}
+PNPgen\cite{pnp_gen} is a library included the Petri Net Plans distribution responsible for the automatic generation of PNPs from a formal definition provided.\\
+This is usually used in conjunction with a planner, which output is interpreted and executed as a PNP.\\
+The main advantages of this approach are two:
+\begin{enumerate}
+\item The produced plan can be executed and monitored through the PNP execution engine and easily integrated into ROS thanks to the PNP-ROS bridge.
+\item Once produced,the PNP can be extended of modified to deal with unexpected outcomes that may rise during the execution of an action and not considered in the domain, either manually or automatically as we will discuss later.
+\end{enumerate} 
+
+
+The languages considered are two:
+\begin{itemize}
+\item PDDL (FF planner): this produce a linear plan.
+\item KPDDL (kplanner): this produce a conditional plan, or more generally a DAG (direct acyclic graph).
+\item ROSPlan (modified kplanner): similar to KPDDL, produce a tree. 
+\end{itemize}
+
+\newpage
+\begin{thebibliography}{1}
+
+\bibitem{coaches} L. Iocchi, L. Jeanpierre, M. T. Lazaro, A.-I. Mouaddib \\
+{\em A Practical Framework for Robust Decision-Theoretic Planning and Execution for Service Robots}  2006.
+
+\bibitem{alami} Rachid Alami, Mamoun Gharbi, Benjamin Vadant, Raph{\"a}el Lallement and Adolfo Suarez\\
+{\em On human-aware task and motion planning abilities for a teammate robot}
+
+\bibitem{strips} Richard E. Fikes, Nils J. NHsson \\
+{\em STRIPS: A New Approach to the Application of Theorem Proving to Problem Solving}
+
+\bibitem{strips_comp} Tom Bylander \\
+{\em  The Computational Complexity of Propositional STRIPS Planning. Artificial Intelligence 69 (September 1994)}
+
+\bibitem{adl} Pednault \\ 
+{\em Formulating multi-agent dynamic-world problems in the classical planning framework.}
+
+\bibitem{pddl} Drew Mcdermott, Malik Ghallab, Adele Howe, Craig Knoblock, Ashwin Ram, Manuela Veloso, Daniel Weld, David Wilkins \\
+{\em PDDL - The Planning Domain Definition Language}
+
+\bibitem{sitcalc1} J. McCarty, P. Hayes \\ 
+{\em Some philosophical problems from the standpointof artificial intelligence, Machine Intelligence 4, 1969}
+
+\bibitem{sitcalc2} R. Reiter \\ 
+{\em Proving properties of states in the situation calculus, Artificial intelligence 64, 1993}
+
+\bibitem{wiasp} Vladimir Lifschitz\\
+{\em What Is Answer Set Programming?}
+
+\bibitem{asp} ASP\\
+{\url {https://en.wikipedia.org/wiki/Answer_set_programming}}
+
+\bibitem{asp_ex1} Esra Erdem, Erdi Aker, Volkan Patoglu\\
+{\em Answer set programming for collaborative housekeeping robotics: representation, reasoning, and execution}
+
+\bibitem{asp_ex2} Xiaoping Chen, Jianmin Ji, Jiehui Jiang, Guoqiang Jin, Feng Wang, and Jiongkun Xie\\
+{\em Developing High-level Cognitive Functions for Service Robots}
+
+\bibitem{asp+unc1} Yi Wang, Joohyung Lee\\
+{\em Handling Uncertainty in Answer Set Programming}
+
+\bibitem{alck} Francesco M. Donini, Daniele Nardi, Riccardo Rosati \\
+{\em Autoepistemic Description Logics}
+
+\bibitem{ppddl} Hakan L. S. Younes, Michael L. Littman\\
+{\em PPDDL1.0: An Extension to PDDL for Expressing Planning Domains with Probabilistic Effects}
+
+\bibitem{rddl} Scott Sanner \\
+{\em Relational Dynamic Influence Diagram Language (RDDL): Language Description}
+
+\bibitem{kpddl} Luca Iocchi, Daniele Nardi, Riccardo Rosati\\
+{\em A PDDL Extension for Describing Planning Domains with Incomplete
+Information and Sensing}
+
+\bibitem{belief_compression} Nicholas Roy, Geoffrey Gordon, Sebastian Thrun\\
+{\em Finding Approximate POMDP Solutions Through Belief Compression}
+
+\bibitem{belief_particle} Ronen Brafman, Alexander Gorohovski, Guy Shani\\
+{\em A Contingent Planning-Based POMDP Replanner}
+
+\bibitem{ff} J. Hoffmann
+{\em FAST-FORWARD}\\
+{\url {https://fai.cs.uni-saarland.de/hoffmann/ff.html}}
+
+\bibitem{pnp} Vittorio Amos Ziparo and Luca Iocchi.\\
+{\em Petri Net Plans. \\ 
+In Proc. of Fourth International Workshop on Modelling of Objects, Components, and Agents (MOCA'06) @ Petri Nets 2006 and ACSD 2006, Turku, Finland, 2006.}
+
+\bibitem{pnp2} V. Ziparo, L. Iocchi, D. Nardi, P. Palamara, and H. Costelha. \\
+{\em PNP: A formal model for representation and execution of multi-robot plans \\ 
+In Proc. of 7th Int. Conf. on Autonomous Agents and Multiagent Systems (AAMAS 2008), 2008.}
+
+\bibitem{pnp_app} E. Bastianelli, D. Bloisi, R. Capobianco, F. Cossu, G.Gemignani, L. Iocchi, D. Nardi. \\
+{\em On-line Semantic Mapping. \\
+In 16th International Conference on Advanced Robotics, 2013. }
+
+\bibitem{pnp_app2} P. Palamara, V. Ziparo, L. Iocchi, D. Nardi, P. Lima, H. Costelha.  \\
+{\em A robotic soccer task using Petri Net Plans. \\
+In Proc. of 7th Int. Conf. on Autonomous Agents and Multiagent Systems (AAMAS), 2008.}
+
+\bibitem{pnp_app3} A. Farinelli, L. Iocchi, D. Nardi, V. A. Ziparo  \\
+{\em Assignment of Dynamically Perceived Tasks by Token Passing in Multi-Robot Systems. \\
+Proceedings of the IEEE, Special Issue on Multi-Robot Systems, 2006}
+
+\bibitem{pnp_gen} F. M. Carlucci, L. Nardi, L. Iocchi, D. Nardi. \\
+{\em Explicit Representation of Social Norms for Social Robots. \\
+In Proc. of the IEEE/RSJ Int. Conf. on Intelligent Robots and Systems (IROS), 2015.}
+
+
+\end{thebibliography}
+
+\end{document}
