@@ -544,6 +544,7 @@ A robot is able to execute two activities A and B upon request of the user, but 
 A robot operates in the corridor of a shopping mall including several shops. Each shop-keeper can define a set of advertisements that the robot is asked to communicate to customers of the mall and each advertisement has an associated reward for the shopping mall. The robot can execute the following actions in the environment: move to any location (i.e., in front of any shop), approach a specific person or a group of people, perform advertisement actions, perform other assistive actions upon request, bring a person to any location in the mall. The problem we want to solve is the following: given the current position of the robot, the information about shops and advertisements and an initial probability distribution of the presence of people in the shopping mall (for example, provided by an external system of video-cameras), plan and execute the behavior that maximizes the global actual reward, also recovering from possible failures due to unpredicted or erroneous interactions with people.
 
 \chapter{Foundation Tools}
+In the following I will illustrate the tools used for the development of this thesis.
 
 \section{Petri Net Plan}\label{petrinet}
 We need a language that can represent non-instantaneous and conditional actions. \\
@@ -629,13 +630,75 @@ Petri Net Plans are defined in terms of actions and operators. There are three t
 \end{itemize}
 
 \noindent In the following page there is an example of a complete PNP, with an interrupt defined during the action \textit{followperson}:
+\newline
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5, angle=270, trim=20mm 10mm 10mm 10mm]{images/go_and_follow_person.png}
+	\includegraphics[scale=0.4,  trim=20mm 10mm 10mm 10mm]{images/go_and_follow_person.png} %angle=270,
 	\label{fig:mall_1}
 \end{figure}
 
+\section{PNPgen}
+PNPgen\footnote{\url{https://sites.google.com/a/dis.uniroma1.it/petri-net-plans/pnp-generation}}\cite{pnp_gen} is a library included the Petri Net Plans distribution responsible for the automatic generation of PNPs from a formal definition provided.\\
+This is usually used in conjunction with a planner, which output is interpreted and executed as a PNP.\\
+The main advantages of this approach are two:
+\begin{enumerate}
+\item The produced plan can be executed and monitored through the PNP execution engine and easily integrated into ROS thanks to the PNP-ROS bridge.
+\item Once produced,the PNP can be extended of modified to deal with unexpected outcomes that may arise during the execution of an action and not considered in the domain, either manually or automatically as we will discuss later.
+\end{enumerate} 
 
+Some examples of PNPgen input are enlisted in the following.
+\subsection{Linear Plans}
+PNPgen is able to generate linear plans from a file that describes a sequence of actions to execute, separated by semicolons. An example of a valid file is:
+\begin{center}
+\texttt{goto\_printer; say\_hello; goto\_home}
+\end{center}
+saved in a ".plan" file. When this file is given as input to PNPgen, the following PNP is generated:
+\begin{figure}[H]
+	\includegraphics[scale=0.6]{images/linear_plan.png}
+	\caption{a simple linear plan.}
+	\label{fig:mall_1}
+\end{figure}
+
+\subsection{Policy}
+Another valid format for PNP plans generation is represented by policies. Policies are transition graphs with non-deterministic and sensing actions, that enhance the robustness of the described plan.
+For instance, consider the following valid file describing a policy:
+
+\noindent\texttt{Init: S0\\
+Final: S3\\
+S0 : goto\_printer -> { [personhere] S1, [not personhere] S2 } \\
+S1 : say\_hello -> { [] S2 } \\
+S2 : goto\_home -> { [] S3 }}\\
+
+\noindent This generates the following PNP:
+\begin{figure}[H]
+	\includegraphics[scale=0.5]{images/SimplePolicy.png}
+	\caption{a PNP generated from a a policy.}
+	\label{fig:mall_1}
+\end{figure}
+\noindent Where we can see that the property "\textit{personhere}" is evaluated at execution time in state 1, enhancing the plan robustness.
+
+\subsection{Execution Rules}
+In both the introduced cases, is it possible to specify an execution rules file as a support to the PNP generation mechanism. \\
+This is a file that enlists a series of rules describing possible exogenous events that may occur during the execution of an action. These rules introduce interrupt in the specified action. \\
+\newline
+For instance, consider the following execution rule:
+\begin{center}
+\texttt{*if* (and personhere (not closetotarget)) *during* goto *do* say\_MoveAway; waitfor\_freespace; restart\_action}
+\end{center}
+this led to the introduction of a branch in the following PNP:
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{images/er_example.png}
+	\caption{an execution rule example.}
+	\label{fig:mall_1}
+\end{figure}
+\noindent The syntax of an execution rule is:
+\begin{center}
+\textbf{if} ($\phi$) \textbf{during} \textit{a} \textbf{do} \{$\sigma; \rho$\}
+\end{center}
+Where $\phi$ is a boolean expression over some properties, \textit{a} is an action, $\sigma$ is a (possible empty) program (i.e. a sequence of actions, another PNP, etc.), and $\rho$ is a statement that specifies how to continue the execution of the plan (like \textit{restart action, skip action, restart plan, fail plan}). Execution rules are described in \cite{pnp_gen_er}, where also a third method to generate PNPs from progressive reasoning unit (PRU) is discussed.
+
+\newpage
 \section{Robot Operating System (ROS)}
 "Robot Operating System (ROS) is a collection of software frameworks for robot software development, providing operating system-like functionality on a heterogeneous computer cluster. ROS provides standard operating system services such as hardware abstraction, low-level device control, implementation of commonly used functionality, message-passing between processes, and package management. Running sets of ROS-based processes are represented in a graph architecture where processing takes place in nodes that may receive, post and multiplex sensor, control, state, planning, actuator and other messages." \footnote{\url{https://en.wikipedia.org/wiki/Robot_Operating_System}}
 \newline
@@ -644,8 +707,31 @@ Petri Net Plans are defined in terms of actions and operators. There are three t
 During all this time, ROS has growth in importance and diffusion. \\
 In fact, before ROS advent, each laboratory or research group had to write down from scratch specific code for his platform and for every task, even the more mundane. This not only is a time expensive task but restrains the diffusion of new algorithms and ideas.
 With the layer of abstraction offered by ROS, it is possible to write nodes for common tasks and specific hardware that are reusable and so more easy to diffuse. For instance, ROS offers packages for perception, object identification, segmentation and recognition, face recognition, planning, grasping, localization, mapping and much more. The main limitation of ROS resides in its latency since is built on top of Linux and is not a real-time OS. This led to the born of ROS 2.0, which support real-time operations, and RT-ROS, which is natively real-time. %TODO talke about STAGE
+
 \newpage
 \section{ROSPlan}
+ROSPlan is a framework that provides a general method for task planning in ROS.\footnote{\url{http://kcl-planning.github.io/ROSPlan/}}
+It encapsulates both planning and dispatch and, thanks to its modular design, it is easy to modify to test new approaches to plan representation, plan execution, etc.
+The main modules are the \textbf{Knowledge Base}, that stores PDDL models, and the \textbf{Planning System}, that is the interface to the planner. It is composed of three modules, each one replaceable: problem generation, planning, and plan dispatch. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{images/overview.png}
+	\caption{ROSPlan architecture (image taken from \url{http://kcl-planning.github.io/ROSPlan/documentation/})}
+	\label{fig:mall_1}
+\end{figure} 
+
+\noindent The Knowledge Base stores both the problem domain and problem instance, along with any information to support the planning and stored in a ROS MongoDB. The KB can be updated with ROS messages and queried on-line.
+\newpage
+\noindent The Planning System:
+\begin{enumerate}
+\item Fetch information from the KB and generates the PDDL problem file.
+\item Call the planner and process the output
+\item Dispatches the plan through ROS messages.
+\end{enumerate}  
+It can also handle replanning due to action failure or plan invalidation. The plan responsible for the planner output parsing and dispatch is the \textbf{Plan Parser}. Two default plan parser are included in ROSPlan: one for sequential plans and another for Esterel program. \\
+The first provides a list of action dispatch messages. The second stores the plan as an Esterel language program\footnote{\url{https://en.wikipedia.org/wiki/Esterel}}, that is represented as a DOT graph. \\
+
+\noindent The standard language and planner in ROSPlan are PDDL 2.1 and POPF\cite{popf}, that accepts only domains with temporal constraints and no uncertainty. To integrate the work of this thesis with the ROSPlan architecture some modification was necessary, as we will discuss later.
 
 \chapter{Conditional Planning and Execution}
 \section{Our Approach}
@@ -1030,15 +1116,8 @@ In particular, in order to implement sensing actions, we must extend PDDL with t
 
 \chapter{System Overview}
 
-\subsubsection{PNPgen}
-PNPgen\cite{pnp_gen} is a library included the Petri Net Plans distribution responsible for the automatic generation of PNPs from a formal definition provided.\\
-This is usually used in conjunction with a planner, which output is interpreted and executed as a PNP.\\
-The main advantages of this approach are two:
-\begin{enumerate}
-\item The produced plan can be executed and monitored through the PNP execution engine and easily integrated into ROS thanks to the PNP-ROS bridge.
-\item Once produced,the PNP can be extended of modified to deal with unexpected outcomes that may rise during the execution of an action and not considered in the domain, either manually or automatically as we will discuss later.
-\end{enumerate} 
-
+\section{PNPgen: Conditional Plan}
+Linear plans are good to model simple cases, but real world is full of non-determinism and uncertainty. Is it important to deal properly with the properties of the environment
 
 The languages considered are two:
 \begin{itemize}
@@ -1135,6 +1214,14 @@ Proceedings of the IEEE, Special Issue on Multi-Robot Systems, 2006}
 \bibitem{pnp_gen} F. M. Carlucci, L. Nardi, L. Iocchi, D. Nardi. \\
 {\em Explicit Representation of Social Norms for Social Robots. \\
 In Proc. of the IEEE/RSJ Int. Conf. on Intelligent Robots and Systems (IROS), 2015.}
+
+\bibitem{pnp_gen_er} L. Iocchi , L. Jeanpierre, M. T. L\'azaro, A.-I. Mouaddib \\
+{\em A Practical Framework for Robust Decision-Theoretic Planning and Execution for
+Service Robots \\}
+
+\bibitem{popf} Amanda Coles and Andrew Coles and Maria Fox and Derek Long \\
+{\em Forward-Chaining Partial-Order Planning. \\
+Proceedings of the Twentieth International Conference on Automated Planning and Scheduling (ICAPS 2010)}
 
 
 \end{thebibliography}

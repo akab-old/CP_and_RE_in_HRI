@@ -32,10 +32,15 @@
 \BOOKMARK [0][-]{chapter.4}{Foundation Tools}{}% 32
 \BOOKMARK [1][-]{section.4.1}{Petri Net Plan}{chapter.4}% 33
 \BOOKMARK [2][-]{subsection.4.1.1}{Formal Definition}{section.4.1}% 34
-\BOOKMARK [1][-]{section.4.2}{Robot Operating System \(ROS\)}{chapter.4}% 35
-\BOOKMARK [1][-]{section.4.3}{ROSPlan}{chapter.4}% 36
-\BOOKMARK [0][-]{chapter.5}{Conditional Planning and Execution}{}% 37
-\BOOKMARK [1][-]{section.5.1}{Our Approach}{chapter.5}% 38
-\BOOKMARK [1][-]{section.5.2}{Motivating Example}{chapter.5}% 39
-\BOOKMARK [2][-]{subsection.5.2.1}{Example: Service Robot assisting customers of a shopping mall}{section.5.2}% 40
-\BOOKMARK [0][-]{chapter.6}{System Overview}{}% 41
+\BOOKMARK [1][-]{section.4.2}{PNPgen}{chapter.4}% 35
+\BOOKMARK [2][-]{subsection.4.2.1}{Linear Plans}{section.4.2}% 36
+\BOOKMARK [2][-]{subsection.4.2.2}{Policy}{section.4.2}% 37
+\BOOKMARK [2][-]{subsection.4.2.3}{Execution Rules}{section.4.2}% 38
+\BOOKMARK [1][-]{section.4.3}{Robot Operating System \(ROS\)}{chapter.4}% 39
+\BOOKMARK [1][-]{section.4.4}{ROSPlan}{chapter.4}% 40
+\BOOKMARK [0][-]{chapter.5}{Conditional Planning and Execution}{}% 41
+\BOOKMARK [1][-]{section.5.1}{Our Approach}{chapter.5}% 42
+\BOOKMARK [1][-]{section.5.2}{Motivating Example}{chapter.5}% 43
+\BOOKMARK [2][-]{subsection.5.2.1}{Example: Service Robot assisting customers of a shopping mall}{section.5.2}% 44
+\BOOKMARK [0][-]{chapter.6}{System Overview}{}% 45
+\BOOKMARK [1][-]{section.6.1}{PNPgen: Conditional Plan}{chapter.6}% 46
