@@ -102,24 +102,32 @@ PDDL
 \newpage
 
 \chapter{Related Works}
+This chapter reviews the state of the art and identifies the field of interest of this work.
+
+\section{Social Norms and Robotics}
+\textbf{Social Norms}: "\textit{Norms are cultural products (including values, customs, and traditions) which represent individuals' basic knowledge of what others do and think that they should do.}"\footnote{\url{https://en.wikipedia.org/wiki/Norm_(social)}}\\
+\newline
+\noindent While the previously stated definition of social norms fits very well in an environment populated exclusively by humans, when robots are added to the context it can be very difficult to define what are social norms. In particular, what are the desirable characteristics that a robot must have in order to be defined "social"?\\
+\noindent Through recent years we have seen an increasing interest with respect to robotics and artificial intelligence. %TODO aggiungere qualche dato
+While the first "intelligent" personal assistants have made their appearance thanks to smartphones diffusion, robots for the major part are still relegated in a factory and seen as fictional characters.
+Even in the industrial context, where we can see some examples of human-robot cooperation, the interaction is far from being "social" since the human is seen as an obstacle to avoid and the interaction is programmatic.\\
+However, the precedent definition  give us some hints about the fundamental question of all this discussion:\\ 
+\noindent\textit{"basic knowledge of what others do and think that they should do."}\\
+The importance of developing a robot that is human aware reside in its ability of model human state of mind, especially when we talk about robots that must operate in human environments.\\
+We have started to see some examples of robots operating in public environments, and we always come to an end: people are for the most part frightened by robots as they do not know what to expect from it.
+Thus, when developing robots for operating beside humans, it is important that the robot has the ability of  drive the interaction, i.e. be an active (not passive) actor. Beside from have an "attractive" design, a robot of this kind must promote different modalities for interaction and maintain at any time a snapshot of person state of mind. The proactive approach helps the robot to reduce is uncertainty about the human and ensure, with appropriate behaviours, that the person is always comfortable when in presence of the robot.
+
+
+\noindent To conclude, I provide an idea of social robotic rules:\\
+\newline
+\noindent\textbf{Social Robotics Rules:} \textit{Norms of human being imitated/reproduced by the robot in order to encourage collaboration and that are socially acceptable, depending on the cultural context.}\\ 
 \section{Human Robot Interaction}
+\textbf{HRI}: \textit{“Understand and shape the interactions between
+one or more humans and one or more robots”} (Goodrich\&Schultz 2007)\\
+\newline
+%TODO esaminare tesi nardi
 
-\paragraph{Social Rules} Norms of human being imitated/reproduced by the robot in order to encourage collaboration and that are socially acceptable.\\ 
-
-\noindent
-Cooperation doesn't mean necessarily social, and this is the case of classic automation approach. The most promimenent cases are the ones in which the human is encouraged to collaborate by the means of a reward (griedy case). Human are also curious, so encourage this part could also help in establish and mantain a collaboration through time. (curiosity case)
-The third and most interesting case for this study is the scenario in which the robot itself starts the collaboration. There are many aspects to take into account in this, and I will enlist the most important in the following.
-A robot must be capable of discerning cases in which an interaction is desirable and cases in which is not. Like in the simple case of a "welcome robot", where is important that the robot says "hi" when a person shows in front of him but it must also take into account the fact that a person could appear in front of him multiple times. 
-Another important but maybe trickier case is to equip the robot with the capability of understanding the mood of the person and than react consequently. Although this could be seen as a fictional case, since is impossible at the moment even for the most complex cognitive robot to understand emotions, there are some simple cases that could be treated. The goal, in this case, is not to reproduce a perfect model of the human mind state and how it could react to some sorts of events, but rather discover some patterns that could lead to undesirable outcomes. For instance, a person could be busy with its work and the interference of the robot, when is not helpful in the context of the human task, could be perceived as noise. Thus is important to maintain a representation of the person daily routines and enrich this when is possible with the information that comes from the social interactions that occurs from time to time between the two. If we are interested in developing robots strictly social, we cannot leave aside the emotional aspect of the interaction. \\
-
-\noindent
-Main Questions:
-\begin{enumerate}
-\item How to start/mantain interaction
-\item How to represent parallel/serial interaction
-\item How to represent/update common knowledge
-\end{enumerate}
-
+\section{Examples of HRI}
 \subsection{Industrial Cases (No HRI)}
 Those are the cases in which robot and human are both aware of the plan and they cooperate deterministically in order to achieve the goal. There is no HRI as the human is seen as another agent in the environment.
 \begin{itemize}
@@ -141,11 +149,13 @@ Those cases represents the most significant for this work. In this case the inte
 \item COACHES
 \item Assistance task
 \item Waitress Robot
+\item Amelia Assistant
 \end{itemize}
 \noindent
 %Typically involve (PO)MDP to model uncertainty and not derministic outcomes of the actions and any of the other formalisms. Often used: ASP, PDDL.
 
 \chapter{Plan Representation}\label{sec:formalism}
+In this chapter I will reviews some of the most diffused formalisms and languages for plan representation.
 \section{Formalisms}\label{sec:formalism}
 \subsection{STRIPS (Classical Planning)}
 \noindent STRIPS\cite{strips} stand for STanford Research Institute Problem Solver. 
@@ -1125,6 +1135,13 @@ The languages considered are two:
 \item KPDDL (kplanner): this produce a conditional plan, or more generally a DAG (direct acyclic graph).
 \item ROSPlan (modified kplanner): similar to KPDDL, produce a tree. 
 \end{itemize}
+
+\chapter{Conclusion}
+
+\section{Future Development}
+%Some suggestion
+A robot must be capable of discerning cases in which an interaction is desirable and cases in which is not. Like in the simple case of a "welcome robot", where is important that the robot says "hi" when a person shows in front of him but it must also take into account the fact that a person could appear in front of him multiple times. 
+Another important but maybe trickier case is to equip the robot with the capability of understanding the mood of the person and than react consequently. Although this could be seen as a fictional case, since is impossible at the moment even for the most complex cognitive robot to understand emotions, there are some simple cases that could be treated. The goal, in this case, is not to reproduce a perfect model of the human mind state and how it could react to some sorts of events, but rather discover some patterns that could lead to undesirable outcomes. For instance, a person could be busy with its work and the interference of the robot, when is not helpful in the context of the human task, could be perceived as noise. Thus is important to maintain a representation of the person daily routines and enrich this when is possible with the information that comes from the social interactions that occurs from time to time between the two. If we are interested in developing robots strictly social, we cannot leave aside the emotional aspect of the interaction. \\
 
 \newpage
 \begin{thebibliography}{1}
