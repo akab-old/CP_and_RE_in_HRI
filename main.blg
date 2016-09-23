@@ -1,0 +1,75 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: main.aux
+The style file: plain.bst
+Database file #1: biblio.bib.bib
+Warning--I didn't find a database entry for "strips"
+Warning--I didn't find a database entry for "adl"
+Warning--I didn't find a database entry for "pddl"
+Warning--I didn't find a database entry for "ppddl"
+Warning--I didn't find a database entry for "rddl"
+Warning--I didn't find a database entry for "kpddl"
+Warning--I didn't find a database entry for "alck"
+Warning--I didn't find a database entry for "wiasp"
+Warning--I didn't find a database entry for "asp"
+Warning--I didn't find a database entry for "asp_ex1"
+Warning--I didn't find a database entry for "asp_ex2"
+Warning--I didn't find a database entry for "asp+unc1"
+Warning--I didn't find a database entry for "sitcalc1"
+Warning--I didn't find a database entry for "sitcalc2"
+Warning--I didn't find a database entry for "strips_comp"
+Warning--I didn't find a database entry for "belief_compression"
+Warning--I didn't find a database entry for "belief_particle"
+Warning--I didn't find a database entry for "alami"
+Warning--I didn't find a database entry for "coaches"
+Warning--I didn't find a database entry for "pnp"
+Warning--I didn't find a database entry for "pnp2"
+Warning--I didn't find a database entry for "pnp_app"
+Warning--I didn't find a database entry for "pnp_app2"
+Warning--I didn't find a database entry for "pnp_app3"
+Warning--I didn't find a database entry for "pnp_gen"
+Warning--I didn't find a database entry for "pnp_gen_er"
+Warning--I didn't find a database entry for "popf"
+Warning--I didn't find a database entry for "ff"
+You've used 0 entries,
+            2118 wiz_defined-function locations,
+            525 strings with 4177 characters,
+and the built_in function-call counts, 18 in all, are:
+= -- 0
+> -- 0
+< -- 0
++ -- 0
+- -- 0
+* -- 2
+:= -- 7
+add.period$ -- 0
+call.type$ -- 0
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 0
+duplicate$ -- 0
+empty$ -- 1
+format.name$ -- 0
+if$ -- 1
+int.to.chr$ -- 0
+int.to.str$ -- 0
+missing$ -- 0
+newline$ -- 3
+num.names$ -- 0
+pop$ -- 0
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 1
+stack$ -- 0
+substring$ -- 0
+swap$ -- 0
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 0
+width$ -- 0
+write$ -- 2
+(There were 28 warnings)

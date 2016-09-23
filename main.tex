@@ -14,12 +14,14 @@
 \usepackage{verbatim}
 \usepackage{array}
 %\usepackage{amssymb}
-\usepackage{algorithm}
+%\usepackage{algorithm}
+\usepackage[titlenumbered,ruled,linesnumbered,algoruled,boxed,lined]{algorithm2e}
 \usepackage[noend]{algpseudocode}
 \usepackage{stmaryrd}
 \usepackage{makeidx}
 \usepackage{upgreek}
 \usepackage{setspace}
+\usepackage{cite}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,automata,positioning,intersections}
@@ -36,98 +38,108 @@
 \input{./title.tex}
 
 \chapter{Introduction}
-\section{Planning}
-\subsection{Planners Characteristics/Requirements}
-\begin{enumerate}
-\item  How to handle failures $\shortrightarrow$ Replanning avoiding loops
-\item  How to represent uncertainty $\shortrightarrow$ Probabilistic reasoning
-\item  How to deal with Exogenous Events $\shortrightarrow$ Implicit/Explicit Modelling 
-\item  Hyerarchical Tasks
-\item  Frame Problem: how to represent the fact that things do not arbitrarly changes.
-\item  Qualification problem: how to deal with the things that prevent me from achieving my intendend result (impossibility of list alla preconditions). 
-\item  How to model/deal time (explicit/implicit)
-\item  World-based (STRIPS) vs Plan-based Planner (Partial-order Planning)
-\item  Total-order (HTN) vs Partial-order planning
-\item  Variables Observation, Exception generation and handling
-\item  Evaluate solution quality, planning time and the ability to avoid deadend states
-\item  Exploit the restrictions placed on the states and actions, on observability, and on the value function    and optimality criterion
-\item Computational complexity of the plan existence problem
-\item Tradeoff between complexity of representation and execution
-\end{enumerate}
 
-\subsection{Partial Ordering}
-\noindent
-Partial-order planning, as opposed to total-ordering, is a search in plan space where every node of the problem represents a partial plan. A plan is complete iff every precondition is achieved and that happen when the precondition is the effect of an earlier step and no possibly intervening step undoes it.
-A plan is represented as
-\begin{itemize}
-\item a set of steps
-\item ordering constraints
-\item causal links from outcome of one step to precondition of another
-\item open preconditions
-\end{itemize}
-A start step has the initial state description as its effect while a finish step has the goal description as its precondition. 
-The search procedure picks one open precondition of an action \textit{B}, and one action of \textit{A} that achieves the precondition of \textit{B}. Add the causal links for the actions and the ordering constraints for \textit{A},\textit{B}, \textit{Start}, \textit{Finish} and tries to resolve conflicts when possible, otherwise backtracks. A conflict is resolved by adding ordering constraints called demotion and promotion that move the conflictual action after of before the causal link, respectively. When there are no more open preconditions the goal is satisfied.
-Partial-order planning produces more trivial serializability than total-order planning that allows performing quickly when dealing with goals that contain sub-goals. A sub-goal is trivially or laboriously serializable depending on the search space. For the stated properties,Partial-order planning is more likely to find the quickest path.
-Not only, it could be very difficult to write good knowledge bases for Total-order planner because the total-ordering requirement for the subtasks is restrictive. 
-One drawback of this type of planning system is that it requires a lot more computational power for each node.
-This depends on the higher complexity of this type of algorithms and has a huge impact on the applicability on robots in real world scenarios because the energy consumption.
-
-\subsection{Uncertainty}
-Uncertainties generally interfere with two aspects of planning:
-\begin{itemize}
-\item \textbf{Predictability:} due to uncertainties it is not known what will happen in the future when certain actions are applied. This means that future states are not necessarily predictable.
-\item \textbf{Sensing:} due to uncertainties, the current state is not necessarily known. Information regarding the state is obtained from initial conditions, sensors, and the memory of previously applied actions.
-\end{itemize}
-
-\noindent
-Classical planning is fast, but cannot reason about multiple action outcomes, unreliable observations, or multiple possible worlds. Decision-theoretic planning, by contrast, produces a policy maximizing the probability of success (expected value) from any belief state the robot might reach during plan execution, taking account of the probabilities of every possible action outcome in those states. Decision-theoretic planning handles multiple action outcomes (Markov decision processes, MDPs) and unreliable observations (POMDPs), but at an infeasible computational cost given the size of typical robot domains.
-
-\subsection{Epistemic}
-
-\subsection{Exogenous Event}
-
-A robotic system must deal with the external world that is, by its own nature, a dynamic system itself.
-This external world produce a series of stimuli that must be treated carefully when accomplish a task. 
-The interaction between the two systems is two-way, since the robot could influence the state of the world through its action and vice versa. The actions performed by the robot are called \textit{control} actions, while the actions that the world exert on the robot are called \textit{exogenous} actions.
-Is it possible to model this events in two ways: implicit-event model and explicit-event model.
-In implicit-event models the effects of the exogenous event are folded into the transition probabilities associated with the action. 
-Instead, when the effects of actions are decomposed so that a transition is determined by the effects of agent actions and external events that occur with a certain probability we call it explicit-event model.\\
-
-\subsection{qualification problem, ramification problem, frame problem}
-PDDL
-\begin{itemize}
-\item Frame problem: everything not explicitly change by effects persist.
-\item Qualification problem: as SitCalc,can never finish listing all the required preconditions and possible conditional outcomes of actions
-\end{itemize}
-\newpage
+%\section{Planning}
+%\subsection{Planners Characteristics/Requirements}
+%\begin{enumerate}
+%\item  How to handle failures $\shortrightarrow$ Replanning avoiding loops
+%\item  How to represent uncertainty $\shortrightarrow$ Probabilistic reasoning
+%\item  How to deal with Exogenous Events $\shortrightarrow$ Implicit/Explicit Modelling 
+%\item  Hyerarchical Tasks
+%\item  Frame Problem: how to represent the fact that things do not arbitrarly changes.
+%\item  Qualification problem: how to deal with the things that prevent me from achieving my intendend result (impossibility of list alla preconditions). 
+%\item  How to model/deal time (explicit/implicit)
+%\item  World-based (STRIPS) vs Plan-based Planner (Partial-order Planning)
+%\item  Total-order (HTN) vs Partial-order planning
+%\item  Variables Observation, Exception generation and handling
+%\item  Evaluate solution quality, planning time and the ability to avoid deadend states
+%\item  Exploit the restrictions placed on the states and actions, on observability, and on the value function    and optimality criterion
+%\item Computational complexity of the plan existence problem
+%\item Tradeoff between complexity of representation and execution
+%\end{enumerate}
+%
+%\subsection{Partial Ordering}
+%\noindent
+%Partial-order planning, as opposed to total-ordering, is a search in plan space where every node of the problem represents a partial plan. A plan is complete iff every precondition is achieved and that happen when the precondition is the effect of an earlier step and no possibly intervening step undoes it.
+%A plan is represented as
+%\begin{itemize}
+%\item a set of steps
+%\item ordering constraints
+%\item causal links from outcome of one step to precondition of another
+%\item open preconditions
+%\end{itemize}
+%A start step has the initial state description as its effect while a finish step has the goal description as its precondition. 
+%The search procedure picks one open precondition of an action \textit{B}, and one action of \textit{A} that achieves the precondition of \textit{B}. Add the causal links for the actions and the ordering constraints for \textit{A},\textit{B}, \textit{Start}, \textit{Finish} and tries to resolve conflicts when possible, otherwise backtracks. A conflict is resolved by adding ordering constraints called demotion and promotion that move the conflictual action after of before the causal link, respectively. When there are no more open preconditions the goal is satisfied.
+%Partial-order planning produces more trivial serializability than total-order planning that allows performing quickly when dealing with goals that contain sub-goals. A sub-goal is trivially or laboriously serializable depending on the search space. For the stated properties,Partial-order planning is more likely to find the quickest path.
+%Not only, it could be very difficult to write good knowledge bases for Total-order planner because the total-ordering requirement for the subtasks is restrictive. 
+%One drawback of this type of planning system is that it requires a lot more computational power for each node.
+%This depends on the higher complexity of this type of algorithms and has a huge impact on the applicability on robots in real world scenarios because the energy consumption.
+%
+%\subsection{Uncertainty}
+%Uncertainties generally interfere with two aspects of planning:
+%\begin{itemize}
+%\item \textbf{Predictability:} due to uncertainties it is not known what will happen in the future when certain actions are applied. This means that future states are not necessarily predictable.
+%\item \textbf{Sensing:} due to uncertainties, the current state is not necessarily known. Information regarding the state is obtained from initial conditions, sensors, and the memory of previously applied actions.
+%\end{itemize}
+%
+%\noindent
+%Classical planning is fast, but cannot reason about multiple action outcomes, unreliable observations, or multiple possible worlds. Decision-theoretic planning, by contrast, produces a policy maximizing the probability of success (expected value) from any belief state the robot might reach during plan execution, taking account of the probabilities of every possible action outcome in those states. Decision-theoretic planning handles multiple action outcomes (Markov decision processes, MDPs) and unreliable observations (POMDPs), but at an infeasible computational cost given the size of typical robot domains.
+%
+%\subsection{Epistemic}
+%
+%\subsection{Exogenous Event}
+%
+%A robotic system must deal with the external world that is, by its own nature, a dynamic system itself.
+%This external world produce a series of stimuli that must be treated carefully when accomplish a task. 
+%The interaction between the two systems is two-way, since the robot could influence the state of the world through its action and vice versa. The actions performed by the robot are called \textit{control} actions, while the actions that the world exert on the robot are called \textit{exogenous} actions.
+%Is it possible to model this events in two ways: implicit-event model and explicit-event model.
+%In implicit-event models the effects of the exogenous event are folded into the transition probabilities associated with the action. 
+%Instead, when the effects of actions are decomposed so that a transition is determined by the effects of agent actions and external events that occur with a certain probability we call it explicit-event model.\\
+%
+%\subsection{qualification problem, ramification problem, frame problem}
+%PDDL
+%\begin{itemize}
+%\item Frame problem: everything not explicitly change by effects persist.
+%\item Qualification problem: as SitCalc,can never finish listing all the required preconditions and possible conditional outcomes of actions
+%\end{itemize}
+%\newpage
 
 \chapter{Related Works}
 This chapter reviews the state of the art and identifies the field of interest of this work.
 
-\section{Social Norms and Robotics}
+\section{Social Robotics}
 \textbf{Social Norms}: "\textit{Norms are cultural products (including values, customs, and traditions) which represent individuals' basic knowledge of what others do and think that they should do.}"\footnote{\url{https://en.wikipedia.org/wiki/Norm_(social)}}\\
 \newline
 \noindent While the previously stated definition of social norms fits very well in an environment populated exclusively by humans, when robots are added to the context it can be very difficult to define what are social norms. In particular, what are the desirable characteristics that a robot must have in order to be defined "social"?\\
 \noindent Through recent years we have seen an increasing interest with respect to robotics and artificial intelligence. %TODO aggiungere qualche dato
 While the first "intelligent" personal assistants have made their appearance thanks to smartphones diffusion, robots for the major part are still relegated in a factory and seen as fictional characters.
 Even in the industrial context, where we can see some examples of human-robot cooperation, the interaction is far from being "social" since the human is seen as an obstacle to avoid and the interaction is programmatic.\\
-However, the precedent definition  give us some hints about the fundamental question of all this discussion:\\ 
+However, the precedent definition  give us some hints about the fundamental question:\\ 
 \noindent\textit{"basic knowledge of what others do and think that they should do."}\\
 The importance of developing a robot that is human aware reside in its ability of model human state of mind, especially when we talk about robots that must operate in human environments.\\
 We have started to see some examples of robots operating in public environments, and we always come to an end: people are for the most part frightened by robots as they do not know what to expect from it.
-Thus, when developing robots for operating beside humans, it is important that the robot has the ability of  drive the interaction, i.e. be an active (not passive) actor. Beside from have an "attractive" design, a robot of this kind must promote different modalities for interaction and maintain at any time a snapshot of person state of mind. The proactive approach helps the robot to reduce is uncertainty about the human and ensure, with appropriate behaviours, that the person is always comfortable when in presence of the robot.
+Thus, when developing robots for operating beside humans, it is important that the robot has the ability of  drive the interaction, i.e. be an active (not passive) actor. Beside from have an "attractive" design, a robot of this kind must promote different modalities for interaction and maintain at any time a snapshot of person state of mind. The proactivity helps the robot to reduce is uncertainty about the human and ensure, with appropriate behaviours, that the person is always comfortable when in presence of the robot.
 
-
-\noindent To conclude, I provide an idea of social robotic rules:\\
-\newline
+%\noindent To conclude, I provide an idea of social robotic rules:\\
+%\newline
 \noindent\textbf{Social Robotics Rules:} \textit{Norms of human being imitated/reproduced by the robot in order to encourage collaboration and that are socially acceptable, depending on the cultural context.}\\ 
-\section{Human Robot Interaction}
+\subsection{Human Robot Interaction (HRI)}
 \textbf{HRI}: \textit{“Understand and shape the interactions between
 one or more humans and one or more robots”} (Goodrich\&Schultz 2007)\\
 \newline
-%TODO esaminare tesi nardi
+Human-robot Interaction study the interaction between human and robots. Its a multidisciplinary field, and attracts researcher from robotics, AI, cognitive psychology, and many more.
+Its main objective is to develop models for natural and social interaction between humans and robots. 
+A central idea in HRI research is that humans expect from a robot to exhibit a human-like behaviour when interacting with them, so they can feel comfortable as when interacting with a person. Is is important to underline that a social robot must interact with non-expert users, that don't know what to expect when dealing with it.\\
 
-\section{Examples of HRI}
+\noindent Nowadays the most prominent context in which a social robot could be implied are:
+\begin{itemize}
+\item Entertainment 
+\item Public Environment Assistance (museum, shopping mall, etc.)
+\item Shared Tasks (like assisted assembly)
+\item Healtcare, elder people assistance, etc.
+\end{itemize}
+
+\section{Some Examples}
 \subsection{Industrial Cases (No HRI)}
 Those are the cases in which robot and human are both aware of the plan and they cooperate deterministically in order to achieve the goal. There is no HRI as the human is seen as another agent in the environment.
 \begin{itemize}
@@ -137,19 +149,19 @@ Those are the cases in which robot and human are both aware of the plan and they
 \end{itemize}
 
 \subsection{Almost Social Cases (HRI Not Mandatory)}
-In this cases the interaction between the human and the robot is minimal. The human is a target and the interaction is a secondary objective. No representation of the human state is requred.
+In this cases the interaction between the human and the robot is minimal. The human is a target and the interaction is a secondary objective. No representation of the human state is required.
 \begin{itemize}
 \item Patrolling
 \item Search \& Rescue
 \end{itemize}
 
 \subsection{Strictly Social Cases (HRI Mandatory)}
-Those cases represents the most significant for this work. In this case the interaction is the principal objective and the robot itself could start the interaction. A representation of the human state is mantained.
+Those cases represents the most significant for this work. In this case the interaction is the principal objective and the robot itself could start the interaction. A representation of the human state is maintained.
 \begin{itemize}
-\item COACHES
+\item Project COACHES (\url{https://coaches.greyc.fr/})
 \item Assistance task
 \item Waitress Robot
-\item Amelia Assistant
+\item Amelia the Assistant (\url{http://www.ipsoft.com/amelia/})
 \end{itemize}
 \noindent
 %Typically involve (PO)MDP to model uncertainty and not derministic outcomes of the actions and any of the other formalisms. Often used: ASP, PDDL.
@@ -719,7 +731,7 @@ In fact, before ROS advent, each laboratory or research group had to write down 
 With the layer of abstraction offered by ROS, it is possible to write nodes for common tasks and specific hardware that are reusable and so more easy to diffuse. For instance, ROS offers packages for perception, object identification, segmentation and recognition, face recognition, planning, grasping, localization, mapping and much more. The main limitation of ROS resides in its latency since is built on top of Linux and is not a real-time OS. This led to the born of ROS 2.0, which support real-time operations, and RT-ROS, which is natively real-time. %TODO talke about STAGE
 
 \newpage
-\section{ROSPlan}
+\section{ROSPlan}\label{rosplan}
 ROSPlan is a framework that provides a general method for task planning in ROS.\footnote{\url{http://kcl-planning.github.io/ROSPlan/}}
 It encapsulates both planning and dispatch and, thanks to its modular design, it is easy to modify to test new approaches to plan representation, plan execution, etc.
 The main modules are the \textbf{Knowledge Base}, that stores PDDL models, and the \textbf{Planning System}, that is the interface to the planner. It is composed of three modules, each one replaceable: problem generation, planning, and plan dispatch. 
@@ -1125,16 +1137,117 @@ In particular, in order to implement sensing actions, we must extend PDDL with t
 \subsubsection{KPDDL}
 
 \chapter{System Overview}
+In this chapter I will justify the contribution of this thesis to the field and illustrate the results obtained.\\
+\newline
 
-\section{PNPgen: Conditional Plan}
-Linear plans are good to model simple cases, but real world is full of non-determinism and uncertainty. Is it important to deal properly with the properties of the environment
-
-The languages considered are two:
+\noindent The main objective of this work is the automatic generation of plans that deals with uncertainty in both modelling and execution due to the presence of humans in the environment.
+This approach consist of interpret the output of a planner and, according to predefined rules, generate a robust PNP.
+The obtained PNP is robust with respect to action failure, as it incorporate sensing actions that helps the robot to discern cases from cases.
+The architecture presents two layers, each of which will be discussed in the following:
 \begin{itemize}
-\item PDDL (FF planner): this produce a linear plan.
-\item KPDDL (kplanner): this produce a conditional plan, or more generally a DAG (direct acyclic graph).
-\item ROSPlan (modified kplanner): similar to KPDDL, produce a tree. 
+\item \textbf{the Translator}. This module interprets the output of the planner and translate it into a Conditional Plan.
+\item \textbf{the Generator}. Generates the actual PNP from a Conditional Plan representation.
 \end{itemize}
+Each high level action is represented as C++ atomic function, and the PNP is executed using the PNP execution engine.
+
+\section{Conditional Plan Representation}
+A conditional plan is a plan that take includes also observations.
+This lead to plan with branches, where a branch represent an action outcome that depends on a property (the observation) that holds true (or not). \\
+These observations are used to handle uncertainty that arises from the lack of knowledge. The uncertainty is then handled at execution time, rather than a planning time, where unpredictable events are more likely to appear.\\
+The conditioning on actions can remove threats by separate the contexts, through the use of conditional or sensing operators.
+These operators help the robot to disambiguate the context and must be always executable. At a low level, this means that the robot is equipped with some perception routines that helps him characterise the scenario.\\
+Some could be:
+\begin{itemize}
+\item Face Detection: to detect if there is a person standing in front of him.
+\item Speech Recognition: to understand human needs.
+\item Semantic Mapping: to reason about spatial context.
+\end{itemize} 
+If one can predict the type of failure that may arise from sensors, and model them in the domain, the produced plan is more likely to be continuously executed, with no or limited needs for replanning.\\
+\newline
+\noindent As this certainly increase the robustness of the computed plans, at the same time the search space increase tremendously. Consider For instance an state space of observable properties of dimension $N$. If we consider only boolean evaluations, the complete space increases as $O(2^N)$. So we must be very careful when dealing with this kind of representation. The discussion of intelligent search algorithms that can exploit, for instance, the structure of the problem are behind the discussion of this thesis. Instead, I will talk about the translation of this kind of plans into an executable PNP.
+
+\section{PNPgen: A Conditional Planning Extension}
+The work of this thesis consist of define a representation for conditional plans  and extend the present architecture of PNPgen with modules that allow to generate automatically a PNP from different languages, plus incorporating this generation in ROS through the integration with ROSPlan. 
+The languages considered are:
+\begin{itemize}
+\item PDDL (FF planner): this produce a linear plan from FF output.
+\item KPDDL (kplanner): this produce a conditional plan, or more generally a DAG (direct acyclic graph).
+\item ROSPlan (modified kplanner): similar to KPDDL language, produce a tree. 
+\end{itemize}
+
+
+\subsection{PDDL Translator}
+The first study case regards PDDL domain.
+PDDL, as stated in \ref{pddl}, is the standard de facto for AI planning. \\
+Standard PDDL doesn't have natively syntax construct that allow conditioning and this lead to the born of different extension, like KPDDL.
+In PDDL however, one can use the "\textbf{when}" in the action description effect to discriminate cases at planning time. Nonetheless, PDDL planners usually generate total ordered plans.
+%Even if is not of direct interest for this work, this was the first module realized has  
+
+\subsection{KPDDL Translator}
+Linear plans are good to model simple cases, but the real world is full of non-determinism and uncertainty. \\
+KPDDL introduce a special construct to the classical PDDL structure that is the sensing effect, that allows formalising sensing actions. This helps the agent to disambiguate between two epistemic states: the one in which the sensed property holds and the case in which not.
+
+
+\subsection{ROSPlan: from Digraph to PNP}
+ROSPlan offers different representation for plans, as discussed in \ref{rosplan}. \\
+For this work it was necessary to modify the DOT graph to represent explicitly the conditional graph structure.
+\begin{verbatim}
+    digraph plan_#N{
+        0[label= "sense_person_shop4" ];
+        1[ label= "move_shop4_shop5_r" ];
+                     ...
+        M[ label= "m-th action"];
+        "0" -> "1" [ label="A" ];
+        "0" -> "20" [ label="(not(A))" ];
+                     ...
+    }
+\end{verbatim}
+
+\scalebox{0.85}{
+\begin{algorithm}[H]
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+\Input{$\pi$: a Conditional Plan,\\
+ 	   $s_f$: $\pi$ final state\\
+ 	   $M_{SA}$: A Map between state-action -> outcomes}
+\KwData{$M_V$: a Map of the visited places\\
+        $SS$: a Stack containing the places to explore\\
+        $a$: an action \\
+        $V_O$: a list of possible action outcomes}
+\Output{$\pi_c$: PNP generated from a Conditional Plan}
+ %\KwResult{how to write algorithm with \LaTeX2e }
+  $curr\_state \leftarrow \pi.first$\; 
+  $\pi_c \leftarrow addCondition(initial)$\;
+  $M_V \leftarrow insert(curr\_state)$\;
+  $SS \leftarrow push(curr_state)$\;
+ \While{$(SS \neq 0)$}{
+  $curr\_state = top \,\, of \,\, SS$\;
+  $SS \leftarrow pop()$\;
+  $a = M_{SA}[curr\_state]$\;
+  \If{$(a == "" \,\, and \,\, curr\_state \neq s_f)$}{
+  	$continue$\;  
+  }
+  $V_O \leftarrow M_{SA}[curr\_state].outcomes$\;
+  \If{$V_O == 0$}{
+  	$addFinalState(\pi_c)$\;
+  	$continue$\;
+  }
+  $addAction(\pi_c,a,current\_state)$\;
+  \ForEach{element $e$ of $V_O$\\}
+  {
+  	$succ\_state = successor(e)$\;
+  	$obs = observation(e)$\;
+  	\eIf{$M_V[succ\_state] == 0$}
+  	{$addBranch(\pi_c, obs)$\;
+  	 $SS.push(succ\_state)$\;
+  	 $M_V.add(succ\_state)$\;}
+  	{$addTransitionBack(\pi_c,obs)$\;}
+  }
+ }
+ \caption{PNPgen from Conditional Plan}
+\end{algorithm}}
+
+ 
 
 \chapter{Conclusion}
 
@@ -1143,104 +1256,108 @@ The languages considered are two:
 A robot must be capable of discerning cases in which an interaction is desirable and cases in which is not. Like in the simple case of a "welcome robot", where is important that the robot says "hi" when a person shows in front of him but it must also take into account the fact that a person could appear in front of him multiple times. 
 Another important but maybe trickier case is to equip the robot with the capability of understanding the mood of the person and than react consequently. Although this could be seen as a fictional case, since is impossible at the moment even for the most complex cognitive robot to understand emotions, there are some simple cases that could be treated. The goal, in this case, is not to reproduce a perfect model of the human mind state and how it could react to some sorts of events, but rather discover some patterns that could lead to undesirable outcomes. For instance, a person could be busy with its work and the interference of the robot, when is not helpful in the context of the human task, could be perceived as noise. Thus is important to maintain a representation of the person daily routines and enrich this when is possible with the information that comes from the social interactions that occurs from time to time between the two. If we are interested in developing robots strictly social, we cannot leave aside the emotional aspect of the interaction. \\
 
-\newpage
-\begin{thebibliography}{1}
+%\begin{thebibliography}{1}
+%
+%\bibitem{coaches} L. Iocchi, L. Jeanpierre, M. T. Lazaro, A.-I. Mouaddib \\
+%{\em A Practical Framework for Robust Decision-Theoretic Planning and Execution for Service Robots}  2006.
+%
+%\bibitem{alami} Rachid Alami, Mamoun Gharbi, Benjamin Vadant, Raph{\"a}el Lallement and Adolfo Suarez\\
+%{\em On human-aware task and motion planning abilities for a teammate robot}
+%
+%\bibitem{strips} Richard E. Fikes, Nils J. NHsson \\
+%{\em STRIPS: A New Approach to the Application of Theorem Proving to Problem Solving}
+%
+%\bibitem{strips_comp} Tom Bylander \\
+%{\em  The Computational Complexity of Propositional STRIPS Planning. Artificial Intelligence 69 (September 1994)}
+%
+%\bibitem{adl} Pednault \\ 
+%{\em Formulating multi-agent dynamic-world problems in the classical planning framework.}
+%
+%\bibitem{pddl} Drew Mcdermott, Malik Ghallab, Adele Howe, Craig Knoblock, Ashwin Ram, Manuela Veloso, Daniel Weld, David Wilkins \\
+%{\em PDDL - The Planning Domain Definition Language}
+%
+%\bibitem{sitcalc1} J. McCarty, P. Hayes \\ 
+%{\em Some philosophical problems from the standpointof artificial intelligence, Machine Intelligence 4, 1969}
+%
+%\bibitem{sitcalc2} R. Reiter \\ 
+%{\em Proving properties of states in the situation calculus, Artificial intelligence 64, 1993}
+%
+%\bibitem{wiasp} Vladimir Lifschitz\\
+%{\em What Is Answer Set Programming?}
+%
+%\bibitem{asp} ASP\\
+%{\url {https://en.wikipedia.org/wiki/Answer_set_programming}}
+%
+%\bibitem{asp_ex1} Esra Erdem, Erdi Aker, Volkan Patoglu\\
+%{\em Answer set programming for collaborative housekeeping robotics: representation, reasoning, and execution}
+%
+%\bibitem{asp_ex2} Xiaoping Chen, Jianmin Ji, Jiehui Jiang, Guoqiang Jin, Feng Wang, and Jiongkun Xie\\
+%{\em Developing High-level Cognitive Functions for Service Robots}
+%
+%\bibitem{asp+unc1} Yi Wang, Joohyung Lee\\
+%{\em Handling Uncertainty in Answer Set Programming}
+%
+%\bibitem{alck} Francesco M. Donini, Daniele Nardi, Riccardo Rosati \\
+%{\em Autoepistemic Description Logics}
+%
+%\bibitem{ppddl} Hakan L. S. Younes, Michael L. Littman\\
+%{\em PPDDL1.0: An Extension to PDDL for Expressing Planning Domains with Probabilistic Effects}
+%
+%\bibitem{rddl} Scott Sanner \\
+%{\em Relational Dynamic Influence Diagram Language (RDDL): Language Description}
+%
+%\bibitem{kpddl} Luca Iocchi, Daniele Nardi, Riccardo Rosati\\
+%{\em A PDDL Extension for Describing Planning Domains with Incomplete
+%Information and Sensing}
+%
+%\bibitem{belief_compression} Nicholas Roy, Geoffrey Gordon, Sebastian Thrun\\
+%{\em Finding Approximate POMDP Solutions Through Belief Compression}
+%
+%\bibitem{belief_particle} Ronen Brafman, Alexander Gorohovski, Guy Shani\\
+%{\em A Contingent Planning-Based POMDP Replanner}
+%
+%\bibitem{ff} J. Hoffmann
+%{\em FAST-FORWARD}\\
+%{\url {https://fai.cs.uni-saarland.de/hoffmann/ff.html}}
+%
+%\bibitem{pnp} Vittorio Amos Ziparo and Luca Iocchi.\\
+%{\em Petri Net Plans. \\ 
+%In Proc. of Fourth International Workshop on Modelling of Objects, Components, and Agents (MOCA'06) @ Petri Nets 2006 and ACSD 2006, Turku, Finland, 2006.}
+%
+%\bibitem{pnp2} V. Ziparo, L. Iocchi, D. Nardi, P. Palamara, and H. Costelha. \\
+%{\em PNP: A formal model for representation and execution of multi-robot plans \\ 
+%In Proc. of 7th Int. Conf. on Autonomous Agents and Multiagent Systems (AAMAS 2008), 2008.}
+%
+%\bibitem{pnp_app} E. Bastianelli, D. Bloisi, R. Capobianco, F. Cossu, G.Gemignani, L. Iocchi, D. Nardi. \\
+%{\em On-line Semantic Mapping. \\
+%In 16th International Conference on Advanced Robotics, 2013. }
+%
+%\bibitem{pnp_app2} P. Palamara, V. Ziparo, L. Iocchi, D. Nardi, P. Lima, H. Costelha.  \\
+%{\em A robotic soccer task using Petri Net Plans. \\
+%In Proc. of 7th Int. Conf. on Autonomous Agents and Multiagent Systems (AAMAS), 2008.}
+%
+%\bibitem{pnp_app3} A. Farinelli, L. Iocchi, D. Nardi, V. A. Ziparo  \\
+%{\em Assignment of Dynamically Perceived Tasks by Token Passing in Multi-Robot Systems. \\
+%Proceedings of the IEEE, Special Issue on Multi-Robot Systems, 2006}
+%
+%\bibitem{pnp_gen} F. M. Carlucci, L. Nardi, L. Iocchi, D. Nardi. \\
+%{\em Explicit Representation of Social Norms for Social Robots. \\
+%In Proc. of the IEEE/RSJ Int. Conf. on Intelligent Robots and Systems (IROS), 2015.}
+%
+%\bibitem{pnp_gen_er} L. Iocchi , L. Jeanpierre, M. T. L\'azaro, A.-I. Mouaddib \\
+%{\em A Practical Framework for Robust Decision-Theoretic Planning and Execution for
+%Service Robots \\}
+%
+%\bibitem{popf} Amanda Coles and Andrew Coles and Maria Fox and Derek Long \\
+%{\em Forward-Chaining Partial-Order Planning. \\
+%Proceedings of the Twentieth International Conference on Automated Planning and Scheduling (ICAPS 2010)}
+%
+%
+%\end{thebibliography}
 
-\bibitem{coaches} L. Iocchi, L. Jeanpierre, M. T. Lazaro, A.-I. Mouaddib \\
-{\em A Practical Framework for Robust Decision-Theoretic Planning and Execution for Service Robots}  2006.
 
-\bibitem{alami} Rachid Alami, Mamoun Gharbi, Benjamin Vadant, Raph{\"a}el Lallement and Adolfo Suarez\\
-{\em On human-aware task and motion planning abilities for a teammate robot}
+\bibliographystyle{plain}
+\bibliography{biblio.bib}
 
-\bibitem{strips} Richard E. Fikes, Nils J. NHsson \\
-{\em STRIPS: A New Approach to the Application of Theorem Proving to Problem Solving}
-
-\bibitem{strips_comp} Tom Bylander \\
-{\em  The Computational Complexity of Propositional STRIPS Planning. Artificial Intelligence 69 (September 1994)}
-
-\bibitem{adl} Pednault \\ 
-{\em Formulating multi-agent dynamic-world problems in the classical planning framework.}
-
-\bibitem{pddl} Drew Mcdermott, Malik Ghallab, Adele Howe, Craig Knoblock, Ashwin Ram, Manuela Veloso, Daniel Weld, David Wilkins \\
-{\em PDDL - The Planning Domain Definition Language}
-
-\bibitem{sitcalc1} J. McCarty, P. Hayes \\ 
-{\em Some philosophical problems from the standpointof artificial intelligence, Machine Intelligence 4, 1969}
-
-\bibitem{sitcalc2} R. Reiter \\ 
-{\em Proving properties of states in the situation calculus, Artificial intelligence 64, 1993}
-
-\bibitem{wiasp} Vladimir Lifschitz\\
-{\em What Is Answer Set Programming?}
-
-\bibitem{asp} ASP\\
-{\url {https://en.wikipedia.org/wiki/Answer_set_programming}}
-
-\bibitem{asp_ex1} Esra Erdem, Erdi Aker, Volkan Patoglu\\
-{\em Answer set programming for collaborative housekeeping robotics: representation, reasoning, and execution}
-
-\bibitem{asp_ex2} Xiaoping Chen, Jianmin Ji, Jiehui Jiang, Guoqiang Jin, Feng Wang, and Jiongkun Xie\\
-{\em Developing High-level Cognitive Functions for Service Robots}
-
-\bibitem{asp+unc1} Yi Wang, Joohyung Lee\\
-{\em Handling Uncertainty in Answer Set Programming}
-
-\bibitem{alck} Francesco M. Donini, Daniele Nardi, Riccardo Rosati \\
-{\em Autoepistemic Description Logics}
-
-\bibitem{ppddl} Hakan L. S. Younes, Michael L. Littman\\
-{\em PPDDL1.0: An Extension to PDDL for Expressing Planning Domains with Probabilistic Effects}
-
-\bibitem{rddl} Scott Sanner \\
-{\em Relational Dynamic Influence Diagram Language (RDDL): Language Description}
-
-\bibitem{kpddl} Luca Iocchi, Daniele Nardi, Riccardo Rosati\\
-{\em A PDDL Extension for Describing Planning Domains with Incomplete
-Information and Sensing}
-
-\bibitem{belief_compression} Nicholas Roy, Geoffrey Gordon, Sebastian Thrun\\
-{\em Finding Approximate POMDP Solutions Through Belief Compression}
-
-\bibitem{belief_particle} Ronen Brafman, Alexander Gorohovski, Guy Shani\\
-{\em A Contingent Planning-Based POMDP Replanner}
-
-\bibitem{ff} J. Hoffmann
-{\em FAST-FORWARD}\\
-{\url {https://fai.cs.uni-saarland.de/hoffmann/ff.html}}
-
-\bibitem{pnp} Vittorio Amos Ziparo and Luca Iocchi.\\
-{\em Petri Net Plans. \\ 
-In Proc. of Fourth International Workshop on Modelling of Objects, Components, and Agents (MOCA'06) @ Petri Nets 2006 and ACSD 2006, Turku, Finland, 2006.}
-
-\bibitem{pnp2} V. Ziparo, L. Iocchi, D. Nardi, P. Palamara, and H. Costelha. \\
-{\em PNP: A formal model for representation and execution of multi-robot plans \\ 
-In Proc. of 7th Int. Conf. on Autonomous Agents and Multiagent Systems (AAMAS 2008), 2008.}
-
-\bibitem{pnp_app} E. Bastianelli, D. Bloisi, R. Capobianco, F. Cossu, G.Gemignani, L. Iocchi, D. Nardi. \\
-{\em On-line Semantic Mapping. \\
-In 16th International Conference on Advanced Robotics, 2013. }
-
-\bibitem{pnp_app2} P. Palamara, V. Ziparo, L. Iocchi, D. Nardi, P. Lima, H. Costelha.  \\
-{\em A robotic soccer task using Petri Net Plans. \\
-In Proc. of 7th Int. Conf. on Autonomous Agents and Multiagent Systems (AAMAS), 2008.}
-
-\bibitem{pnp_app3} A. Farinelli, L. Iocchi, D. Nardi, V. A. Ziparo  \\
-{\em Assignment of Dynamically Perceived Tasks by Token Passing in Multi-Robot Systems. \\
-Proceedings of the IEEE, Special Issue on Multi-Robot Systems, 2006}
-
-\bibitem{pnp_gen} F. M. Carlucci, L. Nardi, L. Iocchi, D. Nardi. \\
-{\em Explicit Representation of Social Norms for Social Robots. \\
-In Proc. of the IEEE/RSJ Int. Conf. on Intelligent Robots and Systems (IROS), 2015.}
-
-\bibitem{pnp_gen_er} L. Iocchi , L. Jeanpierre, M. T. L\'azaro, A.-I. Mouaddib \\
-{\em A Practical Framework for Robust Decision-Theoretic Planning and Execution for
-Service Robots \\}
-
-\bibitem{popf} Amanda Coles and Andrew Coles and Maria Fox and Derek Long \\
-{\em Forward-Chaining Partial-Order Planning. \\
-Proceedings of the Twentieth International Conference on Automated Planning and Scheduling (ICAPS 2010)}
-
-
-\end{thebibliography}
 
 \end{document}

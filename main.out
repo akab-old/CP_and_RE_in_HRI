@@ -1,50 +1,47 @@
 \BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.1.1}{Planning}{chapter.1}% 2
-\BOOKMARK [2][-]{subsection.1.1.1}{Planners Characteristics/Requirements}{section.1.1}% 3
-\BOOKMARK [2][-]{subsection.1.1.2}{Partial Ordering}{section.1.1}% 4
-\BOOKMARK [2][-]{subsection.1.1.3}{Uncertainty}{section.1.1}% 5
-\BOOKMARK [2][-]{subsection.1.1.4}{Epistemic}{section.1.1}% 6
-\BOOKMARK [2][-]{subsection.1.1.5}{Exogenous Event}{section.1.1}% 7
-\BOOKMARK [2][-]{subsection.1.1.6}{qualification problem, ramification problem, frame problem}{section.1.1}% 8
-\BOOKMARK [0][-]{chapter.2}{Related Works}{}% 9
-\BOOKMARK [1][-]{section.2.1}{Social Norms and Robotics}{chapter.2}% 10
-\BOOKMARK [1][-]{section.2.2}{Human Robot Interaction}{chapter.2}% 11
-\BOOKMARK [1][-]{section.2.3}{Examples of HRI}{chapter.2}% 12
-\BOOKMARK [2][-]{subsection.2.3.1}{Industrial Cases \(No HRI\)}{section.2.3}% 13
-\BOOKMARK [2][-]{subsection.2.3.2}{Almost Social Cases \(HRI Not Mandatory\)}{section.2.3}% 14
-\BOOKMARK [2][-]{subsection.2.3.3}{Strictly Social Cases \(HRI Mandatory\)}{section.2.3}% 15
-\BOOKMARK [0][-]{chapter.3}{Plan Representation}{}% 16
-\BOOKMARK [1][-]{section.3.1}{Formalisms}{chapter.3}% 17
-\BOOKMARK [2][-]{subsection.3.1.1}{STRIPS \(Classical Planning\)}{section.3.1}% 18
-\BOOKMARK [2][-]{subsection.3.1.2}{PDDL}{section.3.1}% 19
-\BOOKMARK [2][-]{subsection.3.1.3}{ALCKNF}{section.3.1}% 20
-\BOOKMARK [2][-]{subsection.3.1.4}{KPDDL}{section.3.1}% 21
-\BOOKMARK [2][-]{subsection.3.1.5}{Answer Set Programming \(ASP\)}{section.3.1}% 22
-\BOOKMARK [2][-]{subsection.3.1.6}{Situation Calculus}{section.3.1}% 23
-\BOOKMARK [2][-]{subsection.3.1.7}{Markov Decision Process \(MDP\)}{section.3.1}% 24
-\BOOKMARK [2][-]{subsection.3.1.8}{Partially Observable MDP \(POMDP\)}{section.3.1}% 25
-\BOOKMARK [2][-]{subsection.3.1.9}{Analysis of Formalisms}{section.3.1}% 26
-\BOOKMARK [1][-]{section.3.2}{Bechmarks Experiments}{chapter.3}% 27
-\BOOKMARK [2][-]{subsection.3.2.1}{STRIPS/PDDL}{section.3.2}% 28
-\BOOKMARK [2][-]{subsection.3.2.2}{HATP}{section.3.2}% 29
-\BOOKMARK [2][-]{subsection.3.2.3}{ASP}{section.3.2}% 30
-\BOOKMARK [2][-]{subsection.3.2.4}{MDP}{section.3.2}% 31
-\BOOKMARK [2][-]{subsection.3.2.5}{POMDP}{section.3.2}% 32
-\BOOKMARK [2][-]{subsection.3.2.6}{Various}{section.3.2}% 33
-\BOOKMARK [0][-]{chapter.4}{Foundation Tools}{}% 34
-\BOOKMARK [1][-]{section.4.1}{Petri Net Plan}{chapter.4}% 35
-\BOOKMARK [2][-]{subsection.4.1.1}{Formal Definition}{section.4.1}% 36
-\BOOKMARK [1][-]{section.4.2}{PNPgen}{chapter.4}% 37
-\BOOKMARK [2][-]{subsection.4.2.1}{Linear Plans}{section.4.2}% 38
-\BOOKMARK [2][-]{subsection.4.2.2}{Policy}{section.4.2}% 39
-\BOOKMARK [2][-]{subsection.4.2.3}{Execution Rules}{section.4.2}% 40
-\BOOKMARK [1][-]{section.4.3}{Robot Operating System \(ROS\)}{chapter.4}% 41
-\BOOKMARK [1][-]{section.4.4}{ROSPlan}{chapter.4}% 42
-\BOOKMARK [0][-]{chapter.5}{Conditional Planning and Execution}{}% 43
-\BOOKMARK [1][-]{section.5.1}{Our Approach}{chapter.5}% 44
-\BOOKMARK [1][-]{section.5.2}{Motivating Example}{chapter.5}% 45
-\BOOKMARK [2][-]{subsection.5.2.1}{Example: Service Robot assisting customers of a shopping mall}{section.5.2}% 46
-\BOOKMARK [0][-]{chapter.6}{System Overview}{}% 47
-\BOOKMARK [1][-]{section.6.1}{PNPgen: Conditional Plan}{chapter.6}% 48
-\BOOKMARK [0][-]{chapter.7}{Conclusion}{}% 49
-\BOOKMARK [1][-]{section.7.1}{Future Development}{chapter.7}% 50
+\BOOKMARK [0][-]{chapter.2}{Related Works}{}% 2
+\BOOKMARK [1][-]{section.2.1}{Social Robotics}{chapter.2}% 3
+\BOOKMARK [2][-]{subsection.2.1.1}{Human Robot Interaction \(HRI\)}{section.2.1}% 4
+\BOOKMARK [1][-]{section.2.2}{Some Examples}{chapter.2}% 5
+\BOOKMARK [2][-]{subsection.2.2.1}{Industrial Cases \(No HRI\)}{section.2.2}% 6
+\BOOKMARK [2][-]{subsection.2.2.2}{Almost Social Cases \(HRI Not Mandatory\)}{section.2.2}% 7
+\BOOKMARK [2][-]{subsection.2.2.3}{Strictly Social Cases \(HRI Mandatory\)}{section.2.2}% 8
+\BOOKMARK [0][-]{chapter.3}{Plan Representation}{}% 9
+\BOOKMARK [1][-]{section.3.1}{Formalisms}{chapter.3}% 10
+\BOOKMARK [2][-]{subsection.3.1.1}{STRIPS \(Classical Planning\)}{section.3.1}% 11
+\BOOKMARK [2][-]{subsection.3.1.2}{PDDL}{section.3.1}% 12
+\BOOKMARK [2][-]{subsection.3.1.3}{ALCKNF}{section.3.1}% 13
+\BOOKMARK [2][-]{subsection.3.1.4}{KPDDL}{section.3.1}% 14
+\BOOKMARK [2][-]{subsection.3.1.5}{Answer Set Programming \(ASP\)}{section.3.1}% 15
+\BOOKMARK [2][-]{subsection.3.1.6}{Situation Calculus}{section.3.1}% 16
+\BOOKMARK [2][-]{subsection.3.1.7}{Markov Decision Process \(MDP\)}{section.3.1}% 17
+\BOOKMARK [2][-]{subsection.3.1.8}{Partially Observable MDP \(POMDP\)}{section.3.1}% 18
+\BOOKMARK [2][-]{subsection.3.1.9}{Analysis of Formalisms}{section.3.1}% 19
+\BOOKMARK [1][-]{section.3.2}{Bechmarks Experiments}{chapter.3}% 20
+\BOOKMARK [2][-]{subsection.3.2.1}{STRIPS/PDDL}{section.3.2}% 21
+\BOOKMARK [2][-]{subsection.3.2.2}{HATP}{section.3.2}% 22
+\BOOKMARK [2][-]{subsection.3.2.3}{ASP}{section.3.2}% 23
+\BOOKMARK [2][-]{subsection.3.2.4}{MDP}{section.3.2}% 24
+\BOOKMARK [2][-]{subsection.3.2.5}{POMDP}{section.3.2}% 25
+\BOOKMARK [2][-]{subsection.3.2.6}{Various}{section.3.2}% 26
+\BOOKMARK [0][-]{chapter.4}{Foundation Tools}{}% 27
+\BOOKMARK [1][-]{section.4.1}{Petri Net Plan}{chapter.4}% 28
+\BOOKMARK [2][-]{subsection.4.1.1}{Formal Definition}{section.4.1}% 29
+\BOOKMARK [1][-]{section.4.2}{PNPgen}{chapter.4}% 30
+\BOOKMARK [2][-]{subsection.4.2.1}{Linear Plans}{section.4.2}% 31
+\BOOKMARK [2][-]{subsection.4.2.2}{Policy}{section.4.2}% 32
+\BOOKMARK [2][-]{subsection.4.2.3}{Execution Rules}{section.4.2}% 33
+\BOOKMARK [1][-]{section.4.3}{Robot Operating System \(ROS\)}{chapter.4}% 34
+\BOOKMARK [1][-]{section.4.4}{ROSPlan}{chapter.4}% 35
+\BOOKMARK [0][-]{chapter.5}{Conditional Planning and Execution}{}% 36
+\BOOKMARK [1][-]{section.5.1}{Our Approach}{chapter.5}% 37
+\BOOKMARK [1][-]{section.5.2}{Motivating Example}{chapter.5}% 38
+\BOOKMARK [2][-]{subsection.5.2.1}{Example: Service Robot assisting customers of a shopping mall}{section.5.2}% 39
+\BOOKMARK [0][-]{chapter.6}{System Overview}{}% 40
+\BOOKMARK [1][-]{section.6.1}{Conditional Plan Representation}{chapter.6}% 41
+\BOOKMARK [1][-]{section.6.2}{PNPgen: A Conditional Planning Extension}{chapter.6}% 42
+\BOOKMARK [2][-]{subsection.6.2.1}{PDDL Translator}{section.6.2}% 43
+\BOOKMARK [2][-]{subsection.6.2.2}{KPDDL Translator}{section.6.2}% 44
+\BOOKMARK [2][-]{subsection.6.2.3}{ROSPlan: from Digraph to PNP}{section.6.2}% 45
+\BOOKMARK [0][-]{chapter.7}{Conclusion}{}% 46
+\BOOKMARK [1][-]{section.7.1}{Future Development}{chapter.7}% 47
