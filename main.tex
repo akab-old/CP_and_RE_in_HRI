@@ -38,7 +38,7 @@
 \input{./title.tex}
 
 \chapter{Introduction}
-
+This chapter present the thesis, with motivations and goal of this work
 %\section{Planning}
 %\subsection{Planners Characteristics/Requirements}
 %\begin{enumerate}
@@ -1163,7 +1163,18 @@ Some could be:
 \item Semantic Mapping: to reason about spatial context.
 \end{itemize} 
 If one can predict the type of failure that may arise from sensors, and model them in the domain, the produced plan is more likely to be continuously executed, with no or limited needs for replanning.\\
-\newline
+The explicit representation used for conditional plan is the following:
+\begin{verbatim}
+plan{
+    <state_id>[label=<state_label>,action=<action>]
+                 ...
+    "<state_0>" -> "<state_1>"
+    "<state_1>" [A] -> "<state_2>" ; "<state_1>" [not A] -> "<state_N>"
+                     ...
+}
+\end{verbatim}\\
+Where are first enlisted the state with their id and description, and then all the transitions. Transitions could be either deterministic or conditional, where the conditions are boolean predicates evaluated at runtime.
+
 \noindent As this certainly increase the robustness of the computed plans, at the same time the search space increase tremendously. Consider For instance an state space of observable properties of dimension $N$. If we consider only boolean evaluations, the complete space increases as $O(2^N)$. So we must be very careful when dealing with this kind of representation. The discussion of intelligent search algorithms that can exploit, for instance, the structure of the problem are behind the discussion of this thesis. Instead, I will talk about the translation of this kind of plans into an executable PNP.
 
 \section{PNPgen: A Conditional Planning Extension}
@@ -1175,30 +1186,81 @@ The languages considered are:
 \item ROSPlan (modified kplanner): similar to KPDDL language, produce a tree. 
 \end{itemize}
 
-
+\newpage
 \subsection{PDDL Translator}
 The first study case regards PDDL domain.
 PDDL, as stated in \ref{pddl}, is the standard de facto for AI planning. \\
 Standard PDDL doesn't have natively syntax construct that allow conditioning and this lead to the born of different extension, like KPDDL.
-In PDDL however, one can use the "\textbf{when}" in the action description effect to discriminate cases at planning time. Nonetheless, PDDL planners usually generate total ordered plans.
-%Even if is not of direct interest for this work, this was the first module realized has  
+In PDDL however, one can use the "\textbf{when}" in the action description effect to discriminate cases at planning time. Nonetheless, PDDL planners usually generate total ordered plans.\\
+%Even if is not of direct interest for this work, this was the first module realized has 
+\newline 
+\scalebox{1}{
+\begin{algorithm}[H]
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+\Input{$\pi_{PDDL}$: the PDDL description of the plan}
+\KwData{l: line of the PDDL description\\
+		$v_s$: a list of strings}
+\Output{$\pi_{cp}$: A Condition Plan generated from a PDDL description}
 
+\While{$\pi_{PDDL}$ not eof}{
+	\If{l == "step"}{
+		getLine(l)\;
+		\If{l $\neq$ empty}{
+			process(l)\;
+			$v_s \leftarrow$ l\; 
+		}
+		
+	}
+}
+
+\ForEach{element $e$ of $v_s$\\}{
+	state = make\_state(e)\;
+	state.addOutcome($\pi_{cp} \leftarrow next$)\;
+}
+
+\caption{PNPgen from PDDL description}
+\end{algorithm}}
+
+
+\newpage
 \subsection{KPDDL Translator}
 Linear plans are good to model simple cases, but the real world is full of non-determinism and uncertainty. \\
-KPDDL introduce a special construct to the classical PDDL structure that is the sensing effect, that allows formalising sensing actions. This helps the agent to disambiguate between two epistemic states: the one in which the sensed property holds and the case in which not.
+KPDDL introduce a special construct to the classical PDDL structure that is the sensing effect, that allows formalising sensing actions. This helps the agent to disambiguate between two epistemic states: the one in which the sensed property holds and the case in which not.\\
+\newline
+\scalebox{1}{
+\begin{algorithm}[H]
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+\Input{$\pi_{KPDDL}$: the KPDDL description of the plan}
+\KwData{l: line of the PDDL description\\
+		$v_s$: a list of strings}
+\Output{$\pi_{cp}$: A Condition Plan generated from a PDDL description}
 
+\While{$\pi_{PDDL}$ not eof and l not empty}{
+	$v_s \leftarrow l$\;
+}
 
+$\pi_{cp} \leftarrow$ make\_state($v_s$.first)\;
+$\pi_{cp} \leftarrow$ make\_state($v_s$.last)\;
+\ForEach{element $e$ of $v_s \neq (last,first)$\\}{
+	state = make\_state(e)\;
+	$\pi_{cp} \leftarrow$ make\_state(e)\;
+}
+
+\caption{PNPgen from PDDL description}
+\end{algorithm}}
+\newpage
 \subsection{ROSPlan: from Digraph to PNP}
 ROSPlan offers different representation for plans, as discussed in \ref{rosplan}. \\
 For this work it was necessary to modify the DOT graph to represent explicitly the conditional graph structure.
 \begin{verbatim}
     digraph plan_#N{
-        0[label= "sense_person_shop4" ];
-        1[ label= "move_shop4_shop5_r" ];
+        state1[ label= "sense_action" ];
+        state2[ label= "action_param1_param2" ];
                      ...
-        M[ label= "m-th action"];
-        "0" -> "1" [ label="A" ];
-        "0" -> "20" [ label="(not(A))" ];
+        "state1" -> "state2" [  label="obs" ];
+        "state1" -> "stateN" [ label="(not(obs))" ];
                      ...
     }
 \end{verbatim}
@@ -1209,20 +1271,20 @@ For this work it was necessary to modify the DOT graph to represent explicitly t
 \SetKwInOut{Output}{Output}
 \Input{$\pi$: a Conditional Plan,\\
  	   $s_f$: $\pi$ final state\\
- 	   $M_{SA}$: A Map between state-action -> outcomes}
+ 	   $M_{SA}$: a Map between state-action and outcomes}
 \KwData{$M_V$: a Map of the visited places\\
         $SS$: a Stack containing the places to explore\\
         $a$: an action \\
         $V_O$: a list of possible action outcomes}
 \Output{$\pi_c$: PNP generated from a Conditional Plan}
  %\KwResult{how to write algorithm with \LaTeX2e }
-  $curr\_state \leftarrow \pi.first$\; 
-  $\pi_c \leftarrow addCondition(initial)$\;
+  $curr\_state \leftarrow \pi.first\_state$\; 
+  $\pi_c \leftarrow addCondition(init)$\;
   $M_V \leftarrow insert(curr\_state)$\;
-  $SS \leftarrow push(curr_state)$\;
+  $SS \leftarrow push(curr\_state)$\;
  \While{$(SS \neq 0)$}{
   $curr\_state = top \,\, of \,\, SS$\;
-  $SS \leftarrow pop()$\;
+  $SS.pop()$\;
   $a = M_{SA}[curr\_state]$\;
   \If{$(a == "" \,\, and \,\, curr\_state \neq s_f)$}{
   	$continue$\;  
