@@ -3,73 +3,49 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: main.aux
 The style file: plain.bst
 Database file #1: biblio.bib.bib
-Warning--I didn't find a database entry for "strips"
-Warning--I didn't find a database entry for "adl"
-Warning--I didn't find a database entry for "pddl"
-Warning--I didn't find a database entry for "ppddl"
-Warning--I didn't find a database entry for "rddl"
-Warning--I didn't find a database entry for "kpddl"
-Warning--I didn't find a database entry for "alck"
-Warning--I didn't find a database entry for "wiasp"
-Warning--I didn't find a database entry for "asp"
-Warning--I didn't find a database entry for "asp_ex1"
-Warning--I didn't find a database entry for "asp_ex2"
-Warning--I didn't find a database entry for "asp+unc1"
-Warning--I didn't find a database entry for "sitcalc1"
-Warning--I didn't find a database entry for "sitcalc2"
-Warning--I didn't find a database entry for "strips_comp"
-Warning--I didn't find a database entry for "belief_compression"
-Warning--I didn't find a database entry for "belief_particle"
-Warning--I didn't find a database entry for "alami"
-Warning--I didn't find a database entry for "coaches"
-Warning--I didn't find a database entry for "pnp"
-Warning--I didn't find a database entry for "pnp2"
-Warning--I didn't find a database entry for "pnp_app"
-Warning--I didn't find a database entry for "pnp_app2"
-Warning--I didn't find a database entry for "pnp_app3"
-Warning--I didn't find a database entry for "pnp_gen"
-Warning--I didn't find a database entry for "pnp_gen_er"
-Warning--I didn't find a database entry for "popf"
-Warning--I didn't find a database entry for "ff"
-You've used 0 entries,
+Warning--empty booktitle in iocchi2003
+Warning--empty year in iocchi2003
+Warning--empty journal in mcdermott1998pddl
+Warning--empty year in ziparo2008pnp
+You've used 25 entries,
             2118 wiz_defined-function locations,
-            525 strings with 4177 characters,
-and the built_in function-call counts, 18 in all, are:
-= -- 0
-> -- 0
-< -- 0
-+ -- 0
-- -- 0
-* -- 2
-:= -- 7
-add.period$ -- 0
-call.type$ -- 0
-change.case$ -- 0
+            643 strings with 8860 characters,
+and the built_in function-call counts, 10227 in all, are:
+= -- 1013
+> -- 485
+< -- 14
++ -- 196
+- -- 166
+* -- 685
+:= -- 1595
+add.period$ -- 78
+call.type$ -- 25
+change.case$ -- 157
 chr.to.int$ -- 0
-cite$ -- 0
-duplicate$ -- 0
-empty$ -- 1
-format.name$ -- 0
-if$ -- 1
+cite$ -- 29
+duplicate$ -- 421
+empty$ -- 787
+format.name$ -- 166
+if$ -- 2209
 int.to.chr$ -- 0
-int.to.str$ -- 0
-missing$ -- 0
-newline$ -- 3
-num.names$ -- 0
-pop$ -- 0
+int.to.str$ -- 25
+missing$ -- 25
+newline$ -- 127
+num.names$ -- 50
+pop$ -- 194
 preamble$ -- 1
-purify$ -- 0
+purify$ -- 132
 quote$ -- 0
-skip$ -- 1
+skip$ -- 327
 stack$ -- 0
-substring$ -- 0
-swap$ -- 0
-text.length$ -- 0
+substring$ -- 657
+swap$ -- 148
+text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 0
-warning$ -- 0
-while$ -- 0
-width$ -- 0
-write$ -- 2
-(There were 28 warnings)
+type$ -- 100
+warning$ -- 4
+while$ -- 99
+width$ -- 27
+write$ -- 271
+(There were 4 warnings)

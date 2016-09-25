@@ -41,8 +41,9 @@
 \BOOKMARK [1][-]{section.6.1}{Conditional Plan Representation}{chapter.6}% 41
 \BOOKMARK [1][-]{section.6.2}{Translator Module}{chapter.6}% 42
 \BOOKMARK [2][-]{subsection.6.2.1}{PDDL Translator}{section.6.2}% 43
-\BOOKMARK [2][-]{subsection.6.2.2}{KPDDL Translator}{section.6.2}% 44
-\BOOKMARK [1][-]{section.6.3}{PNPgen: A Conditional Planning Extension}{chapter.6}% 45
-\BOOKMARK [2][-]{subsection.6.3.1}{ROSPlan: from Digraph to PNP}{section.6.3}% 46
-\BOOKMARK [0][-]{chapter.7}{Conclusion}{}% 47
-\BOOKMARK [1][-]{section.7.1}{Future Development}{chapter.7}% 48
+\BOOKMARK [1][-]{section.6.3}{PNPgen: A Conditional Planning Extension}{chapter.6}% 44
+\BOOKMARK [2][-]{subsection.6.3.1}{PDDL Translator}{section.6.3}% 45
+\BOOKMARK [2][-]{subsection.6.3.2}{KPDDL Translator}{section.6.3}% 46
+\BOOKMARK [2][-]{subsection.6.3.3}{ROSPlan: from Digraph to PNP}{section.6.3}% 47
+\BOOKMARK [0][-]{chapter.7}{Conclusion}{}% 48
+\BOOKMARK [1][-]{section.7.1}{Future Development}{chapter.7}% 49

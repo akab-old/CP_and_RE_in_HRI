@@ -170,7 +170,7 @@ Those cases represents the most significant for this work. In this case the inte
 In this chapter I will reviews some of the most diffused formalisms and languages for plan representation.
 \section{Formalisms}\label{sec:formalism}
 \subsection{STRIPS (Classical Planning)}
-\noindent STRIPS\cite{strips} stand for STanford Research Institute Problem Solver. 
+\noindent STRIPS \cite{fikes1971strips} stand for STanford Research Institute Problem Solver. %\cite{strips}
 \\\noindent It is a formal language (and a planner) used to describe deterministic, static, fully observable domains. 
 \\\noindent In STRIPS the initial state is assumed to be known with certainty and any action taken at any state has at most one successor (no multiple outcomes). It is not possible to describe indirect effects of actions, as action preconditions/postconditions are expressed simply as conjunction of literals (positive for preconditions).
 \\\noindent More formally, a STRIPS instance is a quadruple $<P,O,I,G>$, where:
@@ -183,7 +183,8 @@ In this chapter I will reviews some of the most diffused formalisms and language
 \noindent A plan computed by STRIPS is a linear sequence of actions from initial state to goal state with no branches (i.e. no conditional effects).
 \\\noindent This makes STRIPS very fast: the search is done off-line and then the found plan is executed on-line with "eyes closed". 
 \\\noindent On other hand it cannot deal with uncertainty in both sensing/knowledge, like unreliable observations, incomplete/incorrect information or multiple possible worlds.  
-\\\noindent An expanded version of STRIPS is Action Description Language (ADL)\cite{adl}, which expand STRIPS with some syntactics features:
+\\\noindent An expanded version of STRIPS is Action Description Language (ADL)\cite{pednault1987formulating}%\cite{adl}, 
+which expand STRIPS with some syntactics features:
 \begin{itemize}
 \item state representation: allows also negative literals.
 \item action specification: add conditional effects and logical operators for express them.
@@ -191,7 +192,9 @@ In this chapter I will reviews some of the most diffused formalisms and language
 \end{itemize}
 
 \subsection{PDDL}\label{pddl}
-\noindent PDDL\cite{pddl} is the standard de facto for planning domains description. It generalizes both STRIPS\cite{strips} and Action Description Language (ADL \cite{adl}).
+\noindent PDDL \cite{mcdermott1998pddl} %\cite{pddl} 
+is the standard de facto for planning domains description. It generalizes both STRIPS\cite{fikes1971strips} %\cite{strips} 
+and Action Description Language (ADL \cite{pednault1987formulating}).%\cite{adl}).
 \\\noindent It is intended to describe the "physics" of a domain in terms of predicates, possible actions and their effects.
 \\\noindent States are represented as a set of predicates with grounded variables and arbitrary function-free first-order logical sentences are allowed to describe goals. 
 Action effects are the only source of change for the state of the world and could be universally quantified and conditional. This makes PDDL asymmetric: action preconditions are considerably more expressive than action effects.
@@ -213,14 +216,18 @@ The problem description is composed by:
 \item \textbf{initial conditions}. conjunction of true/false facts, initial state of the planning environment.
 \item \textbf{goal-states}. a logical expression over facts that must be true/false in a goal-state.
 \end{itemize}
-\noindent I refer to \cite{pddl} for a more formal definition of the syntax.
+\noindent I refer to \cite{mcdermott1998pddl}%\cite{pddl} 
+for a more formal definition of the syntax.
 \noindent Through the years PDDL has received several updates (the last version is PDDL 3.1) and extensions.
 The most notable are:
 \begin{itemize}
-\item PPDDL\cite{ppddl} is a probabilistic version of PDDL. 
+\item PPDDL\cite{younes2004ppddl1}%\cite{ppddl} 
+is a probabilistic version of PDDL. 
 \\\noindent It extends PDDL 2.1 with probabilistic effects, reward fluents, goal rewards and goal-achieved fluents. This allows realising Markov Decision Process (MDP) planning in a fully observable environment with uncertainty in state-transitions
-\item RDDL\cite{rddl} introduce the concept of partial observability in PDDL. It allows to describe (PO)MDP representing states,actions and observations with variables. Semantically, RDDL represent a Dynamic Bayes Net (DBN) with many intermediate layers and extended with a simple influence diagram utility node reresenting immediate reward.
-\item KPDDL\cite{kpddl} add to PDDL some constructs to represent the incomplete knowledge of the agent about the environment. 
+\item RDDL\cite{sanner2010relational}%\cite{rddl} 
+introduce the concept of partial observability in PDDL. It allows to describe (PO)MDP representing states,actions and observations with variables. Semantically, RDDL represent a Dynamic Bayes Net (DBN) with many intermediate layers and extended with a simple influence diagram utility node reresenting immediate reward.
+\item KPDDL\cite{iocchi2003}%\cite{kpddl} 
+add to PDDL some constructs to represent the incomplete knowledge of the agent about the environment. 
 \\\noindent It is discussed in next section.
 \end{itemize}
 
@@ -245,7 +252,7 @@ The most notable are:
 %\end{itemize}
 
 \subsection{$ALCK_{NF}$}
-It is an autoepistemic logic, an extension of ALC with the add of the epistemic operator \textbf{K} and default assumption operator \textbf{A}. It is presented in \cite{alck}.
+It is an autoepistemic logic, an extension of ALC with the add of the epistemic operator \textbf{K} and default assumption operator \textbf{A}. It is presented in \cite{donini1997autoepistemic}.%\cite{alck}.
 \\\noindent The logic ontology assumes the existence of \textit{concepts} and \textit{roles}. 
 \\\noindent A concept represent a class of \textit{individuals} while the roles model the relations between classes.
 \\\noindent The interpretation structure of Default logics is a Kripke structure, with labelled nodes and edges.
@@ -279,7 +286,8 @@ Each node represents an individual and is labelled with the concept correspondin
 %\end{itemize}
 
 \subsection{KPDDL}\label{kpddl_descr}
-KPDDL\cite{kpddl} is an extension of PDDL based on the logic $ALCK_{NF}$. 
+KPDDL\cite{iocchi2003}%\cite{kpddl} 
+is an extension of PDDL based on the logic $ALCK_{NF}$. 
 \\\noindent Its aim is to augment the planning domain with the (incomplete) knowledge of the agent about the environment. 
 \\\noindent KPDDL introduces several specifications:
 \begin{itemize}
@@ -305,7 +313,8 @@ Formally, a plan is defined as quadruple $P = <G(V,E),I,F_G,F_F>$ where:
 \end{itemize}
 
 \subsection{Answer Set Programming (ASP)}
-\noindent Answer set programming (ASP) is a form of declarative programming oriented towards difficult, primarily NP-hard, search problems. \cite{wiasp} \cite{asp}
+\noindent Answer set programming (ASP) is a form of declarative programming oriented towards difficult, primarily NP-hard, search problems. \cite{lifschitz2008answer}%\cite{wiasp} 
+\footnote{\url{https://en.wikipedia.org/wiki/Answer_set_programming}}
 \\\noindent It's declarative in the sense that it describe the problem, not how to solve it.
 \\\noindent In particular, a problem instance $I$ is translated into a non-monotonic logic program $P$ and passed to an ASP solver which will search the stable models of $P$. From these, the solution of $I$ is extracted.
 \\\noindent ASP programs are composed of Prolog-like rules, but it uses a different computational system. In fact, ASP solvers are based on DPLL algorithm, that in general guarantees the termination (unlike SLDNF resolution in Prolog).
@@ -321,7 +330,8 @@ These are useful to express action preconditions like in other formalism (for in
 \\\noindent ASP includes two form of negation: strong ("classical") negation and negations as failure. This allow to represent defaults, useful in order to express the closed world assumption and characterize a solution to the frame problem (inertia of the world: \textit{"everything is presumed to remain in the state in which it is"}).
 \newline
 
-\noindent I will now introduce some examples from \cite{wiasp} to illustrate ASP properties:
+\noindent I will now introduce some examples from \cite{lifschitz2008answer}%\cite{wiasp} 
+to illustrate ASP properties:
 \begin{verbatim}
 (1) p :- q.
 (2) cross :- not train.
@@ -343,12 +353,14 @@ p(T+1) :- p(T), not -p(T+1), time(T).
 \noindent ASP programs are often organized in three sections: generate, test and define. The \textit{"generate"} section describes the set of possible solutions while the \textit{"test"} section is used to discard bad solutions. The \textit{"define"} section defines auxiliary predicates used in the constraints. The order of the rules in an ASP program doesn't matter.
 \newline
 
-\noindent ASP has been widely used in the service robotics context, both in simulated or real scenarios. Some examples are \cite{asp_ex1} and \cite{asp_ex2}.
-\\\noindent However, ASP is not well suited for modelling/reasoning about uncertainty in a domain. Incomplete information cannot be handled correctly due to the fact that stable model semantics is restricted to boolean values. Not only, there is no notion of probability and thus all stable models are equally probable. Some extension to ASP with probabilistic information has been proposed, like in \cite{asp+unc1} where Markov Logic Networks (MLN) are used. %TODO add some references (ReearchGate requested, Zhang)
+\noindent ASP has been widely used in the service robotics context, both in simulated or real scenarios. Some examples are \cite{erdem2012answer} and \cite{chen2010developing}.%\cite{asp_ex1} and \cite{asp_ex2}.
+\\\noindent However, ASP is not well suited for modelling/reasoning about uncertainty in a domain. Incomplete information cannot be handled correctly due to the fact that stable model semantics is restricted to boolean values. Not only, there is no notion of probability and thus all stable models are equally probable. Some extension to ASP with probabilistic information has been proposed, like in \cite{wang2015handling}%\cite{asp+unc1} 
+where Markov Logic Networks (MLN) are used. %TODO add some references (ReearchGate requested, Zhang)
 \newline
 
 \subsection{Situation Calculus}
-Situation Calculus\cite{sitcalc1}\cite{sitcalc2} is a logic formalism used to represent and reason about dynamical systems. It allows to express qualitative uncertainty about the initial situation of the world and the effects of actions through disjunctive knowledge.
+Situation Calculus\cite{mccarthy1969some}\cite{reiter1993proving} %\cite{sitcalc1}\cite{sitcalc2} 
+is a logic formalism used to represent and reason about dynamical systems. It allows to express qualitative uncertainty about the initial situation of the world and the effects of actions through disjunctive knowledge.
 \\\noindent The state is represented as a set of first-order logic formulae. The basic elements are actions, fluents and situations.
 \\\noindent A \textit{Situation} is a first order term denoting a state and is characterised by the sequence of actions applied to the initial state in order to reach it. 
 \\\noindent \textit{Fluents} are functions or predicates that have as last argument the situation of application and represents properties of a particular situation. Actions may also be parametrized with variables. A fluent differs from a (normal) predicate or function symbol as its value may change from situation to situation.
@@ -483,16 +495,19 @@ Given an action $a$ and a belief state $b$, the next belief state deriving from 
 The introduced formalisms and models show the essential bond between expressiveness and computational complexity. The planning problem in classic logic is decidable but the complexity varies from constant to EXPTIME depending on which characteristics are added to the language. 
 \newline
 
-\noindent For instance, STRIPS is the less expressive of the presented formalisms, still deciding whether a plan exists is PSPACE-complete \cite{strips_comp}. Many restrictions can be enforced in order to make this problem decidable in polynomial time, like restricting the type of formulas or the number of pre-postconditions. 
+\noindent For instance, STRIPS is the less expressive of the presented formalisms, still deciding whether a plan exists is PSPACE-complete \cite{bylander1994computational}%\cite{strips_comp}. 
+Many restrictions can be enforced in order to make this problem decidable in polynomial time, like restricting the type of formulas or the number of pre-postconditions. 
 \newline
 
 \noindent $ALCK_{NF}$ is an example of decidable formalism with a good expressiveness, since it allows to express the agent epistemic state explicitly. However the planning in its most general case falls in PSPACE complexity, thus intractable for an online approach. In this and similar cases, partial planning and restricted version of the formalism are used in order to solve the complexity problem.
 \newline
 
-\noindent In KPDDL is it possible to express incomplete information through epistemic states and define sensing actions that help to disambiguate the states. In practice, however, it was seen that even a small variation in the number of states makes the problem intractable, proving that the class of complexity is at least PSPACE (instance checking/reasoning in $ALCK_{NF}$ is PSPACE-complete \cite{alck}). 
+\noindent In KPDDL is it possible to express incomplete information through epistemic states and define sensing actions that help to disambiguate the states. In practice, however, it was seen that even a small variation in the number of states makes the problem intractable, proving that the class of complexity is at least PSPACE (instance checking/reasoning in $ALCK_{NF}$ is PSPACE-complete \cite{donini1997autoepistemic}.%\cite{alck}). 
 \newline
 
-\noindent Talking about POMDPs models, they are often computationally intractable to solve exactly and thus it is necessary to introduce methods to approximate solutions. Some examples are \cite{belief_compression} and \cite{belief_particle}, where particle filters and PCA are respectively used to represent the belief state compactly or exploit its properties.
+\noindent Talking about POMDPs models, they are often computationally intractable to solve exactly and thus it is necessary to introduce methods to approximate solutions. Some examples are \cite{roy2005finding}%\cite{belief_compression} 
+and \cite{brafman2014contingent},%\cite{belief_particle}, 
+where particle filters and PCA are respectively used to represent the belief state compactly or exploit its properties.
 
 %\newpage
 \section{Bechmarks Experiments} \label{sec:benchmarks}
@@ -548,7 +563,7 @@ People could also recall the attention of the robot by the means of a button on 
 \noindent  An object on the tray could fall down with a probability 0.4, so every time the robot deliver goods he must check if the object is effectively on the tray. If not he must notify the kitchen. The kitchen and the main room are connected via a door that could be both closed or open with equal probability and the robot must check its condition each item. Due to the ambient condition, he could also fail any perceive action with probability 0.2. If the door is closed and the robot doesn't perceive it, all the goods will fall certainly (if is there are any). The goal is to minimize the waiting time both for the clients and the cook given the previous priority list.
 
 \subsubsection{Assisted Assembly}
-This example is inspired by the one presented in \cite{alami}.\\
+This example is inspired by the one presented in \cite{alami2014human} \\ %\cite{alami}.\\
 In assisted assembly task a robot must bring tools to a worker and helps him with a welding procedure. The robot is a humanoid, thus with two arms and two legs, and has a perception system. The environment contains cavities that only the robot could pass in order to reach the worker or move a particular tool from one room to another. The worker is standing in front of its working table. 
 The worker access is working station through a manhole that remains open all the time, costituting a threat for the robot. If the robot cross all the the worker room he could fall down in the hole with probability 0.6.
 Tools are placed randomly in other rooms and the robot knows exactly where they are through a system of external cameras. When the worker requires a tool, he must bring him as soon as a possible minimizing the traveled rooms. There are 8 rooms and they are all accessible through the cavities. Cavities requires that the robot assumes particular configurations in order to pass through. Each configuration of the robot could be evaluated by a predicate that tells in constant time if the robot will pass or not, but this valid configurations changes according to the number and the type of tools transported. The robot has N degrees of freedom. For the assembly part of the task, the input of the problem is the kinematic model of the robot with its initial configuration, the representation of the environment and the tools required by the worker. The output is all the configurations that the robot must assumes in order to full fill the requirements, that are brings all the tools and minimize worker waiting time. \\
@@ -557,7 +572,7 @@ Tools are placed randomly in other rooms and the robot knows exactly where they 
 In this case the input of the problem are the initial configurations of both the robot and the worker, and the output must be a sequence of configurations that minimizes the change in stance of the worker according to some comfort measurement parameter that evaluates worker configurations.
 
 \subsubsection{COACHES}
-This examples are taken from \cite{coaches}.
+This examples are taken from \cite{iocchi2016practical}%\cite{coaches}.
 \newline
 \\\noindent \textbf{Basic Service Robot}\\
 A robot is able to execute two activities A and B upon request of the user, but the user does not know about these robot abilities. The robot is normally in a waiting state. Whenever a user is detected in front of the robot (for example, with a simple face detector procedure), the robot can decide whether to start an interaction (for example, through a spoken dialogue) and, if so, it describes the activities that it can do A and B. The user can now select one of them or answer that s/he is not interested (for example by selecting an option on a user interface or by a speech command). If a goal is selected, the robot executes a task for achieving it. Each goal can be achieved with two alternatives tasks \textit{TaskA1} and \textit{TaskA2} for \textit{A} and \textit{TaskB1} and \textit{TaskB2} for \textit{B}. After the execution of the task, the robot comes back to the wait state, waiting for a next user. During the execution, the following inconveniences may occur: the user does not complete the interaction (for example, s/he does not answer the robot question), any task may fail for reasons not modeled in the task description, and any task may be aborted according to some external command or condition.
@@ -570,11 +585,14 @@ In the following I will illustrate the tools used for the development of this th
 
 \section{Petri Net Plan}\label{petrinet}
 We need a language that can represent non-instantaneous and conditional actions. \\
-Petri Net Plans (PNP)\cite{pnp}\cite{pnp2} is a formalism for represent complex plans using an high-level description.
+Petri Net Plans (PNP)\cite{ziparo2006petri}%\cite{pnp}
+\cite{ziparo2008pnp}%\cite{pnp2} 
+is a formalism for represent complex plans using an high-level description.
 It is inspired by languages for reasoning about actions, like the ones presented in \ref{sec:formalism}, but it more expressive and offer all the operators needed for representing conditional plans, concurrent actions and even more (multi-agent plans, for instance).\\
 They also offer non-deterministic choice operator for representing non-deterministic choice action, useful in learning algorithms. \\
 The execution of a PNP is very efficient, and allow the design of real-time and active behaviours.
-Some examples of PNPs applications are \cite{pnp_app}\cite{pnp_app2}\cite{pnp_app3}.	
+Some examples of PNPs applications are \cite{bastianelli2013line}\cite{palamara2008robotic}\cite{farinelli2006assignment}.
+%\cite{pnp_app}\cite{pnp_app2}\cite{pnp_app3}.	
 
 \subsection{Formal Definition}
 A PetriNet Plan is a PetriNet augmented with a set of goal markings $G$.
@@ -593,7 +611,6 @@ More formally, it is a tuple $<P,T,F,W,M_0,G>$ where:
 	\centering
 	\includegraphics[scale=0.6]{images/place_trans_token.png}
 	\caption{(1) a place. (2) a transition. (3) a place with one token.}
-	\label{fig:mall_1}
 \end{figure}
 \noindent Places represent the execution phases of an action, while transitions represent events.
 In particular each action is represented by three states: initial, execution and final state. Between them there are action starting transition, action terminating transition and there might be some action interrupts and/or control transitions. \\
@@ -607,14 +624,12 @@ Petri Net Plans are defined in terms of actions and operators. There are three t
 	\centering
 	\includegraphics[scale=0.5]{images/ordinary_action.png}
 	\caption{an ordinary action.}
-	\label{fig:mall_1}
 \end{figure}
 \item \textbf{sensing-action}. this are used when the action involve a property to evaluate at run time, and places/transitions are defined accordingly.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{images/sensing_action.png}
 	\caption{a sensing action.}
-	\label{fig:mall_1}
 \end{figure}
 \end{enumerate}
 
@@ -625,14 +640,12 @@ Petri Net Plans are defined in terms of actions and operators. There are three t
 	\centering
 	\includegraphics[scale=0.5]{images/sequence.png}
 	\caption{sequence operator.}
-	\label{fig:mall_1}
 \end{figure}
 \item \textbf{conditional}. combining sensing action with ordinary actions is possible to obtain conditional structure.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{images/conditional.png}
 	\caption{conditional operator.}
-	\label{fig:mall_1}
 \end{figure}
 \item \textbf{interrupt}. allows to interrupt the execution of an action, if some condition is met, and to continue the execution on a new branch.
 \item \textbf{loop}. using an interrupt, is possible to define action that iterates until a condition is true.
@@ -640,14 +653,12 @@ Petri Net Plans are defined in terms of actions and operators. There are three t
 	\centering
 	\includegraphics[scale=0.5]{images/loop.png}
 	\caption{loop operator.}
-	\label{fig:mall_1}
 \end{figure}
 \item \textbf{fork/join}. allows concurrency. fork generates multiple threads starting from one, while join allow the synchronization of multiple threads into one.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{images/fork_join.png}
 	\caption{(left) fork operator. (right) join operator.}
-	\label{fig:mall_1}
 \end{figure}
 \end{itemize}
 
@@ -656,11 +667,11 @@ Petri Net Plans are defined in terms of actions and operators. There are three t
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4,  trim=20mm 10mm 10mm 10mm]{images/go_and_follow_person.png} %angle=270,
-	\label{fig:mall_1}
 \end{figure}
 
 \section{PNPgen}
-PNPgen\footnote{\url{https://sites.google.com/a/dis.uniroma1.it/petri-net-plans/pnp-generation}}\cite{pnp_gen} is a library included the Petri Net Plans distribution responsible for the automatic generation of PNPs from a formal definition provided.\\
+PNPgen\footnote{\url{https://sites.google.com/a/dis.uniroma1.it/petri-net-plans/pnp-generation}}\cite{carlucci2015explicit}%\cite{pnp_gen} 
+is a library included the Petri Net Plans distribution responsible for the automatic generation of PNPs from a formal definition provided.\\
 This is usually used in conjunction with a planner, which output is interpreted and executed as a PNP.\\
 The main advantages of this approach are two:
 \begin{enumerate}
@@ -678,7 +689,6 @@ saved in a ".plan" file. When this file is given as input to PNPgen, the followi
 \begin{figure}[H]
 	\includegraphics[scale=0.6]{images/linear_plan.png}
 	\caption{a simple linear plan.}
-	\label{fig:mall_1}
 \end{figure}
 
 \subsection{Policy}
@@ -695,7 +705,6 @@ S2 : goto\_home -> { [] S3 }}\\
 \begin{figure}[H]
 	\includegraphics[scale=0.5]{images/SimplePolicy.png}
 	\caption{a PNP generated from a a policy.}
-	\label{fig:mall_1}
 \end{figure}
 \noindent Where we can see that the property "\textit{personhere}" is evaluated at execution time in state 1, enhancing the plan robustness.
 
@@ -712,13 +721,13 @@ this led to the introduction of a branch in the following PNP:
 	\centering
 	\includegraphics[scale=0.6]{images/er_example.png}
 	\caption{an execution rule example.}
-	\label{fig:mall_1}
 \end{figure}
 \noindent The syntax of an execution rule is:
 \begin{center}
 \textbf{if} ($\phi$) \textbf{during} \textit{a} \textbf{do} \{$\sigma; \rho$\}
 \end{center}
-Where $\phi$ is a boolean expression over some properties, \textit{a} is an action, $\sigma$ is a (possible empty) program (i.e. a sequence of actions, another PNP, etc.), and $\rho$ is a statement that specifies how to continue the execution of the plan (like \textit{restart action, skip action, restart plan, fail plan}). Execution rules are described in \cite{pnp_gen_er}, where also a third method to generate PNPs from progressive reasoning unit (PRU) is discussed.
+Where $\phi$ is a boolean expression over some properties, \textit{a} is an action, $\sigma$ is a (possible empty) program (i.e. a sequence of actions, another PNP, etc.), and $\rho$ is a statement that specifies how to continue the execution of the plan (like \textit{restart action, skip action, restart plan, fail plan}). Execution rules are described in \cite{iocchi2016practical},%\cite{coaches}, 
+where also a third method to generate PNPs from progressive reasoning unit (PRU) is discussed.
 
 \newpage
 \section{Robot Operating System (ROS)}
@@ -739,7 +748,6 @@ The main modules are the \textbf{Knowledge Base}, that stores PDDL models, and t
 	\centering
 	\includegraphics[scale=0.4]{images/overview.png}
 	\caption{ROSPlan architecture (image taken from \url{http://kcl-planning.github.io/ROSPlan/documentation/})}
-	\label{fig:mall_1}
 \end{figure} 
 
 \noindent The Knowledge Base stores both the problem domain and problem instance, along with any information to support the planning and stored in a ROS MongoDB. The KB can be updated with ROS messages and queried on-line.
@@ -753,7 +761,8 @@ The main modules are the \textbf{Knowledge Base}, that stores PDDL models, and t
 It can also handle replanning due to action failure or plan invalidation. The plan responsible for the planner output parsing and dispatch is the \textbf{Plan Parser}. Two default plan parser are included in ROSPlan: one for sequential plans and another for Esterel program. \\
 The first provides a list of action dispatch messages. The second stores the plan as an Esterel language program\footnote{\url{https://en.wikipedia.org/wiki/Esterel}}, that is represented as a DOT graph. \\
 
-\noindent The standard language and planner in ROSPlan are PDDL 2.1 and POPF\cite{popf}, that accepts only domains with temporal constraints and no uncertainty. To integrate the work of this thesis with the ROSPlan architecture some modification was necessary, as we will discuss later.
+\noindent The standard language and planner in ROSPlan are PDDL 2.1 and POPF\cite{coles2010forward},%\cite{popf}, 
+that accepts only domains with temporal constraints and no uncertainty. To integrate the work of this thesis with the ROSPlan architecture some modification was necessary, as we will discuss later.
 
 \chapter{Conditional Planning and Execution}
 \section{Our Approach}
@@ -850,7 +859,7 @@ In particular, I will characterize the input/output of each problem and provide 
 %\noindent In this graph is it clear the interleaving between deterministic states and epistemic ones.
 
 \subsection{Example: Service Robot assisting customers of a shopping mall}
-This example is taken from \cite{coaches}. \\
+This example is taken from \cite{iocchi2016practical} \\ %\cite{coaches}. \\
 The input to the problem is:
 \begin{itemize}
 \item a qualitative information about the location of the robot and the person
@@ -908,7 +917,7 @@ This situation is summarized in the following figure:
 	\centering
 	\includegraphics[scale=0.5]{images/mall_situation2.png}
 	\caption{}
-	\label{fig:mall_1}
+	\label{fig:mall_2}
 \end{figure} 
 \noindent We can reasonably think that the person is looking for a specific article inside this shop, or another clothing shop, and that he's not certainly hungry. \\
 So a possible plan for $H2$ would be:
@@ -1013,7 +1022,7 @@ So a possible plan for $H2$ would be:
 \subsubsection{PDDL}
 First, I will present a solution in PDDL (ver. 1.2), which is a standard "de facto" for the specification of planning problems. 
 \\In order to do that, we must characterize objects, predicates, actions, initial and final states.\\
-I have used FF (ver. 2.3) \cite{ff} planner in order to produce the planes and check the satisfiability of the problem.
+I have used FF (ver. 2.3) \footnote{\url{https://fai.cs.uni-saarland.de/hoffmann/ff.html}} planner in order to produce the planes and check the satisfiability of the problem.
 In this domain description I will consider only $H\_2$ for the sake of clarity \\
 
 \noindent For the predicates we have:
@@ -1132,16 +1141,17 @@ The objects are:
 \end{verbatim}
 \noindent The goal is thus to satisfy the human needs. \\
 \noindent PDDL was meant to express the "physics of a domain, and not instrisic properties of an agent.
-In particular, in order to implement sensing actions, we must extend PDDL with the concept of knowledge. An example can be found in \cite{kpddl}, in which the authors have introduced in the PDDL action definition the notion of inertial and sensing effects.
+In particular, in order to implement sensing actions, we must extend PDDL with the concept of knowledge. An example can be found in \cite{iocchi2003},%\cite{kpddl}, 
+in which the authors have introduced in the PDDL action definition the notion of inertial and sensing effects.
 
 \subsubsection{KPDDL}
 
 \chapter{System Overview}
-In this chapter I will justify the contribution of this thesis to the field and illustrate the results obtained.\\
+In this chapter I will explain the contribution of this thesis and illustrate the results obtained.\\
 \newline
 
-\noindent The main objective of this work is the automatic generation of plans that deals with uncertainty in both modelling and execution due to the presence of humans in the environment.
-This approach consist of interpret the output of a planner and, according to predefined rules, generate a robust PNP.
+\noindent The main objective of this work is the generation of robust condition plans that deals with uncertainty in the problem representation.\\
+This approach consist of interpret the output of a planner and, according to predefined rules, generate a PNP.\\
 The obtained PNP is robust with respect to action failure, as it incorporate sensing actions that helps the robot to discern cases from cases.
 The architecture presents two layers, each of which will be discussed in the following:
 \begin{itemize}
@@ -1150,7 +1160,7 @@ The architecture presents two layers, each of which will be discussed in the fol
 \end{itemize}
 Each high level action is represented as C++ atomic function, and the PNP is executed using the PNP execution engine.
 
-\section{Conditional Plan Representation}
+\section{Conditional Plan Representation}\label{cp_representation}
 A conditional plan is a plan that take includes also observations.
 This lead to plan with branches, where a branch represent an action outcome that depends on a property (the observation) that holds true (or not). \\
 These observations are used to handle uncertainty that arises from the lack of knowledge. The uncertainty is then handled at execution time, rather than a planning time, where unpredictable events are more likely to appear.\\
@@ -1173,26 +1183,46 @@ plan{
                      ...
 }
 \end{verbatim}\\
-Where are first enlisted the state with their id and description, and then all the transitions. Transitions could be either deterministic or conditional, where the conditions are boolean predicates evaluated at runtime.
+Where are first listed the state with their id and description, and then all the transitions. Transitions could be either deterministic or conditional, where the conditions, enclosed between the square brackets, are boolean predicates evaluated at runtime.
 
 \noindent As this certainly increase the robustness of the computed plans, at the same time the search space increase tremendously. Consider For instance an state space of observable properties of dimension $N$. If we consider only boolean evaluations, the complete space increases as $O(2^N)$. So we must be very careful when dealing with this kind of representation. The discussion of intelligent search algorithms that can exploit, for instance, the structure of the problem are behind the discussion of this thesis. Instead, I will talk about the translation of this kind of plans into an executable PNP.
 
-\section{PNPgen: A Conditional Planning Extension}
-The work of this thesis consist of define a representation for conditional plans  and extend the present architecture of PNPgen with modules that allow to generate automatically a PNP from different languages, plus incorporating this generation in ROS through the integration with ROSPlan. 
-The languages considered are:
-\begin{itemize}
-\item PDDL (FF planner): this produce a linear plan from FF output.
-\item KPDDL (kplanner): this produce a conditional plan, or more generally a DAG (direct acyclic graph).
-\item ROSPlan (modified kplanner): similar to KPDDL language, produce a tree. 
-\end{itemize}
 
+\section{Translator Module}
+Due to the presence of a rich variety of planners (and languages) in literature, each one with different characteristics, is it often difficult to choose the correct one for a specific task.
+In general, it is important to understand the structure of the problem to choose the planner properly.\\
+In our case, a language must be able to represent sensing actions and have a planner that can generate conditional plans.
+We can identify a bunch of properties that helps make this choice, as we can see from the following table:
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5,trim=30mm 0mm 0mm 0mm]{images/formalisms.png}
+	\caption{a comparison betweem different formalisms/planner.}
+	\label{fig:formalisms}
+\end{figure}
 \newpage
+Where the properties showed are:
+\begin{itemize}
+\item \textbf{Constr.}: the capability of define domain constraints.
+\item \textbf{NonDeter.}: the capability of define non-deterministic actions.
+\item \textbf{Conc.}: the capability of define concurrent actions.
+\item \textbf{Sensing}: the capability of define sensing actions.
+\item \textbf{CP Gen.}: the capability (of the planner) to generate conditional plans.
+\end{itemize}
+Once we have identified the languages that match our prerequisites, we can select them and parse the output provided by their planner together with the domain description in order to translate it to the conditional plan representation discussed in \ref{cp_representation}.\\
+\newline
+The translator class maintain an internal representation of the conditional plan and is responsible for calling PNPgen that generates the actual PNP.
+The subset of languages/planners chosen in this thesis are:
+\begin{itemize}
+\item \textbf{PDDL/FF planner}
+\item \textbf{KPDDL/KPlanner}
+\item \textbf{PDDL/CLG Planner}
+\end{itemize}
+In the following section I will discuss, for each formalism, how the translation works.  
 \subsection{PDDL Translator}
-The first study case regards PDDL domain.
 PDDL, as stated in \ref{pddl}, is the standard de facto for AI planning. \\
-Standard PDDL doesn't have natively syntax construct that allow conditioning and this lead to the born of different extension, like KPDDL.
-In PDDL however, one can use the "\textbf{when}" in the action description effect to discriminate cases at planning time. Nonetheless, PDDL planners usually generate total ordered plans.\\
-%Even if is not of direct interest for this work, this was the first module realized has 
+Standard PDDL doesn't have natively syntax construct that allow conditioning on action effects and this lead to the born of different extension, like KPDDL.\\
+%In PDDL however, one can use the "\textbf{when}" in the action description effect to discriminate cases at %planning time. 
+PDDL planners usually generate total ordered plans. Thus, the correspondent translation consist of an ordered list of actions provided by the FF planner and the generated plan is linear.
 \newline 
 \scalebox{1}{
 \begin{algorithm}[H]
@@ -1220,8 +1250,9 @@ In PDDL however, one can use the "\textbf{when}" in the action description effec
 }
 
 \caption{PNPgen from PDDL description}
-\end{algorithm}}
-
+\end{algorithm}}\\
+\newline
+Even if the generated plan is not conditional, due to PDDL diffusion it was important to include it since one of the primary intent of this work is to provide a general tool for PNP generation. Not only, the generation of this kind of plans is very fast (linear in the number of actions) and composing different linear plans is possible to obtain more complex behaviours.
 
 \newpage
 \subsection{KPDDL Translator}
@@ -1250,7 +1281,17 @@ $\pi_{cp} \leftarrow$ make\_state($v_s$.last)\;
 
 \caption{PNPgen from PDDL description}
 \end{algorithm}}
+
 \newpage
+\section{PNPgen: A Conditional Planning Extension}
+The work of this thesis consist of define a representation for conditional plans  and extend the present architecture of PNPgen with modules that allow to generate automatically a PNP from different languages, plus incorporating this generation in ROS through the integration with ROSPlan. 
+\begin{itemize}
+\item \textbf{PDDL/FF planner}: this produce a linear plan from FF output.
+\item \textbf{KPDDL/KPlanner}: produce a plan as DAG (direct acyclic graph).
+\item \textbf{PDDL/CLG Planner}: produce a tree. 
+\end{itemize}
+
+
 \subsection{ROSPlan: from Digraph to PNP}
 ROSPlan offers different representation for plans, as discussed in \ref{rosplan}. \\
 For this work it was necessary to modify the DOT graph to represent explicitly the conditional graph structure.
@@ -1316,7 +1357,7 @@ For this work it was necessary to modify the DOT graph to represent explicitly t
 \section{Future Development}
 %Some suggestion
 A robot must be capable of discerning cases in which an interaction is desirable and cases in which is not. Like in the simple case of a "welcome robot", where is important that the robot says "hi" when a person shows in front of him but it must also take into account the fact that a person could appear in front of him multiple times. 
-Another important but maybe trickier case is to equip the robot with the capability of understanding the mood of the person and than react consequently. Although this could be seen as a fictional case, since is impossible at the moment even for the most complex cognitive robot to understand emotions, there are some simple cases that could be treated. The goal, in this case, is not to reproduce a perfect model of the human mind state and how it could react to some sorts of events, but rather discover some patterns that could lead to undesirable outcomes. For instance, a person could be busy with its work and the interference of the robot, when is not helpful in the context of the human task, could be perceived as noise. Thus is important to maintain a representation of the person daily routines and enrich this when is possible with the information that comes from the social interactions that occurs from time to time between the two. If we are interested in developing robots strictly social, we cannot leave aside the emotional aspect of the interaction. \\
+Another important but maybe trickier case is to equip the robot with the capability of understanding the mood of the person and than react consequently. Although this could be seen as a fictional case, since is impossible at the moment even for the most complex cognitive robot to understand emotions, there are some simple cases that could be treated. The goal, in this case, is not to reproduce a perfect model of the human mind state and how it could react to some sorts of events, but rather discover some patterns that could lead to undesirable outcomes. For instance, a person could be busy with its work and the interference of the robot, when is not helpful in the context of the human task, could be perceived as noise. Thus is important to maintain a representation of the person daily routines and enrich this when is possible with the information that comes from the social interactions that occurs from time to time between the two. If we are interested in developing robots strictly social, we cannot leave aside the emotional aspect of the interaction. 
 
 %\begin{thebibliography}{1}
 %
@@ -1346,10 +1387,7 @@ Another important but maybe trickier case is to equip the robot with the capabil
 %
 %\bibitem{wiasp} Vladimir Lifschitz\\
 %{\em What Is Answer Set Programming?}
-%
-%\bibitem{asp} ASP\\
-%{\url {https://en.wikipedia.org/wiki/Answer_set_programming}}
-%
+
 %\bibitem{asp_ex1} Esra Erdem, Erdi Aker, Volkan Patoglu\\
 %{\em Answer set programming for collaborative housekeeping robotics: representation, reasoning, and execution}
 %
@@ -1377,11 +1415,7 @@ Another important but maybe trickier case is to equip the robot with the capabil
 %
 %\bibitem{belief_particle} Ronen Brafman, Alexander Gorohovski, Guy Shani\\
 %{\em A Contingent Planning-Based POMDP Replanner}
-%
-%\bibitem{ff} J. Hoffmann
-%{\em FAST-FORWARD}\\
-%{\url {https://fai.cs.uni-saarland.de/hoffmann/ff.html}}
-%
+
 %\bibitem{pnp} Vittorio Amos Ziparo and Luca Iocchi.\\
 %{\em Petri Net Plans. \\ 
 %In Proc. of Fourth International Workshop on Modelling of Objects, Components, and Agents (MOCA'06) @ Petri Nets 2006 and ACSD 2006, Turku, Finland, 2006.}
@@ -1405,11 +1439,6 @@ Another important but maybe trickier case is to equip the robot with the capabil
 %\bibitem{pnp_gen} F. M. Carlucci, L. Nardi, L. Iocchi, D. Nardi. \\
 %{\em Explicit Representation of Social Norms for Social Robots. \\
 %In Proc. of the IEEE/RSJ Int. Conf. on Intelligent Robots and Systems (IROS), 2015.}
-%
-%\bibitem{pnp_gen_er} L. Iocchi , L. Jeanpierre, M. T. L\'azaro, A.-I. Mouaddib \\
-%{\em A Practical Framework for Robust Decision-Theoretic Planning and Execution for
-%Service Robots \\}
-%
 %\bibitem{popf} Amanda Coles and Andrew Coles and Maria Fox and Derek Long \\
 %{\em Forward-Chaining Partial-Order Planning. \\
 %Proceedings of the Twentieth International Conference on Automated Planning and Scheduling (ICAPS 2010)}

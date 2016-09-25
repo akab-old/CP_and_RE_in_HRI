@@ -1,3 +1,153 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{10}
+
+\bibitem{alami2014human}
+Rachid Alami, Mamoun Gharbi, Benjamin Vadant, Rapha{\"e}l Lallement, and Adolfo
+  Suarez.
+\newblock On human-aware task and motion planning abilities for a teammate
+  robot.
+\newblock In {\em Human-Robot Collaboration for Industrial Manufacturing
+  Workshop, RSS 2014}, 2014.
+
+\bibitem{bastianelli2013line}
+Emanuele Bastianelli, Domenico~Daniele Bloisi, Roberto Capobianco, Fabrizio
+  Cossu, Guglielmo Gemignani, Luca Iocchi, and Daniele Nardi.
+\newblock On-line semantic mapping.
+\newblock In {\em Advanced Robotics (ICAR), 2013 16th International Conference
+  on}, pages 1--6. IEEE, 2013.
+
+\bibitem{brafman2014contingent}
+Ronen Brafman, Alexander Gorohovski, and Guy Shani.
+\newblock A contingent planning-based pomdp replanner.
+\newblock {\em Models and Paradigms for Planning under Uncertainty: a Broad
+  Perspective}, page~44, 2014.
+
+\bibitem{bylander1994computational}
+Tom Bylander.
+\newblock The computational complexity of propositional strips planning.
+\newblock {\em Artificial Intelligence}, 69(1):165--204, 1994.
+
+\bibitem{carlucci2015explicit}
+Fabio~Maria Carlucci, Lorenzo Nardi, Luca Iocchi, and Daniele Nardi.
+\newblock Explicit representation of social norms for social robots.
+\newblock In {\em Intelligent Robots and Systems (IROS), 2015 IEEE/RSJ
+  International Conference on}, pages 4191--4196. IEEE, 2015.
+
+\bibitem{chen2010developing}
+Xiaoping Chen, Jianmin Ji, Jiehui Jiang, Guoqiang Jin, Feng Wang, and Jiongkun
+  Xie.
+\newblock Developing high-level cognitive functions for service robots.
+\newblock In {\em Proceedings of the 9th International Conference on Autonomous
+  Agents and Multiagent Systems: volume 1-Volume 1}, pages 989--996.
+  International Foundation for Autonomous Agents and Multiagent Systems, 2010.
+
+\bibitem{coles2010forward}
+Amanda~Jane Coles, Andrew Coles, Maria Fox, and Derek Long.
+\newblock Forward-chaining partial-order planning.
+\newblock In {\em ICAPS}, pages 42--49, 2010.
+
+\bibitem{donini1997autoepistemic}
+Francesco~M Donini, Daniele Nardi, and Riccardo Rosati.
+\newblock Autoepistemic description logics.
+\newblock In {\em IJCAI (1)}, pages 136--141, 1997.
+
+\bibitem{erdem2012answer}
+Esra Erdem, Erdi Aker, and Volkan Patoglu.
+\newblock Answer set programming for collaborative housekeeping robotics:
+  representation, reasoning, and execution.
+\newblock {\em Intelligent Service Robotics}, 5(4):275--291, 2012.
+
+\bibitem{farinelli2006assignment}
+Alessandro Farinelli, Luca Iocchi, Daniele Nardi, and Vittorio~Amos Ziparo.
+\newblock Assignment of dynamically perceived tasks by token passing in
+  multirobot systems.
+\newblock {\em Proceedings of the IEEE}, 94(7):1271--1288, 2006.
+
+\bibitem{fikes1971strips}
+Richard~E Fikes and Nils~J Nilsson.
+\newblock Strips: A new approach to the application of theorem proving to
+  problem solving.
+\newblock {\em Artificial intelligence}, 2(3-4):189--208, 1971.
+
+\bibitem{iocchi2016practical}
+Luca Iocchi, Laurent Jeanpierre, Maria~Teresa Lazaro, and Abdel-Illah Mouaddib.
+\newblock A practical framework for robust decision-theoretic planning and
+  execution for service robots.
+\newblock In {\em Twenty-Sixth International Conference on Automated Planning
+  and Scheduling}, 2016.
+
+\bibitem{iocchi2003}
+Luca Iocchi, Daniele Nardi, and Riccardo Rosati.
+\newblock A pddl extension for describing planning domains with incomplete
+  information and sensing.
+
+\bibitem{lifschitz2008answer}
+Vladimir Lifschitz.
+\newblock What is answer set programming?.
+\newblock In {\em AAAI}, volume~8, pages 1594--1597, 2008.
+
+\bibitem{mccarthy1969some}
+John McCarthy and Patrick~J Hayes.
+\newblock Some philosophical problems from the standpoint of artificial
+  intelligence.
+\newblock {\em Readings in artificial intelligence}, pages 431--450, 1969.
+
+\bibitem{mcdermott1998pddl}
+Drew McDermott, Malik Ghallab, Adele Howe, Craig Knoblock, Ashwin Ram, Manuela
+  Veloso, Daniel Weld, and David Wilkins.
+\newblock Pddl-the planning domain definition language.
+\newblock 1998.
+
+\bibitem{palamara2008robotic}
+Pier~Francesco Palamara, Vittorio~A Ziparo, D~Nardi, P~Lima, H~Costelha, et~al.
+\newblock A robotic soccer passing task using petri net plans.
+\newblock In {\em Proceedings of the 7th international joint conference on
+  Autonomous agents and multiagent systems: demo papers}, pages 1711--1712.
+  International Foundation for Autonomous Agents and Multiagent Systems, 2008.
+
+\bibitem{pednault1987formulating}
+Edwin~PD Pednault.
+\newblock Formulating multiagent, dynamic-world problems in the classical
+  planning framework.
+\newblock {\em Reasoning about actions and plans}, pages 47--82, 1987.
+
+\bibitem{reiter1993proving}
+Raymond Reiter.
+\newblock Proving properties of states in the situation calculus.
+\newblock {\em Artificial Intelligence}, 64(2):337--351, 1993.
+
+\bibitem{roy2005finding}
+Nicholas Roy, Geoffrey~J Gordon, and Sebastian Thrun.
+\newblock Finding approximate pomdp solutions through belief compression.
+\newblock {\em J. Artif. Intell. Res.(JAIR)}, 23:1--40, 2005.
+
+\bibitem{sanner2010relational}
+Scott Sanner.
+\newblock Relational dynamic influence diagram language (rddl): Language
+  description.
+\newblock {\em Unpublished ms. Australian National University}, 2010.
+
+\bibitem{wang2015handling}
+Yi~Wang and Joohyung Lee.
+\newblock Handling uncertainty in answer set programming.
+\newblock In {\em AAAI}, pages 4218--4219, 2015.
+
+\bibitem{younes2004ppddl1}
+H{\aa}kan~LS Younes and Michael~L Littman.
+\newblock Ppddl1. 0: An extension to pddl for expressing planning domains with
+  probabilistic effects.
+\newblock {\em Techn. Rep. CMU-CS-04-162}, 2004.
+
+\bibitem{ziparo2008pnp}
+VA~Ziparo, L~Iocchi, D~Nardi, PF~Palamara, and H~Costelha.
+\newblock Pnp: A formal model for representation and execution of multi-robot
+  plans.
+\newblock In {\em Proc. of 7th Int. Conf. on Autonomous Agents and Multiagent
+  Systems (AAMAS 2008)}, pages 79--86.
+
+\bibitem{ziparo2006petri}
+Vittorio~Amos Ziparo and Luca Iocchi.
+\newblock Petri net plans.
+\newblock In {\em Proceedings of Fourth International Workshop on Modelling of
+  Objects, Components, and Agents (MOCA)}, pages 267--290, 2006.
 
 \end{thebibliography}
