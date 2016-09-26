@@ -1,12 +1,10 @@
 \begin{thebibliography}{10}
 
-\bibitem{alami2014human}
-Rachid Alami, Mamoun Gharbi, Benjamin Vadant, Rapha{\"e}l Lallement, and Adolfo
-  Suarez.
-\newblock On human-aware task and motion planning abilities for a teammate
-  robot.
-\newblock In {\em Human-Robot Collaboration for Industrial Manufacturing
-  Workshop, RSS 2014}, 2014.
+\bibitem{clg}
+Alexandre Albore.
+\newblock Translation-based approaches to automated planning with incomplete
+  information and sensing.
+\newblock phd, Universitat Pompeu Fabra, 2011.
 
 \bibitem{bastianelli2013line}
 Emanuele Bastianelli, Domenico~Daniele Bloisi, Roberto Capobianco, Fabrizio

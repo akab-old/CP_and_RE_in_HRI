@@ -24,25 +24,26 @@
 \BOOKMARK [2][-]{subsection.3.2.4}{MDP}{section.3.2}% 24
 \BOOKMARK [2][-]{subsection.3.2.5}{POMDP}{section.3.2}% 25
 \BOOKMARK [2][-]{subsection.3.2.6}{Various}{section.3.2}% 26
-\BOOKMARK [0][-]{chapter.4}{Foundation Tools}{}% 27
-\BOOKMARK [1][-]{section.4.1}{Petri Net Plan}{chapter.4}% 28
-\BOOKMARK [2][-]{subsection.4.1.1}{Formal Definition}{section.4.1}% 29
-\BOOKMARK [1][-]{section.4.2}{PNPgen}{chapter.4}% 30
-\BOOKMARK [2][-]{subsection.4.2.1}{Linear Plans}{section.4.2}% 31
-\BOOKMARK [2][-]{subsection.4.2.2}{Policy}{section.4.2}% 32
-\BOOKMARK [2][-]{subsection.4.2.3}{Execution Rules}{section.4.2}% 33
-\BOOKMARK [1][-]{section.4.3}{Robot Operating System \(ROS\)}{chapter.4}% 34
-\BOOKMARK [1][-]{section.4.4}{ROSPlan}{chapter.4}% 35
-\BOOKMARK [0][-]{chapter.5}{Conditional Planning and Execution}{}% 36
-\BOOKMARK [1][-]{section.5.1}{Our Approach}{chapter.5}% 37
-\BOOKMARK [1][-]{section.5.2}{Motivating Example}{chapter.5}% 38
-\BOOKMARK [2][-]{subsection.5.2.1}{Example: Service Robot assisting customers of a shopping mall}{section.5.2}% 39
-\BOOKMARK [0][-]{chapter.6}{System Overview}{}% 40
-\BOOKMARK [1][-]{section.6.1}{Conditional Plan Representation}{chapter.6}% 41
-\BOOKMARK [1][-]{section.6.2}{Translator Module}{chapter.6}% 42
-\BOOKMARK [2][-]{subsection.6.2.1}{PDDL Translator}{section.6.2}% 43
-\BOOKMARK [2][-]{subsection.6.2.2}{KPDDL Translator}{section.6.2}% 44
-\BOOKMARK [1][-]{section.6.3}{PNPgen: A Conditional Planning Extension}{chapter.6}% 45
-\BOOKMARK [2][-]{subsection.6.3.1}{ROSPlan: from Digraph to PNP}{section.6.3}% 46
-\BOOKMARK [0][-]{chapter.7}{Conclusion}{}% 47
-\BOOKMARK [1][-]{section.7.1}{Future Development}{chapter.7}% 48
+\BOOKMARK [0][-]{chapter.4}{Conditional Planning and Execution}{}% 27
+\BOOKMARK [1][-]{section.4.1}{Motivating Example: COACHES}{chapter.4}% 28
+\BOOKMARK [0][-]{chapter.5}{Foundation Tools}{}% 29
+\BOOKMARK [1][-]{section.5.1}{Petri Net Plan}{chapter.5}% 30
+\BOOKMARK [2][-]{subsection.5.1.1}{Formal Definition}{section.5.1}% 31
+\BOOKMARK [1][-]{section.5.2}{PNPgen}{chapter.5}% 32
+\BOOKMARK [2][-]{subsection.5.2.1}{Linear Plans}{section.5.2}% 33
+\BOOKMARK [2][-]{subsection.5.2.2}{Policy}{section.5.2}% 34
+\BOOKMARK [2][-]{subsection.5.2.3}{Execution Rules}{section.5.2}% 35
+\BOOKMARK [1][-]{section.5.3}{Robot Operating System \(ROS\)}{chapter.5}% 36
+\BOOKMARK [1][-]{section.5.4}{ROSPlan}{chapter.5}% 37
+\BOOKMARK [0][-]{chapter.6}{System Overview}{}% 38
+\BOOKMARK [1][-]{section.6.1}{Conditional Plan Representation}{chapter.6}% 39
+\BOOKMARK [1][-]{section.6.2}{Translator Module}{chapter.6}% 40
+\BOOKMARK [2][-]{subsection.6.2.1}{PDDL Translator}{section.6.2}% 41
+\BOOKMARK [2][-]{subsection.6.2.2}{KPDDL Translator}{section.6.2}% 42
+\BOOKMARK [2][-]{subsection.6.2.3}{Digraph Translator}{section.6.2}% 43
+\BOOKMARK [1][-]{section.6.3}{Generator Module}{chapter.6}% 44
+\BOOKMARK [2][-]{subsection.6.3.1}{PNPgen: A Conditional Planning Extension}{section.6.3}% 45
+\BOOKMARK [2][-]{subsection.6.3.2}{ROSPlan and PNPgen}{section.6.3}% 46
+\BOOKMARK [2][-]{subsection.6.3.3}{the Generation Algorithm}{section.6.3}% 47
+\BOOKMARK [0][-]{chapter.7}{Conclusion}{}% 48
+\BOOKMARK [1][-]{section.7.1}{Future Development}{chapter.7}% 49

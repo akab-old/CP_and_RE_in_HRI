@@ -9,37 +9,37 @@ Warning--empty journal in mcdermott1998pddl
 Warning--empty year in ziparo2008pnp
 You've used 25 entries,
             2118 wiz_defined-function locations,
-            643 strings with 8860 characters,
-and the built_in function-call counts, 10227 in all, are:
-= -- 1013
-> -- 485
+            646 strings with 8758 characters,
+and the built_in function-call counts, 10057 in all, are:
+= -- 1005
+> -- 464
 < -- 14
-+ -- 196
-- -- 166
-* -- 685
-:= -- 1595
++ -- 188
+- -- 158
+* -- 666
+:= -- 1572
 add.period$ -- 78
 call.type$ -- 25
-change.case$ -- 157
+change.case$ -- 154
 chr.to.int$ -- 0
 cite$ -- 29
-duplicate$ -- 421
-empty$ -- 787
-format.name$ -- 166
-if$ -- 2209
+duplicate$ -- 415
+empty$ -- 773
+format.name$ -- 158
+if$ -- 2173
 int.to.chr$ -- 0
 int.to.str$ -- 25
-missing$ -- 25
+missing$ -- 24
 newline$ -- 127
 num.names$ -- 50
-pop$ -- 194
+pop$ -- 186
 preamble$ -- 1
-purify$ -- 132
+purify$ -- 128
 quote$ -- 0
-skip$ -- 327
+skip$ -- 325
 stack$ -- 0
 substring$ -- 657
-swap$ -- 148
+swap$ -- 146
 text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 0
@@ -47,5 +47,5 @@ type$ -- 100
 warning$ -- 4
 while$ -- 99
 width$ -- 27
-write$ -- 271
+write$ -- 272
 (There were 4 warnings)

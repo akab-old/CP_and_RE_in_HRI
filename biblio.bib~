@@ -204,13 +204,6 @@
   organization={IEEE}
 }
 
-@inproceedings{iocchi2016practical,
-  title={A Practical Framework for Robust Decision-Theoretic Planning and Execution for Service Robots},
-  author={Iocchi, Luca and Jeanpierre, Laurent and Lazaro, Maria Teresa and Mouaddib, Abdel-Illah},
-  booktitle={Twenty-Sixth International Conference on Automated Planning and Scheduling},
-  year={2016}
-}
-
 @inproceedings{coles2010forward,
   title={Forward-Chaining Partial-Order Planning.},
   author={Coles, Amanda Jane and Coles, Andrew and Fox, Maria and Long, Derek},
