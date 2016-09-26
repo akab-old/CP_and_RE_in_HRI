@@ -514,45 +514,45 @@ and \cite{brafman2014contingent},%\cite{belief_particle},
 where particle filters and PCA are respectively used to represent the belief state compactly or exploit its properties.
 
 %\newpage
-\section{Bechmarks Experiments} \label{sec:benchmarks}
-In the following I will list some benchmarks domain problems. \\ 
-Most are common to the planning community and are taken from international competitions like IPC (International Planning Competition). \\
-It is somehow difficult to derive a complete and unbiased problem instance, as every new language/planner usually comes with its testing domains and this are most of the time uncommon.  
- 
-
-\subsection{STRIPS/PDDL}
-\begin{itemize}
-\item Block World
-\item Classical Planning Domains (IPC problems collection)
-\end{itemize}
-
-\subsection{HATP}
-\begin{itemize}
-\item Assisted assembly
-\item Dock-worker robot
-\end{itemize}
-
-\subsection{ASP}
-\begin{itemize}
-\item Evolutionary studies
-\item Natural language processing: Dependency parsing, linguistics, taxonomy, inferring Phylogenetic Trees
-\item Graphs: graph colouring, Large clique, Hamiltonian cycle
-\item Decision Support for the Space Shuttle
-\item Automated Product Configuration
-\item Coaches
-\end{itemize}
-
-\subsection{MDP}
-\begin{itemize}
-\item SPUDD: grid world, coaches
-\item Often in combination with other formalisms, any task with probabilistic outcomes (perception/state)
-\end{itemize}
-\subsection{POMDP}
-\begin{itemize}
-\item grid world with probabilistic outcomes (faulty navigation)
-\end{itemize}
-
-\subsection{Various}
+%\subsection{Bechmarks Experiments} \label{sec:benchmarks}
+%In the following I will list some benchmarks domain problems. \\ 
+%Most are common to the planning community and are taken from international competitions like IPC (International Planning Competition). \\
+%It is somehow difficult to derive a complete and unbiased problem instance, as every new language/planner usually comes with its testing domains and this are most of the time uncommon.  
+% 
+%
+%\subsubsection{STRIPS/PDDL}
+%\begin{itemize}
+%\item Block World
+%\item Classical Planning Domains (IPC problems collection)
+%\end{itemize}
+%
+%\subsection{HATP}
+%\begin{itemize}
+%\item Assisted assembly
+%\item Dock-worker robot
+%\end{itemize}
+%
+%\subsection{ASP}
+%\begin{itemize}
+%\item Evolutionary studies
+%\item Natural language processing: Dependency parsing, linguistics, taxonomy, inferring Phylogenetic Trees
+%\item Graphs: graph colouring, Large clique, Hamiltonian cycle
+%\item Decision Support for the Space Shuttle
+%\item Automated Product Configuration
+%\item Coaches
+%\end{itemize}
+%
+%\subsection{MDP}
+%\begin{itemize}
+%\item SPUDD: grid world, coaches
+%\item Often in combination with other formalisms, any task with probabilistic outcomes (perception/state)
+%\end{itemize}
+%\subsection{POMDP}
+%\begin{itemize}
+%\item grid world with probabilistic outcomes (faulty navigation)
+%\end{itemize}
+%
+%\subsection{Various}
 %\subsubsection{Waitress Robot}
 %A mobile Robot with wheels and two arms has to serve clients in a restaurant environment. One of the arms is a tray where he can put 3 food/cocktail at maximum. He has also sensors to perceive the environment.
 %He transports the goods from the kitchen to the clients, taking ordinations from them and welcoming incoming persons. After he has received a client, he must bring him to the table and take the ordination. He could take multiple ordinations, but he must reply sooner to the cook when a food is ready. Every food has its maximum delivery time before it gets cold (discrete values from 1 to 3 minutes). Cocktails have no delivery time.
@@ -574,9 +574,9 @@ It is somehow difficult to derive a complete and unbiased problem instance, as e
 %\noindent In the assisted welding the robot stays in the same room of the worker and, since he has better understanding of spatial geometry, he must indicate to the worker the exact trajectory of the welding.
 %In this case the input of the problem are the initial configurations of both the robot and the worker, and the output must be a sequence of configurations that minimizes the change in stance of the worker according to some comfort measurement parameter that evaluates worker configurations.
 
-\subsubsection{COACHES}
-This examples are taken from \cite{iocchi2016practical}%\cite{coaches}.
-\newline
+%\subsubsection{COACHES}
+%This examples are taken from \cite{iocchi2016practical}%\cite{coaches}.
+%\newline
 %\\\noindent \textbf{Basic Service Robot}\\
 %A robot is able to execute two activities A and B upon request of the user, but the user does not know about these robot abilities. The robot is normally in a waiting state. Whenever a user is detected in front of the robot (for example, with a simple face detector procedure), the robot can decide whether to start an interaction (for example, through a spoken dialogue) and, if so, it describes the activities that it can do A and B. The user can now select one of them or answer that s/he is not interested (for example by selecting an option on a user interface or by a speech command). If a goal is selected, the robot executes a task for achieving it. Each goal can be achieved with two alternatives tasks \textit{TaskA1} and \textit{TaskA2} for \textit{A} and \textit{TaskB1} and \textit{TaskB2} for \textit{B}. After the execution of the task, the robot comes back to the wait state, waiting for a next user. During the execution, the following inconveniences may occur: the user does not complete the interaction (for example, s/he does not answer the robot question), any task may fail for reasons not modeled in the task description, and any task may be aborted according to some external command or condition.
 %\newline
@@ -617,8 +617,8 @@ Where the properties showed are:
 \item \textbf{Sensing}: the capability of define sensing actions.
 \item \textbf{CP Gen.}: the capability (of the planner) to generate conditional plans.
 \end{itemize}
-Once we have identified the languages that match our prerequisites, we can select them and parse the output provided by their planner together with the domain description in order to translate it to the conditional plan representation discussed in \ref{cp_representation}.\\
-
+\noindent As we can see, PDDL (ROSPlan version), KPDDL, ASP and RDDL seems to fit our prerequisites. For this work we decide to consider the two version of PDDL (standard and ROSPlan) plus KPDDL. We will motivate this choice in the upcoming chapters.\\
+\noindent Once we have identified the languages that matches our prerequisites, we select them to represent and (possibly) solve a test domain. The last step is to translate the computed plan into a conditional plan as we will discuss later.\\
 %\noindent The next step is to identify the a group of formalisms from the ones described in \ref{sec:formalism} that allow us to represent the epistemic state. \\
 %This is done in the following table: 
 %\begin{itemize}
@@ -628,8 +628,7 @@ Once we have identified the languages that match our prerequisites, we can selec
 %\item Non-deterministic observation
 %\item Non-deterministic outcomes
 %\end{itemize}
-  
-\noindent Summarizing, our aim is to define an architecture capable of combine different formalisms in order to satisfy tasks requirements, while finding the best trade-off between complexity and expressivity. \\
+\noindent Summarizing, our aim is to define an architecture capable of translate different formalisms into a conditional plan that will represent a PNP, in order to satisfy some tasks requirements, while finding the best trade-off between complexity and expressivity. \\
 
 \noindent In the next section I will present a motivating example along with a possible solution for some of the described formalisms. \\
 In particular, I will characterize the input/output of each problem and provide a sketch for a possible optimal solution.
@@ -876,7 +875,7 @@ In this domain description I will consider only $H\_2$ for the sake of clarity \
 )
 \end{verbatim}
 
-\noindent I will not enlist all the actions specifications, but instead I will focus on sensing actions:
+\noindent I will not list all the actions specifications, but instead I will focus on sensing actions:
 \begin{verbatim}
 (:action sense-person
                       :parameters ( ?r ?p)
@@ -929,7 +928,7 @@ In this domain description I will consider only $H\_2$ for the sake of clarity \
 )
 \end{verbatim}
 
-\noindent It is clear from the specifications that they are not real sensing actions. In fact they plan a priori the human agents needs and there are no not-deterministic effects.
+\noindent It is clear from the specifications that they are not real sensing actions. In fact, all the information must be known at planning time in order to compute a solution and there are no non-deterministic effects.
 
 The objects are:
 \begin{verbatim}
@@ -995,7 +994,7 @@ In KPDDL sensing actions could be modelled using the syntactic construct \textbf
           :sense (needs-food ?p)
  )
 \end{verbatim}\\
-\noindent After the execution of such actions the agent knows whether the property sensed by the action is true or false. 
+\noindent The substantial difference is that after the execution of such actions the agent knows whether the property sensed by the action is true or false. 
 \noindent We can then define the initial state and the goal as following:
 \begin{verbatim}
 (define
@@ -1272,21 +1271,22 @@ Where are first listed the state with their id and description, and then all the
 
 
 \section{Translator Module}
-The translator class maintain an internal representation of the conditional plan and is responsible for calling PNPgen that generates the actual PNP.
+The translator module maintain an internal representation of the conditional plan described in \ref{cp_representation} and is responsible for calling PNPgen, that will generate the actual PNP.
 The subset of languages/planners chosen in this thesis are:
-\begin{itemize}
-\item \textbf{PDDL/FF planner}
-\item \textbf{KPDDL/KPlanner}
-\item \textbf{PDDL/CLG Planner}
-\end{itemize}
-In the following section I will discuss, for each formalism, how the translation works.  
+%\begin{itemize}
+%\item \textbf{PDDL/FF planner}
+%\item \textbf{KPDDL/KPlanner}
+%\item \textbf{PDDL/CLG Planner}
+%\end{itemize}
+In the following section I will discuss, for each of the chosen formalism, how the translation works.  
 
 \newpage
 \subsection{PDDL Translator}
 PDDL, as stated in \ref{pddl}, is the standard de facto for AI planning. \\
-Standard PDDL doesn't have natively syntax construct that allow conditioning on action effects and this lead to the born of different extension, like KPDDL.\\
+Standard PDDL doesn't have natively syntax constructs that allow conditioning on action effects and this lead to the born of different extension, like KPDDL.
 %In PDDL however, one can use the "\textbf{when}" in the action description effect to discriminate cases at %planning time. 
-PDDL planners usually generate total ordered plans. Thus, the correspondent translation consist of an ordered list of actions provided by the FF planner and the generated plan is linear.
+Thus, PDDL planners usually generate total ordered plans.\\ 
+In fact, in our case, the chosen planner (FF) provides us an ordered list of actions. This kind of solution are interpreted as linear plans.
 \newline 
 \scalebox{1}{
 \begin{algorithm}[H]
@@ -1316,21 +1316,21 @@ PDDL planners usually generate total ordered plans. Thus, the correspondent tran
 \caption{PNPgen from PDDL description}
 \end{algorithm}}\\
 \newline
-Even if the generated plan is not conditional, due to PDDL diffusion it was important to include it since one of the primary intent of this work is to provide a general tool for PNP generation. Not only, the generation of this kind of plans is very fast (linear in the number of actions) and composing different linear plans is possible to obtain more complex behaviours.
+Even if the generated plan is not conditional, due to PDDL diffusion it was important to include it since one of the primary intent of this work is to provide a general tool for PNP generation. Not only, the generation of this kind of plans is very fast (linear in time in the number of actions) and composing different linear plans is possible to obtain more complex behaviours.
 
 \newpage
 \subsection{KPDDL Translator}
 Linear plans are good to model simple cases, but the real world is full of non-determinism and uncertainty. \\
-KPDDL introduce a special construct to the classical PDDL structure that is the sensing effect, that allows formalising sensing actions. This helps the agent to disambiguate between two epistemic states: the one in which the sensed property holds and the case in which not.\\
+KPDDL introduce a special construct to the classical PDDL structure that could model sensing effects, and allows formalising sensing actions. This helps the agent to disambiguate between two epistemic states: the one in which the sensed property holds and the case in which not.\\
 \newline
 \scalebox{1}{
 \begin{algorithm}[H]
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
 \Input{$\pi_{KPDDL}$: the KPDDL description of the plan}
-\KwData{l: line of the PDDL description\\
+\KwData{l: line of the KPDDL description\\
 		$v_s$: a list of strings}
-\Output{$\pi_{cp}$: A Condition Plan generated from a PDDL description}
+\Output{$\pi_{cp}$: A Condition Plan generated from a KPDDL description}
 
 \While{$\pi_{PDDL}$ not eof and l not empty}{
 	$v_s \leftarrow l$\;
@@ -1343,7 +1343,7 @@ $\pi_{cp} \leftarrow$ make\_state($v_s$.last)\;
 	$\pi_{cp} \leftarrow$ make\_state(e)\;
 }
 
-\caption{PNPgen from PDDL description}
+\caption{PNPgen from KPDDL description}
 \end{algorithm}}
 
 \newpage
