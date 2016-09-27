@@ -328,7 +328,7 @@ Planning is "\textit{the task of coming up with a sequence of actions that will 
 When talking about complex problems, classical search-based planning approaches cease to be useful as any algorithm easily get lost in the possible huge state space.
 In this cases, a language for represent the problem represent a better solution.
 The convenience of using a formal language is that it guides the planning algorithms through the search of the solution by exploiting the problem logical structure. \\
-On other hand, we must deal with some contraindications. Some of these are:
+On other hand, we must deal with some contraindications:
 \begin{itemize}
 \item \textbf{Uncertainty.} How to deal with uncertainty in action effects and in the state.
 \item \textbf{Goal existence.} Does a goal exist? Is it possible to compute it?
@@ -336,7 +336,7 @@ On other hand, we must deal with some contraindications. Some of these are:
 \end{itemize} 
 
 \noindent Try to address all this questions is behind the scope of this thesis.\\ 
-Instead, I will show how to deal with uncertainty in the representation
+Instead, I will show how to deal with sensing uncertainty
 and how to generate robust plans, that are plans that execute safely with limited or no needs for replanning.\\
 \newline
 \noindent In chapter \ref{sec:related_works} I will present the context of this work and the state of the art.\\ 
@@ -406,7 +406,8 @@ In this chapter I will discuss about some of the most diffused formalisms and la
 \end{itemize}
 \noindent A plan computed by STRIPS is a linear sequence of actions from initial state to goal state with no branches (i.e. no conditional effects).
 \\\noindent This makes STRIPS very fast: the search is done off-line and then the found plan is executed on-line with "eyes closed". 
-\\\noindent On other hand it cannot deal with uncertainty in both sensing/knowledge, like unreliable observations, incomplete/incorrect information or multiple possible worlds.  
+\\\noindent On other hand it cannot deal with uncertainty in both sensing/knowledge, like unreliable observations, incomplete/incorrect information or multiple possible worlds. Changes to its knowledge must always come from the robot itself and that make it inappropriate for interaction.\\
+Not only, when the model became too complex the time to compute a plans grows exponentially, thus making impossible to benefit  of its fastness.
 \\\noindent An expanded version of STRIPS is Action Description Language (ADL)\cite{pednault1987formulating}%\cite{adl}, 
 which expand STRIPS with some syntactics features:
 \begin{itemize}
@@ -417,7 +418,7 @@ which expand STRIPS with some syntactics features:
 
 \subsection{PDDL}\label{pddl}
 \noindent PDDL \cite{mcdermott1998pddl} %\cite{pddl} 
-is the standard de facto for planning domains description. It generalizes both STRIPS\cite{fikes1971strips} %\cite{strips} 
+is the standard "de facto" for planning domains description. It generalizes both STRIPS\cite{fikes1971strips} %\cite{strips} 
 and Action Description Language (ADL \cite{pednault1987formulating}).%\cite{adl}).
 \\\noindent It is intended to describe the "physics" of a domain in terms of predicates, possible actions and their effects.
 \\\noindent States are represented as a set of predicates with grounded variables and arbitrary function-free first-order logical sentences are allowed to describe goals. 
@@ -442,17 +443,16 @@ The problem description is composed by:
 \end{itemize}
 \noindent I refer to \cite{mcdermott1998pddl}%\cite{pddl} 
 for a more formal definition of the syntax.
-\noindent Through the years PDDL has received several updates (the last version is PDDL 3.1) and extensions.
+\noindent Through the years PDDL has received several updates (the last version is PDDL 3.1) and extensions. This enrich PDDL with useful properties that are not present in its standard version, like the possibility of represent uncertainty or probabilistic outcomes for actions.
 The most notable are:
 \begin{itemize}
 \item PPDDL\cite{younes2004ppddl1}%\cite{ppddl} 
 is a probabilistic version of PDDL. 
-\\\noindent It extends PDDL 2.1 with probabilistic effects, reward fluents, goal rewards and goal-achieved fluents. This allows realising Markov Decision Process (MDP) planning in a fully observable environment with uncertainty in state-transitions
+\\\noindent It extends PDDL 2.1 with probabilistic effects, reward fluents, goal rewards and goal-achieved fluents. This allows to realise Markov Decision Process (MDP) planning in a fully observable environment with uncertainty in state-transitions.
 \item RDDL\cite{sanner2010relational}%\cite{rddl} 
 introduce the concept of partial observability in PDDL. It allows to describe (PO)MDP representing states,actions and observations with variables. Semantically, RDDL represent a Dynamic Bayes Net (DBN) with many intermediate layers and extended with a simple influence diagram utility node reresenting immediate reward.
 \item KPDDL\cite{iocchi2003}%\cite{kpddl} 
-add to PDDL some constructs to represent the incomplete knowledge of the agent about the environment. 
-\\\noindent It is discussed in next section.
+add to PDDL some constructs to represent the incomplete knowledge of the agent about the environment. It will be discussed in the upcoming sessions.
 \end{itemize}
 
 %\subsection{HATP}
@@ -806,7 +806,7 @@ where particle filters and PCA are respectively used to represent the belief sta
 \chapter{Conditional Planning and Execution}\label{sec:approach}
 In this chapter I will explain the reasons behind this work and illustrate a motivating example.\\
 \newline
-\noindent As we have seen in section \ref{sec:formalism}, different planning formalisms try to capture different aspects of real-world problems. By the way they model and abstract the world, they also produce different solution concepts.\\
+\noindent As we have seen in the previous chapter, different planning formalisms try to capture different aspects of real-world problems. By the way they model and abstract the world, they also produce different solution concepts.\\
 Is not always obvious in advance which formalism is the best for a specific problem. Less expressive formalism are often preferred due to the fact that are less expensive in terms of computational power.\\
 For instance if we consider decidable logic formalisms, $ALCK_{NF}$ is one of the more expressive and yet the planning in general it's included in PSPACE, so too complex to run on a real robot in realtime.\\ 
 Classical Planning models only deterministic actions, and the planner is often embedded in a controlled execution loop that replan on unexpected outcomes. In fully-observable and non-deterministic planners, actions are assumed to be non-deterministic but there is no uncertainty about the perception. They produce strategies that are guaranteed to reach the goal. \\
@@ -1006,9 +1006,24 @@ where also a third method to generate PNPs from progressive reasoning unit (PRU)
 \noindent ROS was originally developed at Stanford Artificial Intelligence Laboratory in support of the Stanford AI Robot STAIR (STanford AI Robot) project. From 2008 to 2013 the development take place at Willow Garage, a robotics research institute. Finally, from 2013, ROS become part of the Open Source Robotics Foundation.\\
 During all this time, ROS has growth in importance and diffusion. \\
 In fact, before ROS advent, each laboratory or research group had to write down from scratch specific code for his platform and for every task, even the more mundane. This not only is a time expensive task but restrains the diffusion of new algorithms and ideas.
-With the layer of abstraction offered by ROS, it is possible to write nodes for common tasks and specific hardware that are reusable and so more easy to diffuse. For instance, ROS offers packages for perception, object identification, segmentation and recognition, face recognition, planning, grasping, localization, mapping and much more. The main limitation of ROS resides in its latency since is built on top of Linux and is not a real-time OS. This led to the born of ROS 2.0, which support real-time operations, and RT-ROS, which is natively real-time. %TODO talke about STAGE
+With the layer of abstraction offered by ROS, it is possible to write nodes for common tasks and specific hardware that are reusable and so more easy to diffuse. For instance, ROS offers packages for perception, object identification, segmentation and recognition, face recognition, planning, grasping, localization, mapping and much more. The main limitation of ROS resides in its latency since is built on top of Linux and is not a real-time OS. This led to the born of ROS 2.0, which support real-time operations, and RT-ROS, which is natively real-time. %TODO talk about STAGE and actionlib module
 
-\newpage
+\section{PNPros}
+PNPros serves as bridge between ROS and PNP.\\
+It allows the execution of PNP under ROS using the \textbf{actionlib} module.\\ 
+Like for standard actionlib nodes, it implements the client/server protocol through the definition of an Action Server, called \textbf{PNPActionServer}, and an Action Client, \textbf{PNPActionClient}.\\ 
+They communicate through the use of \textbf{PNPAction} messages.\\ 
+Furthermore, PNPros defines a service, \textbf{PNPConditionEval}, that is invoked to evaluate conditions at runtime.\\
+A sketch of the PNPros architecture is depicted below:
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{images/pnpros.png}
+	\caption{the PNPros architecture.}
+\end{figure}
+\noindent As we can see, the user must provide its own implementation of the server, actions and the conditions to be evaluated. 
+PNPros actively listens a topic for plans to execute; as soon a plan is sent, it starts the execution and monitoring of the PNP. When needed, it will invoke PNPActionServer to evaluate a condition or execute an action. The actions provide the actual low-level implementation (typically in C++).\\
+Finally, PNP plans can be written and monitored using Jarp, a graphical tool interface written in Java.
+
 \section{ROSPlan}\label{sec:rosplan}
 ROSPlan is a framework that provides a general method for task planning in ROS.\footnote{\url{http://kcl-planning.github.io/ROSPlan/}}
 It encapsulates both planning and dispatch and, thanks to its modular design, it is easy to modify to test new approaches to plan representation, plan execution, etc.

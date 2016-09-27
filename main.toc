@@ -15,8 +15,8 @@
 \contentsline {subsection}{\numberline {3.1.2}PDDL}{14}{subsection.3.1.2}
 \contentsline {subsection}{\numberline {3.1.3}$ALCK_{NF}$}{16}{subsection.3.1.3}
 \contentsline {subsection}{\numberline {3.1.4}KPDDL}{17}{subsection.3.1.4}
-\contentsline {subsection}{\numberline {3.1.5}Answer Set Programming (ASP)}{18}{subsection.3.1.5}
-\contentsline {subsection}{\numberline {3.1.6}Situation Calculus}{20}{subsection.3.1.6}
+\contentsline {subsection}{\numberline {3.1.5}Answer Set Programming (ASP)}{19}{subsection.3.1.5}
+\contentsline {subsection}{\numberline {3.1.6}Situation Calculus}{21}{subsection.3.1.6}
 \contentsline {subsection}{\numberline {3.1.7}Markov Decision Process (MDP)}{22}{subsection.3.1.7}
 \contentsline {subsection}{\numberline {3.1.8}Partially Observable MDP (POMDP)}{24}{subsection.3.1.8}
 \contentsline {section}{\numberline {3.2}Analysis of Formalisms}{25}{section.3.2}
@@ -29,20 +29,21 @@
 \contentsline {subsection}{\numberline {5.2.2}Policy}{36}{subsection.5.2.2}
 \contentsline {subsection}{\numberline {5.2.3}Execution Rules}{36}{subsection.5.2.3}
 \contentsline {section}{\numberline {5.3}Robot Operating System (ROS)}{38}{section.5.3}
-\contentsline {section}{\numberline {5.4}ROSPlan}{39}{section.5.4}
-\contentsline {chapter}{\numberline {6}System Overview}{41}{chapter.6}
-\contentsline {section}{\numberline {6.1}Conditional Plan Representation}{42}{section.6.1}
-\contentsline {section}{\numberline {6.2}Translator Module}{43}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}PDDL Translator}{44}{subsection.6.2.1}
-\contentsline {subsection}{\numberline {6.2.2}KPDDL Translator}{45}{subsection.6.2.2}
-\contentsline {subsection}{\numberline {6.2.3}Digraph Translator}{46}{subsection.6.2.3}
-\contentsline {section}{\numberline {6.3}Generator Module}{47}{section.6.3}
-\contentsline {subsection}{\numberline {6.3.1}PNPgen: A Conditional Planning Extension}{47}{subsection.6.3.1}
-\contentsline {subsection}{\numberline {6.3.2}ROSPlan and PNPgen}{48}{subsection.6.3.2}
-\contentsline {subsection}{\numberline {6.3.3}the Generation Algorithm}{51}{subsection.6.3.3}
-\contentsline {chapter}{\numberline {7}Use Cases}{54}{chapter.7}
-\contentsline {section}{\numberline {7.1}PDDL}{54}{section.7.1}
-\contentsline {section}{\numberline {7.2}KPDDL}{59}{section.7.2}
-\contentsline {section}{\numberline {7.3}RDDL}{61}{section.7.3}
-\contentsline {chapter}{\numberline {8}Conclusion}{62}{chapter.8}
-\contentsline {section}{\numberline {8.1}Future Development}{62}{section.8.1}
+\contentsline {section}{\numberline {5.4}PNPros}{39}{section.5.4}
+\contentsline {section}{\numberline {5.5}ROSPlan}{40}{section.5.5}
+\contentsline {chapter}{\numberline {6}System Overview}{42}{chapter.6}
+\contentsline {section}{\numberline {6.1}Conditional Plan Representation}{43}{section.6.1}
+\contentsline {section}{\numberline {6.2}Translator Module}{44}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}PDDL Translator}{45}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}KPDDL Translator}{46}{subsection.6.2.2}
+\contentsline {subsection}{\numberline {6.2.3}Digraph Translator}{47}{subsection.6.2.3}
+\contentsline {section}{\numberline {6.3}Generator Module}{48}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}PNPgen: A Conditional Planning Extension}{48}{subsection.6.3.1}
+\contentsline {subsection}{\numberline {6.3.2}ROSPlan and PNPgen}{49}{subsection.6.3.2}
+\contentsline {subsection}{\numberline {6.3.3}the Generation Algorithm}{52}{subsection.6.3.3}
+\contentsline {chapter}{\numberline {7}Use Cases}{55}{chapter.7}
+\contentsline {section}{\numberline {7.1}PDDL}{55}{section.7.1}
+\contentsline {section}{\numberline {7.2}KPDDL}{60}{section.7.2}
+\contentsline {section}{\numberline {7.3}RDDL}{62}{section.7.3}
+\contentsline {chapter}{\numberline {8}Conclusion}{63}{chapter.8}
+\contentsline {section}{\numberline {8.1}Future Development}{63}{section.8.1}

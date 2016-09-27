@@ -28,20 +28,21 @@
 \BOOKMARK [2][-]{subsection.5.2.2}{Policy}{section.5.2}% 28
 \BOOKMARK [2][-]{subsection.5.2.3}{Execution Rules}{section.5.2}% 29
 \BOOKMARK [1][-]{section.5.3}{Robot Operating System \(ROS\)}{chapter.5}% 30
-\BOOKMARK [1][-]{section.5.4}{ROSPlan}{chapter.5}% 31
-\BOOKMARK [0][-]{chapter.6}{System Overview}{}% 32
-\BOOKMARK [1][-]{section.6.1}{Conditional Plan Representation}{chapter.6}% 33
-\BOOKMARK [1][-]{section.6.2}{Translator Module}{chapter.6}% 34
-\BOOKMARK [2][-]{subsection.6.2.1}{PDDL Translator}{section.6.2}% 35
-\BOOKMARK [2][-]{subsection.6.2.2}{KPDDL Translator}{section.6.2}% 36
-\BOOKMARK [2][-]{subsection.6.2.3}{Digraph Translator}{section.6.2}% 37
-\BOOKMARK [1][-]{section.6.3}{Generator Module}{chapter.6}% 38
-\BOOKMARK [2][-]{subsection.6.3.1}{PNPgen: A Conditional Planning Extension}{section.6.3}% 39
-\BOOKMARK [2][-]{subsection.6.3.2}{ROSPlan and PNPgen}{section.6.3}% 40
-\BOOKMARK [2][-]{subsection.6.3.3}{the Generation Algorithm}{section.6.3}% 41
-\BOOKMARK [0][-]{chapter.7}{Use Cases}{}% 42
-\BOOKMARK [1][-]{section.7.1}{PDDL}{chapter.7}% 43
-\BOOKMARK [1][-]{section.7.2}{KPDDL}{chapter.7}% 44
-\BOOKMARK [1][-]{section.7.3}{RDDL}{chapter.7}% 45
-\BOOKMARK [0][-]{chapter.8}{Conclusion}{}% 46
-\BOOKMARK [1][-]{section.8.1}{Future Development}{chapter.8}% 47
+\BOOKMARK [1][-]{section.5.4}{PNPros}{chapter.5}% 31
+\BOOKMARK [1][-]{section.5.5}{ROSPlan}{chapter.5}% 32
+\BOOKMARK [0][-]{chapter.6}{System Overview}{}% 33
+\BOOKMARK [1][-]{section.6.1}{Conditional Plan Representation}{chapter.6}% 34
+\BOOKMARK [1][-]{section.6.2}{Translator Module}{chapter.6}% 35
+\BOOKMARK [2][-]{subsection.6.2.1}{PDDL Translator}{section.6.2}% 36
+\BOOKMARK [2][-]{subsection.6.2.2}{KPDDL Translator}{section.6.2}% 37
+\BOOKMARK [2][-]{subsection.6.2.3}{Digraph Translator}{section.6.2}% 38
+\BOOKMARK [1][-]{section.6.3}{Generator Module}{chapter.6}% 39
+\BOOKMARK [2][-]{subsection.6.3.1}{PNPgen: A Conditional Planning Extension}{section.6.3}% 40
+\BOOKMARK [2][-]{subsection.6.3.2}{ROSPlan and PNPgen}{section.6.3}% 41
+\BOOKMARK [2][-]{subsection.6.3.3}{the Generation Algorithm}{section.6.3}% 42
+\BOOKMARK [0][-]{chapter.7}{Use Cases}{}% 43
+\BOOKMARK [1][-]{section.7.1}{PDDL}{chapter.7}% 44
+\BOOKMARK [1][-]{section.7.2}{KPDDL}{chapter.7}% 45
+\BOOKMARK [1][-]{section.7.3}{RDDL}{chapter.7}% 46
+\BOOKMARK [0][-]{chapter.8}{Conclusion}{}% 47
+\BOOKMARK [1][-]{section.8.1}{Future Development}{chapter.8}% 48
