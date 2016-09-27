@@ -1,8 +1,27 @@
+@article{russell2005ai,
+  title={AI a modern approach},
+  author={Russell, Stuart and Norvig, Peter},
+  journal={Learning},
+  volume={2},
+  number={3},
+  pages={4},
+  year={2005}
+}
+
+
 @inproceedings{iocchi2016practical,
   title={A Practical Framework for Robust Decision-Theoretic Planning and Execution for Service Robots},
   author={Iocchi, Luca and Jeanpierre, Laurent and Lazaro, Maria Teresa and Mouaddib, Abdel-Illah},
   booktitle={Twenty-Sixth International Conference on Automated Planning and Scheduling},
   year={2016}
+}
+
+@inproceedings{cashmore2015rosplan,
+  title={ROSPlan: Planning in the Robot Operating System.},
+  author={Cashmore, Michael and Fox, Maria and Long, Derek and Magazzeni, Daniele and Ridder, Bram and Carrera, Arnau and Palomeras, Narc{\'\i}s and Hurtos, Natalia and Carreras, Marc},
+  booktitle={ICAPS},
+  pages={333--341},
+  year={2015}
 }
 
 @inproceedings{alami2014human,

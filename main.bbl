@@ -30,6 +30,12 @@ Fabio~Maria Carlucci, Lorenzo Nardi, Luca Iocchi, and Daniele Nardi.
 \newblock In {\em Intelligent Robots and Systems (IROS), 2015 IEEE/RSJ
   International Conference on}, pages 4191--4196. IEEE, 2015.
 
+\bibitem{cashmore2015rosplan}
+Michael Cashmore, Maria Fox, Derek Long, Daniele Magazzeni, Bram Ridder, Arnau
+  Carrera, Narc{\'\i}s Palomeras, Natalia Hurtos, and Marc Carreras.
+\newblock Rosplan: Planning in the robot operating system.
+\newblock In {\em ICAPS}, pages 333--341, 2015.
+
 \bibitem{chen2010developing}
 Xiaoping Chen, Jianmin Ji, Jiehui Jiang, Guoqiang Jin, Feng Wang, and Jiongkun
   Xie.

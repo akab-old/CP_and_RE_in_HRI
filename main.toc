@@ -34,7 +34,7 @@
 \contentsline {chapter}{\numberline {6}System Overview}{42}{chapter.6}
 \contentsline {section}{\numberline {6.1}Conditional Plan Representation}{43}{section.6.1}
 \contentsline {section}{\numberline {6.2}Translator Module}{44}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}PDDL Translator}{45}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.1}PDDL Translator}{44}{subsection.6.2.1}
 \contentsline {subsection}{\numberline {6.2.2}KPDDL Translator}{46}{subsection.6.2.2}
 \contentsline {subsection}{\numberline {6.2.3}Digraph Translator}{47}{subsection.6.2.3}
 \contentsline {section}{\numberline {6.3}Generator Module}{48}{section.6.3}
@@ -42,8 +42,9 @@
 \contentsline {subsection}{\numberline {6.3.2}ROSPlan and PNPgen}{49}{subsection.6.3.2}
 \contentsline {subsection}{\numberline {6.3.3}the Generation Algorithm}{52}{subsection.6.3.3}
 \contentsline {chapter}{\numberline {7}Use Cases}{55}{chapter.7}
-\contentsline {section}{\numberline {7.1}PDDL}{55}{section.7.1}
-\contentsline {section}{\numberline {7.2}KPDDL}{60}{section.7.2}
-\contentsline {section}{\numberline {7.3}RDDL}{62}{section.7.3}
+\contentsline {section}{\numberline {7.1}Motivating Example: Implementation}{55}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}PDDL}{55}{subsection.7.1.1}
+\contentsline {subsection}{\numberline {7.1.2}KPDDL}{60}{subsection.7.1.2}
+\contentsline {subsection}{\numberline {7.1.3}RDDL}{62}{subsection.7.1.3}
 \contentsline {chapter}{\numberline {8}Conclusion}{63}{chapter.8}
 \contentsline {section}{\numberline {8.1}Future Development}{63}{section.8.1}

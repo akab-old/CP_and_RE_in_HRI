@@ -317,7 +317,8 @@ So a possible plan for $H2$ would be:
 \caption{a plan for H2}
 \end{figure}
 
-\noindent Where the squares ($ \square $) represents "sensing actions", that are non deterministic actions used by the robot in order to investigate about environment properties. We assume that a state in which at least one of the $Z$ properties holds is a goal state. \\
+\noindent Where the squares ($ \square $) represents sensing actions.\\ 
+A \textbf{sensing action} is an action that incorporates an observation (a boolean evaluation in this case) and it is used by the robot to characterise its (partial) knowledge of the environment. We assume that a state in which at least one of the $Z$ properties holds is a goal state. \\
 \newline
 \noindent I will now introduce some formalisms for planning problem representation.\\ 
 A more detailed discussion about this formalisms and others will be presented in \ref{sec:formalism}.
@@ -820,7 +821,7 @@ $|Y|$ + $|2^Z|$ $<<$ $|2^X|$ and $X = Y \cup Z$
 \end{center}
 
 \noindent The next step is to identify a group of formalisms from the ones described in \ref{sec:formalism} that allow us to represent explicitly the epistemic state.\\
-In our case, a language must be able to represent sensing actions from which we can derive conditional plans.
+In our case, a language must supply the syntactic constructs to define sensing actions with which we can represent conditional plans.
 We can identify a bunch of properties that helps make this choice, as we can see from the following table:
 \begin{figure}[H]
 	\centering
@@ -1025,9 +1026,9 @@ PNPros actively listens a topic for plans to execute; as soon a plan is sent, it
 Finally, PNP plans can be written and monitored using Jarp, a graphical tool interface written in Java.
 
 \section{ROSPlan}\label{sec:rosplan}
-ROSPlan is a framework that provides a general method for task planning in ROS.\footnote{\url{http://kcl-planning.github.io/ROSPlan/}}
-It encapsulates both planning and dispatch and, thanks to its modular design, it is easy to modify to test new approaches to plan representation, plan execution, etc.
-The main modules are the \textbf{Knowledge Base}, that stores PDDL models, and the \textbf{Planning System}, that is the interface to the planner. It is composed of three modules, each one replaceable: problem generation, planning, and plan dispatch. 
+ROSPlan\cite{cashmore2015rosplan}\footnote{\url{http://kcl-planning.github.io/ROSPlan/}} is a framework that provides a general method for task planning in ROS.
+It encapsulates both planning and dispatch and, thanks to its modular design, it is easy to modify to test new approaches to plan representation, plan execution, etc.\\
+The main modules are the \textbf{Knowledge Base}, that stores PDDL models, and the \textbf{Planning System}, that is the interface to the planner. The Planning System itself is composed of three modules, which are replaceable: problem generation, planning, and plan dispatch. 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.4]{images/overview.png}
@@ -1100,7 +1101,6 @@ The subset of languages/planners chosen in this thesis are:
 %\end{itemize}
 In the following section I will discuss, for each of the chosen formalism, how the translation works.  
 
-\newpage
 \subsection{PDDL Translator}
 PDDL, as stated in \ref{pddl}, is the standard de facto for AI planning. \\
 Standard PDDL doesn't have natively syntax constructs that allow conditioning on action effects and this lead to the born of different extension, like KPDDL.
@@ -1108,7 +1108,7 @@ Standard PDDL doesn't have natively syntax constructs that allow conditioning on
 Thus, PDDL planners usually generate total ordered plans.\\ 
 In fact, in our case, the chosen planner (FF) provides us an ordered list of actions. This kind of solution are interpreted as linear plans.
 \newline 
-\scalebox{1}{
+\scalebox{0.9}{
 \begin{algorithm}[H]
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
@@ -1136,14 +1136,17 @@ In fact, in our case, the chosen planner (FF) provides us an ordered list of act
 \caption{PNPgen from PDDL description}
 \end{algorithm}}\\
 \newline
-Even if the generated plan is not conditional, due to PDDL diffusion it was important to include it since one of the primary intent of this work is to provide a general tool for PNP generation. Not only, the generation of this kind of plans is very fast (linear in time in the number of actions) and composing different linear plans is possible to obtain more complex behaviours.
+Even if the generated plan is not conditional, we decide to incorporate PDDL for multiple reasons. First, we want to justify the needs for conditional plans in the presented tasks. Second, but not less important, PDDL is the most diffused planning language. Since one of the primary intent of this work is to provide a general tool for PNP generation, is it clear that we cannot ignore it. Other languages derive from PDDL, so write an 	interface   %TODO completare.
+
+
+Last, but not least, the generation of this kind of plans is very fast (linear in time in the number of actions) and composing different linear plans is possible to obtain more complex behaviours.
 
 \newpage
 \subsection{KPDDL Translator}
 Linear plans are good to model simple cases, but the real world is full of non-determinism and uncertainty. \\
 KPDDL introduce a special construct to the classical PDDL structure that could model sensing effects, and allows formalising sensing actions. This helps the agent to disambiguate between two epistemic states: the one in which the sensed property holds and the case in which not.\\
 \newline
-\scalebox{1}{
+\scalebox{0.9}{
 \begin{algorithm}[H]
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
@@ -1396,13 +1399,13 @@ The simplest case is the one of the standard PDDL domain, in which he recursivel
 In particular, I will characterize the input/output of each problem and provide a sketch for a possible optimal solution.
 
 \chapter{Use Cases}\label{sec:use_cases}
-In this section I will characterize some example, from the problem definition to the plan generation.
+In this section I will characterize some example, from the problem definition to the plan generation. In order to do that I will start from the motivating example introduced in section\ref{sec:motivating}.
 
-\section{PDDL}
-First, I will present a solution in PDDL (ver. 1.2), which is a standard "de facto" for the specification of planning problems. 
-\\In order to do that, we must characterize objects, predicates, actions, initial and final states.\\
-I have used FF (ver. 2.3) \footnote{\url{https://fai.cs.uni-saarland.de/hoffmann/ff.html}} planner in order to produce the planes and check the satisfiability of the problem.
-In this domain description I will consider only $H\_2$ for the sake of clarity \\
+\section{Motivating Example: Implementation}
+\subsection{PDDL}
+First, I will present a solution in PDDL (ver. 1.2), which is the standard "de facto" for the specification of planning problems. We must then characterise objects, predicates, actions, initial and final states.\\
+I used FF (ver. 2.3) \footnote{\url{https://fai.cs.uni-saarland.de/hoffmann/ff.html}} planner to check the satisfiability of the problem and to solve it.
+In the domain description I will consider only the agent $h\_2$ depicted in the example, for the sake of clarity \\
 
 \noindent For the predicates we have:
 \begin{verbatim}
@@ -1414,7 +1417,7 @@ In this domain description I will consider only $H\_2$ for the sake of clarity \
 
             ;needs represents the person necessity
             (needs-help ?x) (needs-WC ?x) (needs-obj ?x)
-            (needs-food ?x) (needs-clothes ?x)
+            (needs-food ?x) (needs-clothes ?x)(satisfied ?x)
 
             ;desire predicates used to disambiguate which food/cloth
             (desire-italian ?x) (desire-chinese ?x)
@@ -1425,15 +1428,10 @@ In this domain description I will consider only $H\_2$ for the sake of clarity \
             (sportive-clothes ?x) (fashion-clothes ?x)
             (chinese-restaurant ?x) (italian-restaurant ?x)
 
-            ; 'sensing' actions
-            (ask-italian ?p) (ask-chinese ?p)
-            (ask-sportive ?p) (ask-fashion ?p)
-            (ask-obj ?p) (satisfied ?x)
-
 )
 \end{verbatim}
-
-\noindent I will not list all the actions specifications, but instead I will focus on sensing actions:
+Beside from predicates that model environmental properties, we notice the ones that (tries to) describe agents state. 
+\noindent For what concern actions, I will not list them all, but I rather focus on the ones that are supposed to be sensing actions:
 \begin{verbatim}
 (:action sense-person
                       :parameters ( ?r ?p)
@@ -1486,9 +1484,11 @@ In this domain description I will consider only $H\_2$ for the sake of clarity \
 )
 \end{verbatim}
 
-\noindent It is clear from the specifications that they are not real sensing actions. In fact, all the information must be known at planning time in order to compute a solution and there are no non-deterministic effects.
+\noindent It is clear from the specifications that they are not real sensing actions, as we defined.\\ 
+In fact, in standard PDDL, the construct "\textbf{when}" is the only one that allow a simple form of conditioning on actions effects. 
+All the information must be known at planning time in order to compute a solution and there isn't the possibility of specifying actions with non-deterministic effects.
 
-The objects are:
+\noindent The objects are:
 \begin{verbatim}
   (:objects shop1 shop2 shop3
           shop4 shop5 shop6
@@ -1542,7 +1542,7 @@ step    0: SENSE-PERSON R H2
 In particular, in order to implement sensing actions, we must extend PDDL with the concept of knowledge. An example can be found in \cite{iocchi2003}, in which the authors have introduced in the PDDL action definition the notion of inertial and sensing effects.
 
 \newpage
-\section{KPDDL}
+\subsection{KPDDL}
 In KPDDL sensing actions could be modelled using the syntactic construct \textbf{:sense}. Most of the predicates, actions and constants remain unchanged with respect to the PDDL case:
 \begin{verbatim}
 
@@ -1626,7 +1626,7 @@ In particular, before the execution of  \textit{ask\_food}, we know only \textbf
 %The coaches domain equivalent in this language is:
 %TODO completare
 
-\section{RDDL}
+\subsection{RDDL}
 RDDL\cite{sanner2010relational} stands for Relational Dynamic Influence Diagram Language and i
 
 
@@ -1641,6 +1641,7 @@ Another important but maybe trickier case is to equip the robot with the capabil
 \begin{itemize}
 \item Add More Formalisms
 \item Planner selection
+\item from Boolean Evaluation to an Higher Logic
 \end{itemize}
 %\begin{thebibliography}{1}
 %
