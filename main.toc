@@ -43,8 +43,9 @@
 \contentsline {subsection}{\numberline {6.3.3}the Generation Algorithm}{52}{subsection.6.3.3}
 \contentsline {chapter}{\numberline {7}Use Cases}{55}{chapter.7}
 \contentsline {section}{\numberline {7.1}Motivating Example: Implementation}{55}{section.7.1}
-\contentsline {subsection}{\numberline {7.1.1}PDDL}{55}{subsection.7.1.1}
-\contentsline {subsection}{\numberline {7.1.2}KPDDL}{60}{subsection.7.1.2}
-\contentsline {subsection}{\numberline {7.1.3}RDDL}{62}{subsection.7.1.3}
-\contentsline {chapter}{\numberline {8}Conclusion}{63}{chapter.8}
-\contentsline {section}{\numberline {8.1}Future Development}{63}{section.8.1}
+\contentsline {subsection}{\numberline {7.1.1}from PDDL to PNP}{55}{subsection.7.1.1}
+\contentsline {subsection}{\numberline {7.1.2}from KPDDL to PNP}{59}{subsection.7.1.2}
+\contentsline {subsection}{\numberline {7.1.3}from ROSPlan PDDL to PNP}{61}{subsection.7.1.3}
+\contentsline {subsection}{\numberline {7.1.4}from RDDL to PNP}{61}{subsection.7.1.4}
+\contentsline {chapter}{\numberline {8}Conclusion}{62}{chapter.8}
+\contentsline {section}{\numberline {8.1}Future Development}{62}{section.8.1}

@@ -7,49 +7,52 @@ Repeated entry---line 251 of file biblio.bib.bib
  : @article{sanner2010relational
  :                              ,
 I'm skipping whatever remains of this entry
+Warning--string name "jair" is undefined
+--line 264 of file biblio.bib.bib
+Warning--empty journal in hoffmann:nebel:jair-01
 Warning--empty booktitle in iocchi2003
 Warning--empty year in iocchi2003
 Warning--empty journal in mcdermott1998pddl
 Warning--empty year in ziparo2008pnp
-You've used 27 entries,
+You've used 28 entries,
             2118 wiz_defined-function locations,
-            654 strings with 9080 characters,
-and the built_in function-call counts, 10991 in all, are:
-= -- 1091
-> -- 525
+            662 strings with 9269 characters,
+and the built_in function-call counts, 11310 in all, are:
+= -- 1122
+> -- 538
 < -- 15
-+ -- 212
-- -- 180
-* -- 738
-:= -- 1723
-add.period$ -- 84
-call.type$ -- 27
-change.case$ -- 171
++ -- 218
+- -- 184
+* -- 760
+:= -- 1776
+add.period$ -- 87
+call.type$ -- 28
+change.case$ -- 176
 chr.to.int$ -- 0
-cite$ -- 31
-duplicate$ -- 449
-empty$ -- 835
-format.name$ -- 180
-if$ -- 2368
+cite$ -- 33
+duplicate$ -- 460
+empty$ -- 861
+format.name$ -- 184
+if$ -- 2434
 int.to.chr$ -- 0
-int.to.str$ -- 27
-missing$ -- 26
-newline$ -- 137
-num.names$ -- 54
-pop$ -- 204
+int.to.str$ -- 28
+missing$ -- 27
+newline$ -- 142
+num.names$ -- 56
+pop$ -- 209
 preamble$ -- 1
-purify$ -- 143
+purify$ -- 147
 quote$ -- 0
-skip$ -- 353
+skip$ -- 361
 stack$ -- 0
-substring$ -- 702
+substring$ -- 729
 swap$ -- 158
 text.length$ -- 15
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 108
-warning$ -- 4
-while$ -- 107
-width$ -- 29
-write$ -- 294
+type$ -- 112
+warning$ -- 5
+while$ -- 110
+width$ -- 30
+write$ -- 304
 (There was 1 error message)

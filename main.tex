@@ -1136,10 +1136,10 @@ In fact, in our case, the chosen planner (FF) provides us an ordered list of act
 \caption{PNPgen from PDDL description}
 \end{algorithm}}\\
 \newline
-Even if the generated plan is not conditional, we decide to incorporate PDDL for multiple reasons. First, we want to justify the needs for conditional plans in the presented tasks. Second, but not less important, PDDL is the most diffused planning language. Since one of the primary intent of this work is to provide a general tool for PNP generation, is it clear that we cannot ignore it. Other languages derive from PDDL, so write an 	interface   %TODO completare.
-
-
-Last, but not least, the generation of this kind of plans is very fast (linear in time in the number of actions) and composing different linear plans is possible to obtain more complex behaviours.
+Even if the generated plan is not conditional, we decide to incorporate PDDL for multiple reasons.\\ 
+First, to show the actual needs for conditional plans in the study cases.\\ 
+Second, PDDL is the most diffused planning language. Since one of the primary intents of this work is to provide a general tool for PNP generation, it is clear that we cannot ignore it. Many formalisms derive from PDDL, thus, talking about future implementations, one could think to extend this class to implement translators for others PDDL extensions.  
+Furthermore, the generation of this kind of plans is very fast (linear in time in the number of actions) and composing different linear plans is possible to obtain more complex behaviours.
 
 \newpage
 \subsection{KPDDL Translator}
@@ -1399,13 +1399,13 @@ The simplest case is the one of the standard PDDL domain, in which he recursivel
 In particular, I will characterize the input/output of each problem and provide a sketch for a possible optimal solution.
 
 \chapter{Use Cases}\label{sec:use_cases}
-In this section I will characterize some example, from the problem definition to the plan generation. In order to do that I will start from the motivating example introduced in section\ref{sec:motivating}.
+In this section I will characterize some example, describing the whole process from the problem definition to the plan generation. In order to do that I will start from the motivating example introduced in section\ref{sec:motivating}.
 
 \section{Motivating Example: Implementation}
-\subsection{PDDL}
+\subsection{from PDDL to PNP}
 First, I will present a solution in PDDL (ver. 1.2), which is the standard "de facto" for the specification of planning problems. We must then characterise objects, predicates, actions, initial and final states.\\
-I used FF (ver. 2.3) \footnote{\url{https://fai.cs.uni-saarland.de/hoffmann/ff.html}} planner to check the satisfiability of the problem and to solve it.
-In the domain description I will consider only the agent $h\_2$ depicted in the example, for the sake of clarity \\
+I used FF\cite{hoffmann:nebel:jair-01}\footnote{\url{https://fai.cs.uni-saarland.de/hoffmann/ff.html}}(ver. 2.3)  planner to check the satisfiability of the problem and to solve it.
+For the sake of clarity, in the domain description I will consider only the agent $h2$ of the example. \\
 
 \noindent For the predicates we have:
 \begin{verbatim}
@@ -1537,12 +1537,14 @@ step    0: SENSE-PERSON R H2
         5: ADVERTISE-FASHION SHOP4 H2
         6: CHECK_SATISFACTION H2
 \end{verbatim}
+\noindent In this scenario, we can imagine an infrastructure with a planning system capable of generates problem instances and a module responsible for gathering the informations (through sensors and physical interfaces) and that generate the fluents. This module, for instance, would be the one responsible for the Knowledge Base updates so to justify the presence of  "\textit{desire-fashion h2}" ground in the initial state description.\\
 
-\noindent PDDL was meant to express the "physics" of a domain, and not intrinsic properties of an agent.
-In particular, in order to implement sensing actions, we must extend PDDL with the concept of knowledge. An example can be found in \cite{iocchi2003}, in which the authors have introduced in the PDDL action definition the notion of inertial and sensing effects.
+%TODO mostrare la generazione del piano
 
-\newpage
-\subsection{KPDDL}
+\noindent PDDL was meant to express the "physics" of a domain, and could not represent the epistemic state of an agent.
+In particular, in order to implement sensing actions, we must introduce in PDDL the concept of knowledge. This was achieved in KPDDL\cite{iocchi2003}, in which the authors have introduced in the PDDL action definition the notion of inertial and sensing effects as we will see in the next section.
+
+\subsection{from KPDDL to PNP}
 In KPDDL sensing actions could be modelled using the syntactic construct \textbf{:sense}. Most of the predicates, actions and constants remain unchanged with respect to the PDDL case:
 \begin{verbatim}
 
@@ -1620,13 +1622,13 @@ Consider, for instance, the state $4,5,6$ corresponding to the sensing action \t
 Where we can notice how the epistemic state changes.\\ 
 In particular, before the execution of  \textit{ask\_food}, we know only \textbf{-needs-help\_h2}. After its execution, we can observe two distinct state: one in which \textbf{needs-food\_h2} holds true, and one in which not.
 
-%\subsection{PDDL (ROSPlan)}
-%Here we introduce a slightly different version of PDDL, similar to KPDDL, that is used in the ROSPlan Framework (which will be presented in \ref{sec:rosplan}).\\
-%As in KPDDL, in this case PDDL is extended with introduction of the \textbf{:observe} construct for action effects, used to define sensing actions.
-%The coaches domain equivalent in this language is:
+\subsection{from ROSPlan PDDL to PNP}
+Here we introduce a slightly different version of PDDL, similar to KPDDL, that is used in the ROSPlan Framework (which will be presented in \ref{sec:rosplan}).\\
+As in KPDDL, in this case PDDL is extended with introduction of the \textbf{:observe} construct for action effects, used to define sensing actions.
+The coaches domain equivalent in this language is:
 %TODO completare
 
-\subsection{RDDL}
+\subsection{from RDDL to PNP}
 RDDL\cite{sanner2010relational} stands for Relational Dynamic Influence Diagram Language and i
 
 
@@ -1639,8 +1641,8 @@ Another important but maybe trickier case is to equip the robot with the capabil
 
 
 \begin{itemize}
-\item Add More Formalisms
-\item Planner selection
+\item Add More Formalisms -- PDDL extensions in the translation
+\item Planner selection/study
 \item from Boolean Evaluation to an Higher Logic
 \end{itemize}
 %\begin{thebibliography}{1}

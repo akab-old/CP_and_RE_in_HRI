@@ -258,6 +258,18 @@ We  show formally under which conditions the introduced translations are polynom
 
 
 
+@Article{hoffmann:nebel:jair-01,
+  author = 	 {J{\"o}rg Hoffmann and Bernhard Nebel},
+  title = 	 {The {FF} Planning System: Fast Plan Generation Through Heuristic Search},
+  journal = 	 jair,
+  year = 	 {2001},
+  volume =	 {14},
+  pages =	 {253-302}
+}
+
+
+@STRING{jair  = "Journal of Artificial Intelligence Research"}
+
 
 
 
