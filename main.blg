@@ -3,49 +3,53 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: main.aux
 The style file: plain.bst
 Database file #1: biblio.bib.bib
+Repeated entry---line 243 of file biblio.bib.bib
+ : @article{sanner2010relational
+ :                              ,
+I'm skipping whatever remains of this entry
 Warning--empty booktitle in iocchi2003
 Warning--empty year in iocchi2003
 Warning--empty journal in mcdermott1998pddl
 Warning--empty year in ziparo2008pnp
-You've used 25 entries,
+You've used 26 entries,
             2118 wiz_defined-function locations,
-            646 strings with 8758 characters,
-and the built_in function-call counts, 10057 in all, are:
-= -- 1005
-> -- 464
+            650 strings with 8832 characters,
+and the built_in function-call counts, 10323 in all, are:
+= -- 1030
+> -- 477
 < -- 14
-+ -- 188
-- -- 158
-* -- 666
-:= -- 1572
-add.period$ -- 78
-call.type$ -- 25
-change.case$ -- 154
++ -- 193
+- -- 162
+* -- 685
+:= -- 1620
+add.period$ -- 81
+call.type$ -- 26
+change.case$ -- 159
 chr.to.int$ -- 0
-cite$ -- 29
-duplicate$ -- 415
-empty$ -- 773
-format.name$ -- 158
-if$ -- 2173
+cite$ -- 30
+duplicate$ -- 426
+empty$ -- 794
+format.name$ -- 162
+if$ -- 2227
 int.to.chr$ -- 0
-int.to.str$ -- 25
-missing$ -- 24
-newline$ -- 127
-num.names$ -- 50
-pop$ -- 186
+int.to.str$ -- 26
+missing$ -- 25
+newline$ -- 132
+num.names$ -- 52
+pop$ -- 189
 preamble$ -- 1
-purify$ -- 128
+purify$ -- 132
 quote$ -- 0
-skip$ -- 325
+skip$ -- 333
 stack$ -- 0
-substring$ -- 657
-swap$ -- 146
+substring$ -- 665
+swap$ -- 147
 text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 100
+type$ -- 104
 warning$ -- 4
-while$ -- 99
-width$ -- 27
-write$ -- 272
-(There were 4 warnings)
+while$ -- 102
+width$ -- 28
+write$ -- 283
+(There was 1 error message)

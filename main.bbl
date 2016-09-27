@@ -118,6 +118,11 @@ Nicholas Roy, Geoffrey~J Gordon, and Sebastian Thrun.
 \newblock Finding approximate pomdp solutions through belief compression.
 \newblock {\em J. Artif. Intell. Res.(JAIR)}, 23:1--40, 2005.
 
+\bibitem{russell2005ai}
+Stuart Russell and Peter Norvig.
+\newblock Ai a modern approach.
+\newblock {\em Learning}, 2(3):4, 2005.
+
 \bibitem{sanner2010relational}
 Scott Sanner.
 \newblock Relational dynamic influence diagram language (rddl): Language

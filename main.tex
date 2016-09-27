@@ -44,6 +44,10 @@
 
 \input{./title.tex}
 
+\newpage
+\tableofcontents
+\newpage
+
 \chapter{Introduction}
 This chapter present the thesis, with motivations and goal of this work
 %\section{Planning}
@@ -111,7 +115,236 @@ This chapter present the thesis, with motivations and goal of this work
 %\end{itemize}
 %\newpage
 
-\chapter{Related Works}
+\section{Motivating Example: COACHES}
+\label{sec:motivating}
+%\subsection{Example : Waitress Robot}
+%We first focus on an instance of the problem where a person is sitting waiting to order.
+%Initially we cannot assume nothing about the client state (is he hungry? is he thirsty?), but in the plan we must consider all the situation equally probable.
+%A possible set of variables describing the state of the environment could be: \\ 
+%$Y = \{OpenDoor, ClosedDoor, FoodReady, DrinkReady\}$\\
+%A minimal set of properties describing the human state could be:\\
+%$Z = \{H, T\}$\\
+%\noindent where $H$ stands for hungry and $T$ for thirsty. \\
+%For the actions we have the set:\\
+%$\{OrderDrink, OrderFood, OpenDoor, EnterDoor, Wait\}$
+%Consider this instance of the problem, where a person is sitting at the table waiting to order. The following graph shows a possible solution for ordering problem:
+%
+%\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
+%                    thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+%
+%  \node[main node] (1) [label=above:INIT]{};
+%  \node[main node] (2) [xshift=-2cm, yshift=-2cm, below left = of 1]{};
+%  \node[main node] (3) [yshift=-1.5cm, below  = of 1]{};
+%  \node[main node] (4) [xshift=1cm, yshift=-1cm, below  = of 1]{};
+%  \node[main node] (5) [xshift=4cm,yshift=-2cm,below right = of 1]{};
+%  \node[main node] (6) [below = of 2]{};
+%  \node[main node] (7) [below = of 3]{};
+%  \node[main node] (8) [below = of 4]{};
+%  \node[main node] (9) [below = of 5]{};
+%  \node[main node] (10) [below = of 6]{};
+%  \node[main node] (11) [below = of 7]{};
+%  \node[main node] (12) [below = of 8]{};
+%  \node[main node] (13) [below = of 10]{};
+%
+%
+%\path[red] (1) edge node[left] {$H \wedge T$} (2);
+%\path[red] (1) edge node[left] {$H \wedge \neg T$} (3);
+%\path[red] (1) edge node[right] {$\neg H \wedge T$} (4);
+%\path[red] (1) edge node[right] {$\neg H \wedge \neg T$} (5);
+%\path (2) edge node[left] {$OrderFood$}(6);
+%\path (3) edge node[left] {$OrderFood$}(7);
+%\path (4) edge node[right] {$OrderDrink$}(8);
+%\path (5) edge node[right] {$Wait$}(9);
+%\path (6) edge node[left] {$OrderDrink$}(10);
+%\path (7) edge node[left] {$Wait$}(11);
+%\path (8) edge node[right] {$Wait$}(12);
+%\path (10) edge node[left] {$Wait$} (13);
+%
+%
+%\end{tikzpicture}
+%
+%\noindent In this graph is it clear the interleaving between deterministic states and epistemic ones.
+
+%\subsection{Example: Service Robot assisting customers of a shopping mall}
+This example is taken from \cite{iocchi2016practical} \\ %\cite{coaches}. \\
+The input to the problem is a qualitative information about the location of the robot and the person. 
+The output is the executed behaviour which maximizes the global actual reward, which is to satisfy the person needs.
+The robot could execute some actions and provide a some services. These are: 
+\begin{itemize}
+\item move to a location
+\item approach a person or a group of people
+\item perform advertisement
+\item bring a person to a location
+\item help people carry things
+\end{itemize}
+For the sake of clarity, we introduce a simple example in which we focus on the aspects of the interaction and we do not consider other uncertainties coming from the robotic system (issues in localization and navigation, face detection, etc). 
+Consider the situation in the following image:
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{images/mall_situation1.png}
+	\caption{A snapshot of the mall, where $R$ is the Robot and $H_i$ a person}
+	\label{fig:mall_1}
+\end{figure}
+
+\noindent The qualitative information about the people locations indicates that there is a person in front of shop 2, another wandering nearby shop 6 and a third person in front of him. 
+\noindent So the set of actions could be represented as \\ 
+
+$A = \{sense\_person, move, bringto, approach\_person, approach\_group, advertise, \\ 
+       carry\_bags, wait, ask\_clothes, ask\_food, ask\_object, bye\}$\\ 
+
+\noindent where $X$ could be a generic location or the position of a shop.
+\noindent The robot is able to represent knowledge about the environment and try to guess people wishes.
+For instance, based on the people locations, he tries to infer from its knowledge if a person is interested in one particular shop or services and could provide an advertisement. 
+He maintains an internal database of all the goods for sale, divided by category, so he can better individuate people needs.
+If we recap the formula introduced in \ref{sec:approach}, we have that: \\
+
+\centerline{$X = Y \cup Z$}
+
+\noindent where $X$ represents the complete state variables, $Y$ are the environmental state variables while $Z$ are the epistemic state variables. \\
+
+\noindent $Z = \{food, clothes, object, WC, help, none\}$\\
+\noindent $Y = \{time, person\_atX, group\_atX, RLocation, foodCategory_i, genericGood_j, \\ clothingStore_k \}$\\
+
+\noindent where $food, clothes, WC, help, none$ represent the person interest in a service, while $FoodCategory_i, GenericGood_j, ClothingStore_k$ represents the specific required goods.\\
+Consider person $H2$, that is standing in front of shop 2. \\
+Lets assume that 
+\begin{itemize}
+\item shop 2 and shop 4 are clothes store. The first is a sportive clothes store, while the second is an high fashion store.
+\item shop 3 is a WC
+\item shop 1 is a market
+\item shop 5 and shop 6 are a chinese and an italian restaurant.
+\end{itemize}
+This situation is summarized in the following figure:
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{images/mall_situation2.png}
+	\caption{}
+	\label{fig:mall_2}
+\end{figure} 
+\noindent We can reasonably think that the person is looking for a specific article inside this shop, or another clothing shop, and that he's not certainly hungry. \\
+So a possible plan for $H2$ would be:
+\begin{figure}[H]
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.5cm,
+                    thin,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+%  \tikzset{every loop/.style={min distance=7mm,in=30,looseness=10}}
+%  \node[main node, initial by arrow, initial text={}] [label=right:INIT](S0){\small $S_0$};
+%  \node[main node] [below = of S0] (S1){\small $S_1$};
+%  \node[main node] [below = of S1] (S2){\small $S_2$};
+%  \node[main node] [below left = 2cm of S2] (S3){\small $S_3$};
+%  \node[main node] [below = 2cm of S2, right = 2cm of S3] (S4){\small $S_4$};
+%  \node[main node] [below = 2cm of S3] (S5){\small $S_5$};
+%  \node[main node] [below = 2cm of S4] (S6){\small $S_6$};
+%  \node[main node] [below right = of S4] (S7){\small $S_7$};
+%  \node[main node] [below = of S7] (S8){\small $S_8$};
+%  \node[main node] [below right = 2cm of S7] (S9){\small $S_9$};
+%  \node[main node] [below right = 3.5cm of S6] [label=below:GOAL](S10){\small $S_{10}$};
+%
+%\path (S0) edge [loop above] node {\small $wait$} ();
+%\path (S0) edge node {\small $goto\_2$} (S1);
+%\path (S1) edge node {\small $approach$} (S2);
+%\path (S2) edge node[left] {\small \coloIn this way robot can make assumption about the state of the world, characterize its knowledge, and replan when the outcomes are unexpected.\\r{red} $ask\_clothes$} (S3);
+%\path (S2) edge node[right] {\small \color{red} $\neg \,\, ask\_clothes$} (S4);
+%\path (S3) edge node[left] {\small $advertise$} (S5);
+%\path (S3) edge node[below] {\small $bringto\_X$} (S4);
+%\path (S4) edge node[left] {\small $bringto\_WC$} (S6);
+%\path (S4) edge node[right] {\small $ask\_food$} (S7);
+%\path (S4) edge[bend left=90] node[right] {\small $none$} (S9);
+%\path (S5) edge[bend right] node[left] {\small $bye$} (S10);
+%\path (S6) edge node[left] {\small $bye$} (S10);
+%\path (S7) edge node[right] {\small $bringto\_X$} (S8);
+%\path (S8) edge node[right] {\small $bye$} (S10);
+%\path (S9) edge node[right] {\small $bye$} (S10);
+
+  \tikzset{every loop/.style={min distance=7mm,in=30,looseness=10}}
+  \node[main node, line width=0.5mm][label=right:INIT](init){};
+  \node[draw,rectangle] [below = of init](sensep)[label=left:\color{blue}$sense\_person$] {};
+  \node[main node] [below = of sensep] (choice1){};
+%  \node[draw=none] [left = of choice1] (3dot1) {...};
+%  \node[draw=none] [right = of choice1] (3dot2) {...};
+  \node[main node] [below = of choice1] (circle1){};
+  \node[draw,rectangle] [below = of circle1] [label=right:\color{blue}$ask\_clothes$] (askclot){};
+  \node[main node] [below left = of askclot] (choice2){};
+  \node[draw,rectangle] [below right = 3cm of askclot] [label=right:\color{blue}$ask\_object$] (askobj){};
+  \node[main node, line width=1mm] [below left = of choice2] [label=below:\small\textbf{clothes}](goal1){};
+  \node[main node] [below right = of choice2] (circle2){};
+  \node[main node, line width=1mm] [below = of circle2] [label=below:\small\textbf{clothes}](goal2){};
+  \node[main node] [below left = of askobj] (circle3){};
+  \node[draw,rectangle] [below right = 4cm of askobj] [label=right:\color{blue}$ask\_food$] (askfood){};
+  \node[main node] [below = of circle3] (circle4){};
+  \node[main node, line width=1mm] [below = of circle4][label=below:\small\textbf{object}](goal3){};
+  \node[main node] [below left = of askfood] (choice3){};
+  \node[main node] [below right = of askfood] (circle5){};
+  \node[main node, line width=1mm] [below = of circle5][label=below:\small\textbf{none}](goal4){};
+  \node[main node] [below left = of choice3] (circle6){};
+  \node[main node] [below right = of choice3] (circle7){};
+  \node[main node, line width=1mm] [below = 2.cm of circle6][label=below:\small\textbf{food}](goal5){};
+  \node[main node, line width=1mm] [below = 2.cm of circle7][label=below:\small\textbf{food}](goal6){};
+
+\path (init) edge node[left] {\small $wait$} (sensep);
+%\path (sensep) edge [bend right] node[right] {\small \color{red} F} (init);
+%\path (sensep) edge node[right] {\small \color{red} T} (choice1);
+\draw[name path=e1] (sensep) to [bend right] node[right] {\small \color{red} $F$} (init);
+\draw[name path=e2] (sensep) to node[left] {\small \color{red} $T$} (choice1);
+\path[name path=arc1] (sensep) circle (1);
+\draw[name intersections={of=e1 and arc1, by=i1},
+      name intersections={of=e2 and arc1, by=i2},
+      -,shorten >=1pt,thick]
+  (i1) to[bend left] (i2); 
+  
+%\path (choice1) edge node[above left] {$goto\_Sh6$} (3dot1);
+%\path (choice1) edge node[above right] {$goto\_Entr1$} (3dot2);
+\path (choice1) edge node[right] {\small $move$} (circle1);
+\path (circle1) edge node[right] {\small $approach\_person$} (askclot);
+\path (askclot) edge node[left] {\small \color{red} T}(choice2);
+\path (askclot) edge node[right] {\small \color{red} F}(askobj);
+\path (choice2) edge node[left] {\small $advertise$} (goal1);
+\path (choice2) edge node[right] {\small $bringto\_Sh4$} (circle2);
+\path (circle2) edge node[left] {\small $advertise$} (goal2);
+\path (askobj) edge node[left] {\small \color{red} T}(circle3);
+\path (askobj) edge node[right] {\small \color{red} F}(askfood);
+\path (circle3) edge node[right] {\small $bringto\_Market$}(circle4);
+\path (circle4) edge node[left] {\small $advertise$}(goal3);
+\path (askfood) edge node[left] {\small \color{red} T}(choice3);
+\path (askfood) edge node[right] {\small \color{red} F}(circle5);
+\path (circle5) edge node[right] {\small $bye$}(goal4);
+\path (choice3) edge node[left] {\small $bringto\_5$}(circle6);
+\path (choice3) edge node[right] {\small $bringto\_6$}(circle7);
+\path (circle6) edge node[left] {\small $advertise$} (goal5);
+\path (circle7) edge node[left] {\small $advertise$} (goal6);
+
+\end{tikzpicture}
+\caption{a plan for H2}
+\end{figure}
+
+\noindent Where the squares ($ \square $) represents "sensing actions", that are non deterministic actions used by the robot in order to investigate about environment properties. We assume that a state in which at least one of the $Z$ properties holds is a goal state. \\
+\newline
+\noindent I will now introduce some formalisms for planning problem representation.\\ 
+A more detailed discussion about this formalisms and others will be presented in \ref{sec:formalism}.
+
+\section{Planning: some hints}
+Once a problem is characterized, we must define the techniques necessary to solve it.\\
+Planning is "\textit{the task of coming up with a sequence of actions that will achieve a goal}" \cite{russell2005ai}.\\
+When talking about complex problems, classical search-based planning approaches cease to be useful as any algorithm easily get lost in the possible huge state space.
+In this cases, a language for represent the problem represent a better solution.
+The convenience of using a formal language is that it guides the planning algorithms through the search of the solution by exploiting the problem logical structure. \\
+On other hand, we must deal with some contraindications. Some of these are:
+\begin{itemize}
+\item \textbf{Uncertainty.} How to deal with uncertainty in action effects and in the state.
+\item \textbf{Goal existence.} Does a goal exist? Is it possible to compute it?
+\item \textbf{Expressivity vs Complexity.} Can we represent the problem? Is it possible to compute a solution?
+\end{itemize} 
+
+\noindent Try to address all this questions is behind the scope of this thesis.\\ 
+Instead, I will show how to deal with uncertainty in the representation
+and how to generate robust plans, that are plans that execute safely with limited or no needs for replanning.\\
+\newline
+\noindent In chapter \ref{sec:related_works} I will present the context of this work and the state of the art.\\ 
+In chapter \ref{sec:plan_repr} I will review some of the formalisms in literature, showing their pros and cons in terms of representation expressivity and computation complexity.\\ 
+In chapter \ref{sec:approach} I make some consideration about the analysis done in the precedent chapter and I will introduce the used approach.\\ 
+In chapter \ref{sec:foundation} the tools used for the developing of the thesis are presented. In chapter \ref{sec:system} the system is presented, with the architecture and algorithms descriptions.\\ 
+Finally, in chapter \ref{sec:use_cases} and \ref{sec:conclusion} some problem examples and considerations about the work are done.
+\chapter{Related Works}\label{sec:related_works}
 This chapter reviews the state of the art and identifies the field of interest of this work.
 
 \section{Social Robotics}
@@ -157,8 +390,8 @@ Those cases represents the most significant for this work. In this case the inte
 \textbf{Examples:} \textit{Project COACHES (\url{https://coaches.greyc.fr/}), Amelia the Assistant (\url{http://www.ipsoft.com/amelia/}), assistance task}.
 
 
-\chapter{Plan Representation}\label{sec:formalism}
-In this chapter I will reviews some of the most diffused formalisms and languages for plan representation.
+\chapter{Plan Representation}\label{sec:plan_repr}
+In this chapter I will discuss about some of the most diffused formalisms and languages for plan representation.
 \section{Formalisms}\label{sec:formalism}
 \subsection{STRIPS (Classical Planning)}
 \noindent STRIPS \cite{fikes1971strips} stand for STanford Research Institute Problem Solver. %\cite{strips}
@@ -482,7 +715,7 @@ Given an action $a$ and a belief state $b$, the next belief state deriving from 
 \noindent $C(b,a) = \sum\limits_{s \in S}C(s,a)b(s)$ 
 \end{center}
 
-\subsection{Analysis of Formalisms}\label{analysis}
+\section{Analysis of Formalisms}\label{analysis}
 The introduced formalisms and models show the essential bond between expressiveness and computational complexity. The planning problem in classic logic is decidable but the complexity varies from constant to EXPTIME depending on which characteristics are added to the language. 
 \newline
 
@@ -616,447 +849,7 @@ Where the properties showed are:
 %\end{itemize}
 \noindent Summarizing, our aim is to define an architecture capable of translate different formalisms into a conditional plan that will represent a PNP, in order to satisfy some tasks requirements, while finding the best trade-off between complexity and expressivity. \\
 
-\noindent In the next section I will present a motivating example along with a possible solution for some of the described formalisms. \\
-In particular, I will characterize the input/output of each problem and provide a sketch for a possible optimal solution.
-
-\newpage
-\section{Motivating Example: COACHES}
-\label{sec:motivating}
-%\subsection{Example : Waitress Robot}
-%We first focus on an instance of the problem where a person is sitting waiting to order.
-%Initially we cannot assume nothing about the client state (is he hungry? is he thirsty?), but in the plan we must consider all the situation equally probable.
-%A possible set of variables describing the state of the environment could be: \\ 
-%$Y = \{OpenDoor, ClosedDoor, FoodReady, DrinkReady\}$\\
-%A minimal set of properties describing the human state could be:\\
-%$Z = \{H, T\}$\\
-%\noindent where $H$ stands for hungry and $T$ for thirsty. \\
-%For the actions we have the set:\\
-%$\{OrderDrink, OrderFood, OpenDoor, EnterDoor, Wait\}$
-%Consider this instance of the problem, where a person is sitting at the table waiting to order. The following graph shows a possible solution for ordering problem:
-%
-%\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
-%                    thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
-%
-%  \node[main node] (1) [label=above:INIT]{};
-%  \node[main node] (2) [xshift=-2cm, yshift=-2cm, below left = of 1]{};
-%  \node[main node] (3) [yshift=-1.5cm, below  = of 1]{};
-%  \node[main node] (4) [xshift=1cm, yshift=-1cm, below  = of 1]{};
-%  \node[main node] (5) [xshift=4cm,yshift=-2cm,below right = of 1]{};
-%  \node[main node] (6) [below = of 2]{};
-%  \node[main node] (7) [below = of 3]{};
-%  \node[main node] (8) [below = of 4]{};
-%  \node[main node] (9) [below = of 5]{};
-%  \node[main node] (10) [below = of 6]{};
-%  \node[main node] (11) [below = of 7]{};
-%  \node[main node] (12) [below = of 8]{};
-%  \node[main node] (13) [below = of 10]{};
-%
-%
-%\path[red] (1) edge node[left] {$H \wedge T$} (2);
-%\path[red] (1) edge node[left] {$H \wedge \neg T$} (3);
-%\path[red] (1) edge node[right] {$\neg H \wedge T$} (4);
-%\path[red] (1) edge node[right] {$\neg H \wedge \neg T$} (5);
-%\path (2) edge node[left] {$OrderFood$}(6);
-%\path (3) edge node[left] {$OrderFood$}(7);
-%\path (4) edge node[right] {$OrderDrink$}(8);
-%\path (5) edge node[right] {$Wait$}(9);
-%\path (6) edge node[left] {$OrderDrink$}(10);
-%\path (7) edge node[left] {$Wait$}(11);
-%\path (8) edge node[right] {$Wait$}(12);
-%\path (10) edge node[left] {$Wait$} (13);
-%
-%
-%\end{tikzpicture}
-%
-%\noindent In this graph is it clear the interleaving between deterministic states and epistemic ones.
-
-%\subsection{Example: Service Robot assisting customers of a shopping mall}
-This example is taken from \cite{iocchi2016practical} \\ %\cite{coaches}. \\
-The input to the problem is a qualitative information about the location of the robot and the person. 
-The output is the executed behaviour which maximizes the global actual reward, which is to satisfy the person needs.
-The robot could execute some actions and provide a some services. These are: 
-\begin{itemize}
-\item move to a location
-\item approach a person or a group of people
-\item perform advertisement
-\item bring a person to a location
-\item help people carry things
-\end{itemize}
-For the sake of clarity, we introduce a simple example in which we focus on the aspects of the interaction and we do not consider other uncertainties coming from the robotic system (issues in localization and navigation, face detection, etc). 
-Consider the situation in the following image:
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{images/mall_situation1.png}
-	\caption{A snapshot of the mall, where $R$ is the Robot and $H_i$ a person}
-	\label{fig:mall_1}
-\end{figure}
-
-\noindent The qualitative information about the people locations indicates that there is a person in front of shop 2, another wandering nearby shop 6 and a third person in front of him. 
-\noindent So the set of actions could be represented as \\ 
-
-$A = \{sense\_person, move, bringto, approach\_person, approach\_group, advertise, \\ 
-       carry\_bags, wait, ask\_clothes, ask\_food, ask\_object, bye\}$\\ 
-
-\noindent where $X$ could be a generic location or the position of a shop.
-\noindent The robot is able to represent knowledge about the environment and try to guess people wishes.
-For instance, based on the people locations, he tries to infer from its knowledge if a person is interested in one particular shop or services and could provide an advertisement. 
-He maintains an internal database of all the goods for sale, divided by category, so he can better individuate people needs.
-If we recap the formula introduced in \ref{sec:approach}, we have that: \\
-
-\centerline{$X = Y \cup Z$}
-
-\noindent where $X$ represents the complete state variables, $Y$ are the environmental state variables while $Z$ are the epistemic state variables. \\
-
-\noindent $Z = \{food, clothes, object, WC, help, none\}$\\
-\noindent $Y = \{time, person\_atX, group\_atX, RLocation, foodCategory_i, genericGood_j, \\ clothingStore_k \}$\\
-
-\noindent where $food, clothes, WC, help, none$ represent the person interest in a service, while $FoodCategory_i, GenericGood_j, ClothingStore_k$ represents the specific required goods.\\
-Consider person $H2$, that is standing in front of shop 2. \\
-Lets assume that 
-\begin{itemize}
-\item shop 2 and shop 4 are clothes store. The first is a sportive clothes store, while the second is an high fashion store.
-\item shop 3 is a WC
-\item shop 1 is a market
-\item shop 5 and shop 6 are a chinese and an italian restaurant.
-\end{itemize}
-This situation is summarized in the following figure:
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{images/mall_situation2.png}
-	\caption{}
-	\label{fig:mall_2}
-\end{figure} 
-\noindent We can reasonably think that the person is looking for a specific article inside this shop, or another clothing shop, and that he's not certainly hungry. \\
-So a possible plan for $H2$ would be:
-\begin{figure}[H]
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.5cm,
-                    thin,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
-
-%  \tikzset{every loop/.style={min distance=7mm,in=30,looseness=10}}
-%  \node[main node, initial by arrow, initial text={}] [label=right:INIT](S0){\small $S_0$};
-%  \node[main node] [below = of S0] (S1){\small $S_1$};
-%  \node[main node] [below = of S1] (S2){\small $S_2$};
-%  \node[main node] [below left = 2cm of S2] (S3){\small $S_3$};
-%  \node[main node] [below = 2cm of S2, right = 2cm of S3] (S4){\small $S_4$};
-%  \node[main node] [below = 2cm of S3] (S5){\small $S_5$};
-%  \node[main node] [below = 2cm of S4] (S6){\small $S_6$};
-%  \node[main node] [below right = of S4] (S7){\small $S_7$};
-%  \node[main node] [below = of S7] (S8){\small $S_8$};
-%  \node[main node] [below right = 2cm of S7] (S9){\small $S_9$};
-%  \node[main node] [below right = 3.5cm of S6] [label=below:GOAL](S10){\small $S_{10}$};
-%
-%\path (S0) edge [loop above] node {\small $wait$} ();
-%\path (S0) edge node {\small $goto\_2$} (S1);
-%\path (S1) edge node {\small $approach$} (S2);
-%\path (S2) edge node[left] {\small \coloIn this way robot can make assumption about the state of the world, characterize its knowledge, and replan when the outcomes are unexpected.\\r{red} $ask\_clothes$} (S3);
-%\path (S2) edge node[right] {\small \color{red} $\neg \,\, ask\_clothes$} (S4);
-%\path (S3) edge node[left] {\small $advertise$} (S5);
-%\path (S3) edge node[below] {\small $bringto\_X$} (S4);
-%\path (S4) edge node[left] {\small $bringto\_WC$} (S6);
-%\path (S4) edge node[right] {\small $ask\_food$} (S7);
-%\path (S4) edge[bend left=90] node[right] {\small $none$} (S9);
-%\path (S5) edge[bend right] node[left] {\small $bye$} (S10);
-%\path (S6) edge node[left] {\small $bye$} (S10);
-%\path (S7) edge node[right] {\small $bringto\_X$} (S8);
-%\path (S8) edge node[right] {\small $bye$} (S10);
-%\path (S9) edge node[right] {\small $bye$} (S10);
-
-  \tikzset{every loop/.style={min distance=7mm,in=30,looseness=10}}
-  \node[main node, line width=0.5mm][label=right:INIT](init){};
-  \node[draw,rectangle] [below = of init](sensep)[label=left:\color{blue}$sense\_person$] {};
-  \node[main node] [below = of sensep] (choice1){};
-%  \node[draw=none] [left = of choice1] (3dot1) {...};
-%  \node[draw=none] [right = of choice1] (3dot2) {...};
-  \node[main node] [below = of choice1] (circle1){};
-  \node[draw,rectangle] [below = of circle1] [label=right:\color{blue}$ask\_clothes$] (askclot){};
-  \node[main node] [below left = of askclot] (choice2){};
-  \node[draw,rectangle] [below right = 3cm of askclot] [label=right:\color{blue}$ask\_object$] (askobj){};
-  \node[main node, line width=1mm] [below left = of choice2] [label=below:\small\textbf{clothes}](goal1){};
-  \node[main node] [below right = of choice2] (circle2){};
-  \node[main node, line width=1mm] [below = of circle2] [label=below:\small\textbf{clothes}](goal2){};
-  \node[main node] [below left = of askobj] (circle3){};
-  \node[draw,rectangle] [below right = 4cm of askobj] [label=right:\color{blue}$ask\_food$] (askfood){};
-  \node[main node] [below = of circle3] (circle4){};
-  \node[main node, line width=1mm] [below = of circle4][label=below:\small\textbf{object}](goal3){};
-  \node[main node] [below left = of askfood] (choice3){};
-  \node[main node] [below right = of askfood] (circle5){};
-  \node[main node, line width=1mm] [below = of circle5][label=below:\small\textbf{none}](goal4){};
-  \node[main node] [below left = of choice3] (circle6){};
-  \node[main node] [below right = of choice3] (circle7){};
-  \node[main node, line width=1mm] [below = 2.cm of circle6][label=below:\small\textbf{food}](goal5){};
-  \node[main node, line width=1mm] [below = 2.cm of circle7][label=below:\small\textbf{food}](goal6){};
-
-\path (init) edge node[left] {\small $wait$} (sensep);
-%\path (sensep) edge [bend right] node[right] {\small \color{red} F} (init);
-%\path (sensep) edge node[right] {\small \color{red} T} (choice1);
-\draw[name path=e1] (sensep) to [bend right] node[right] {\small \color{red} $F$} (init);
-\draw[name path=e2] (sensep) to node[left] {\small \color{red} $T$} (choice1);
-\path[name path=arc1] (sensep) circle (1);
-\draw[name intersections={of=e1 and arc1, by=i1},
-      name intersections={of=e2 and arc1, by=i2},
-      -,shorten >=1pt,thick]
-  (i1) to[bend left] (i2); 
-  
-%\path (choice1) edge node[above left] {$goto\_Sh6$} (3dot1);
-%\path (choice1) edge node[above right] {$goto\_Entr1$} (3dot2);
-\path (choice1) edge node[right] {\small $move$} (circle1);
-\path (circle1) edge node[right] {\small $approach\_person$} (askclot);
-\path (askclot) edge node[left] {\small \color{red} T}(choice2);
-\path (askclot) edge node[right] {\small \color{red} F}(askobj);
-\path (choice2) edge node[left] {\small $advertise$} (goal1);
-\path (choice2) edge node[right] {\small $bringto\_Sh4$} (circle2);
-\path (circle2) edge node[left] {\small $advertise$} (goal2);
-\path (askobj) edge node[left] {\small \color{red} T}(circle3);
-\path (askobj) edge node[right] {\small \color{red} F}(askfood);
-\path (circle3) edge node[right] {\small $bringto\_Market$}(circle4);
-\path (circle4) edge node[left] {\small $advertise$}(goal3);
-\path (askfood) edge node[left] {\small \color{red} T}(choice3);
-\path (askfood) edge node[right] {\small \color{red} F}(circle5);
-\path (circle5) edge node[right] {\small $bye$}(goal4);
-\path (choice3) edge node[left] {\small $bringto\_5$}(circle6);
-\path (choice3) edge node[right] {\small $bringto\_6$}(circle7);
-\path (circle6) edge node[left] {\small $advertise$} (goal5);
-\path (circle7) edge node[left] {\small $advertise$} (goal6);
-
-\end{tikzpicture}
-\caption{a plan for H2}
-\end{figure}
-
-\noindent Where the squares ($ \square $) represents "sensing actions", that are non deterministic actions used by the robot in order to investigate about environment properties. We assume that a state in which at least one of the $Z$ properties holds is a goal state. 
-
-\noindent I will now show possible solutions for this problem using some of the introduced formalisms. 
-
-\subsubsection{PDDL}
-First, I will present a solution in PDDL (ver. 1.2), which is a standard "de facto" for the specification of planning problems. 
-\\In order to do that, we must characterize objects, predicates, actions, initial and final states.\\
-I have used FF (ver. 2.3) \footnote{\url{https://fai.cs.uni-saarland.de/hoffmann/ff.html}} planner in order to produce the planes and check the satisfiability of the problem.
-In this domain description I will consider only $H\_2$ for the sake of clarity \\
-
-\noindent For the predicates we have:
-\begin{verbatim}
-(:predicates
-            ;robot and person properties
-            (person ?x) (robot ?x)
-            (at-robot ?x) (at-person ?x)
-            (close-to ?x)(wait ?x)(bags-loaded ?x)
-
-            ;needs represents the person necessity
-            (needs-help ?x) (needs-WC ?x) (needs-obj ?x)
-            (needs-food ?x) (needs-clothes ?x)
-
-            ;desire predicates used to disambiguate which food/cloth
-            (desire-italian ?x) (desire-chinese ?x)
-            (desire-sportive ?x) (desire-fashion ?x)
-
-            ;locations predicates
-            (SHOP ?x) (entrance ?x) (WC ?x) (market ?x)
-            (sportive-clothes ?x) (fashion-clothes ?x)
-            (chinese-restaurant ?x) (italian-restaurant ?x)
-
-            ; 'sensing' actions
-            (ask-italian ?p) (ask-chinese ?p)
-            (ask-sportive ?p) (ask-fashion ?p)
-            (ask-obj ?p) (satisfied ?x)
-
-)
-\end{verbatim}
-
-\noindent I will not list all the actions specifications, but instead I will focus on sensing actions:
-\begin{verbatim}
-(:action sense-person
-                      :parameters ( ?r ?p)
-                      :precondition (and(person ?p)(robot ?r)(wait ?r))
-                      :effect (not(wait ?r))
-)
-\end{verbatim}
-
-\begin{verbatim}
-(:action ask_clothes
-           :parameters ( ?r ?p ?x)
-           :precondition (and (person ?p)(robot ?r)(close-to ?p))
-           :effect (and
-                        (needs-clothes ?p)
-                        (when
-                              (and (at-person ?x)(sportive-clothes ?x))
-                              (desire-sportive ?p)
-                        )
-                        (when
-                              (and (at-person ?x)(fashion-clothes ?x))
-                              (desire-fashion ?p)
-                        )
-                   )
-)
-\end{verbatim}
-
-\begin{verbatim}
-(:action ask_food
-             :parameters ( ?r ?p ?x)
-             :precondition (and (person ?p)(robot ?r)(close-to ?p)(at-person ?x))
-             :effect (and
-                          (needs-food ?p)
-                          (when
-                                (italian-restaurant ?x)
-                                (desire-italian ?p)
-                          )
-                          (when
-                                (chinese-restaurant ?x)
-                                (desire-chinese ?p)
-                          )
-                     )
-)
-\end{verbatim}
-
-\begin{verbatim}
-(:action ask_object 
-             :parameters ( ?r ?p ?x)
-             :precondition (and (person ?p)(robot ?r)(close-to ?p)(at-person ?x)(market ?x))
-             :effect (needs-obj ?p)
-)
-\end{verbatim}
-
-\noindent It is clear from the specifications that they are not real sensing actions. In fact, all the information must be known at planning time in order to compute a solution and there are no non-deterministic effects.
-
-The objects are:
-\begin{verbatim}
-  (:objects shop1 shop2 shop3
-          shop4 shop5 shop6
-          entr1 entr2
-          food clothes obj
-          WC help none
-          r h2
-  )
-\end{verbatim}
-\noindent where $\{food, clothes, obj, WC, help, none\}$ models the Z variables presented in \ref{sec:motivating}.\\
-\noindent We can then characterize the initial and final state as:
-\begin{verbatim}
-(:init (robot r)(person h2)
-       (wait r) (desire-fashion h2)
-	   (at-robot shop4) (at-person shop2)
-       (entrance entr1)(entrance entr2)
-       (SHOP shop1)(SHOP shop2)(SHOP shop3)
-       (SHOP shop4)(SHOP shop5)(SHOP shop6)
-       (market shop1)(WC shop3)
-       (sportive-clothes shop2)(fashion-clothes shop4)
-       (chinese-restaurant shop5)(italian-restaurant shop6)
-)
-\end{verbatim}
-
-\begin{verbatim}
-(:goal
-    (satisfied h2)
-)
-\end{verbatim}
-\noindent Given this domain and this problem instance, where the "\textit{desire-fashion h2}" predicate is explicitly indicated in the initial state, the output of the FF planner is:
-\begin{verbatim}
-ff: parsing domain file
-domain 'COACHES' defined
- ... done.
-ff: parsing problem file
-problem 'H2-PLAN' defined
- ... done.    
-
-ff: found legal plan as follows
-
-step    0: SENSE-PERSON R H2
-        1: MOVE SHOP4 SHOP2 R
-        2: APPROACH-PERSON H2 SHOP2
-        3: ASK_CLOTHES R H2 SHOP1
-        4: BRINGTO R H2 SHOP2 SHOP4
-        5: ADVERTISE-FASHION SHOP4 H2
-        6: CHECK_SATISFACTION H2
-\end{verbatim}
-
-\noindent PDDL was meant to express the "physics" of a domain, and not intrinsic properties of an agent.
-In particular, in order to implement sensing actions, we must extend PDDL with the concept of knowledge. An example can be found in \cite{iocchi2003}, in which the authors have introduced in the PDDL action definition the notion of inertial and sensing effects.
-
-\newpage
-\subsubsection{KPDDL}
-In KPDDL sensing actions could be modelled using the syntactic construct \textbf{:sense}. Most of the predicates, actions and constants remain unchanged with respect to the PDDL case:
-\begin{verbatim}
-
-  (:action sense_person
-           :parameters ( ?r - robot ?x -location)
-           :precondition (sensing ?r)
-           :sense (at-person ?x)
-  )
-
-  (:action ask_object
-           :parameters ( ?p - person )
-           :precondition (close-to ?p)
-           :sense (needs-obj ?p)
- )
-
- (:action ask_clothes
-          :parameters ( ?p - person )
-          :precondition (close-to ?p)
-          :sense (needs-clothes ?p)
- )
-
-
- (:action ask_food
-          :parameters ( ?p - person )
-          :precondition (close-to ?p)
-          :sense (needs-food ?p)
- )
-\end{verbatim}\\
-\noindent The substantial difference is that after the execution of such actions the agent knows whether the property sensed by the action is true or false. 
-\noindent We can then define the initial state and the goal as following:
-\begin{verbatim}
-(define
-  (problem h2-plan)
-  (:domain coaches)
-  (:formula-init (and
-                     (at-robot shop4)
-                     (at-person shop2)
-                     (market shop1)
-                     (sportive-clothes shop2)
-                     (WC shop3)
-                     (fashion-clothes shop4)
-                     (chinese-restaurant shop5)
-                     (italian-restaurant shop6)
-                 )
-  )
-
-  (:goal
-      (satisfied h2)
-  )
-)
-\end{verbatim}
-\noindent When given as input to KPlanner, the domain and the problem instance produce the following output:
-\begin{verbatim}
-INIT: 9
-  1 :    approach-person_h2_shop2 --> 2 
-  2 :    load-bags_h2_r --> 3 
-  3 :    carry-bags_h2_r_entr2 --> 4 
-  4 :    ask_food_h2 (F) --> 5    ask_food_h2 (T) --> 6 
-  5 :    bye_h2 --> 0 
-  6 :    bringto_h2_shop2_shop6 --> 7 
-  7 :    advertise-italian_h2_shop6 --> 8 
-  8 :    bye_h2 --> 0 
-  9 :    move_shop4_shop2_r --> 1 
-  0 : GOAL
-\end{verbatim}\\
-\noindent The state description is the conjunction of the properties that holds true in a state.\\ 
-Consider, for instance, the state $4,5,6$ corresponding to the sensing action \textit{ask\_food} (the ground predicates corresponding to the shops are omitted): 
-\begin{verbatim}
-  4 = ( at-robot_shop2  at-person_shop2  close-to_h2  -bags-loaded_r -needs-help_h2 )
-  5 = ( at-robot_shop2   at-person_shop2  close-to_h2  
-        -bags-loaded_r  -needs-help_h2  -needs-food_h2 )
-  6 = ( at-robot_shop2  at-person_shop2  close-to_h2  
-        -bags-loaded_r  -needs-help_h2  needs-food_h2  )
-\end{verbatim}
-Where we can notice how the epistemic state changes.\\ 
-In particular, before the execution of  \textit{ask\_food}, we know only \textbf{-needs-help\_h2}. After its execution, we can observe two distinct state: one in which \textbf{needs-food\_h2} holds true, and one in which not.
-
-\subsection{PDDL (ROSPlan)}
-Here we introduce a slightly different version of PDDL, similar to KPDDL, that is used in the ROSPlan Framework (which will be presented in \ref{sec:rosplan}).\\
-As in KPDDL, in this case PDDL is extended with introduction of the \textbf{:observe} construct for action effects, used to define sensing actions.
-The coaches domain equivalent in this language is:
-%TODO completare
-
-%\section{RDDL}
-
-\chapter{Foundation Tools}
+\chapter{Foundation Tools}\label{sec:foundation}
 In the following I will illustrate the tools used for the development of this thesis.
 
 \section{Petri Net Plan}\label{petrinet}
@@ -1240,7 +1033,7 @@ The first provides a list of action dispatch messages. The second stores the pla
 \noindent The standard language and planner in ROSPlan are PDDL 2.1 and POPF\cite{coles2010forward},%\cite{popf}, 
 that accepts only domains with temporal constraints and no uncertainty. To integrate the work of this thesis with the ROSPlan architecture some modification was necessary, as we will discuss later.
 
-\chapter{System Overview}
+\chapter{System Overview}\label{sec:system}
 In this chapter I will explain the contribution of this thesis and illustrate the results obtained.\\
 \newline
 
@@ -1584,7 +1377,245 @@ The simplest case is the one of the standard PDDL domain, in which he recursivel
  \caption{PNPgen from Conditional Plan}
 \end{algorithm}}
 
-\chapter{Conclusion}
+\noindent In the next section I will review the motivating example with a possible solution for some of the described formalisms. \\
+In particular, I will characterize the input/output of each problem and provide a sketch for a possible optimal solution.
+
+\chapter{Use Cases}\label{sec:use_cases}
+In this section I will characterize some example, from the problem definition to the plan generation.
+
+\section{PDDL}
+First, I will present a solution in PDDL (ver. 1.2), which is a standard "de facto" for the specification of planning problems. 
+\\In order to do that, we must characterize objects, predicates, actions, initial and final states.\\
+I have used FF (ver. 2.3) \footnote{\url{https://fai.cs.uni-saarland.de/hoffmann/ff.html}} planner in order to produce the planes and check the satisfiability of the problem.
+In this domain description I will consider only $H\_2$ for the sake of clarity \\
+
+\noindent For the predicates we have:
+\begin{verbatim}
+(:predicates
+            ;robot and person properties
+            (person ?x) (robot ?x)
+            (at-robot ?x) (at-person ?x)
+            (close-to ?x)(wait ?x)(bags-loaded ?x)
+
+            ;needs represents the person necessity
+            (needs-help ?x) (needs-WC ?x) (needs-obj ?x)
+            (needs-food ?x) (needs-clothes ?x)
+
+            ;desire predicates used to disambiguate which food/cloth
+            (desire-italian ?x) (desire-chinese ?x)
+            (desire-sportive ?x) (desire-fashion ?x)
+
+            ;locations predicates
+            (SHOP ?x) (entrance ?x) (WC ?x) (market ?x)
+            (sportive-clothes ?x) (fashion-clothes ?x)
+            (chinese-restaurant ?x) (italian-restaurant ?x)
+
+            ; 'sensing' actions
+            (ask-italian ?p) (ask-chinese ?p)
+            (ask-sportive ?p) (ask-fashion ?p)
+            (ask-obj ?p) (satisfied ?x)
+
+)
+\end{verbatim}
+
+\noindent I will not list all the actions specifications, but instead I will focus on sensing actions:
+\begin{verbatim}
+(:action sense-person
+                      :parameters ( ?r ?p)
+                      :precondition (and(person ?p)(robot ?r)(wait ?r))
+                      :effect (not(wait ?r))
+)
+\end{verbatim}
+
+\begin{verbatim}
+(:action ask_clothes
+           :parameters ( ?r ?p ?x)
+           :precondition (and (person ?p)(robot ?r)(close-to ?p))
+           :effect (and
+                        (needs-clothes ?p)
+                        (when
+                              (and (at-person ?x)(sportive-clothes ?x))
+                              (desire-sportive ?p)
+                        )
+                        (when
+                              (and (at-person ?x)(fashion-clothes ?x))
+                              (desire-fashion ?p)
+                        )
+                   )
+)
+\end{verbatim}
+
+\begin{verbatim}
+(:action ask_food
+             :parameters ( ?r ?p ?x)
+             :precondition (and (person ?p)(robot ?r)(close-to ?p)(at-person ?x))
+             :effect (and
+                          (needs-food ?p)
+                          (when
+                                (italian-restaurant ?x)
+                                (desire-italian ?p)
+                          )
+                          (when
+                                (chinese-restaurant ?x)
+                                (desire-chinese ?p)
+                          )
+                     )
+)
+\end{verbatim}
+
+\begin{verbatim}
+(:action ask_object 
+             :parameters ( ?r ?p ?x)
+             :precondition (and (person ?p)(robot ?r)(close-to ?p)(at-person ?x)(market ?x))
+             :effect (needs-obj ?p)
+)
+\end{verbatim}
+
+\noindent It is clear from the specifications that they are not real sensing actions. In fact, all the information must be known at planning time in order to compute a solution and there are no non-deterministic effects.
+
+The objects are:
+\begin{verbatim}
+  (:objects shop1 shop2 shop3
+          shop4 shop5 shop6
+          entr1 entr2
+          food clothes obj
+          WC help none
+          r h2
+  )
+\end{verbatim}
+\noindent where $\{food, clothes, obj, WC, help, none\}$ models the Z variables presented in \ref{sec:motivating}.\\
+\noindent We can then characterize the initial and final state as:
+\begin{verbatim}
+(:init (robot r)(person h2)
+       (wait r) (desire-fashion h2)
+	   (at-robot shop4) (at-person shop2)
+       (entrance entr1)(entrance entr2)
+       (SHOP shop1)(SHOP shop2)(SHOP shop3)
+       (SHOP shop4)(SHOP shop5)(SHOP shop6)
+       (market shop1)(WC shop3)
+       (sportive-clothes shop2)(fashion-clothes shop4)
+       (chinese-restaurant shop5)(italian-restaurant shop6)
+)
+\end{verbatim}
+
+\begin{verbatim}
+(:goal
+    (satisfied h2)
+)
+\end{verbatim}
+\noindent Given this domain and this problem instance, where the "\textit{desire-fashion h2}" predicate is explicitly indicated in the initial state, the output of the FF planner is:
+\begin{verbatim}
+ff: parsing domain file
+domain 'COACHES' defined
+ ... done.
+ff: parsing problem file
+problem 'H2-PLAN' defined
+ ... done.    
+
+ff: found legal plan as follows
+
+step    0: SENSE-PERSON R H2
+        1: MOVE SHOP4 SHOP2 R
+        2: APPROACH-PERSON H2 SHOP2
+        3: ASK_CLOTHES R H2 SHOP1
+        4: BRINGTO R H2 SHOP2 SHOP4
+        5: ADVERTISE-FASHION SHOP4 H2
+        6: CHECK_SATISFACTION H2
+\end{verbatim}
+
+\noindent PDDL was meant to express the "physics" of a domain, and not intrinsic properties of an agent.
+In particular, in order to implement sensing actions, we must extend PDDL with the concept of knowledge. An example can be found in \cite{iocchi2003}, in which the authors have introduced in the PDDL action definition the notion of inertial and sensing effects.
+
+\newpage
+\section{KPDDL}
+In KPDDL sensing actions could be modelled using the syntactic construct \textbf{:sense}. Most of the predicates, actions and constants remain unchanged with respect to the PDDL case:
+\begin{verbatim}
+
+  (:action sense_person
+           :parameters ( ?r - robot ?x -location)
+           :precondition (sensing ?r)
+           :sense (at-person ?x)
+  )
+
+  (:action ask_object
+           :parameters ( ?p - person )
+           :precondition (close-to ?p)
+           :sense (needs-obj ?p)
+ )
+
+ (:action ask_clothes
+          :parameters ( ?p - person )
+          :precondition (close-to ?p)
+          :sense (needs-clothes ?p)
+ )
+
+
+ (:action ask_food
+          :parameters ( ?p - person )
+          :precondition (close-to ?p)
+          :sense (needs-food ?p)
+ )
+\end{verbatim}\\
+\noindent The substantial difference is that after the execution of such actions the agent knows whether the property sensed by the action is true or false. 
+\noindent We can then define the initial state and the goal as following:
+\begin{verbatim}
+(define
+  (problem h2-plan)
+  (:domain coaches)
+  (:formula-init (and
+                     (at-robot shop4)
+                     (at-person shop2)
+                     (market shop1)
+                     (sportive-clothes shop2)
+                     (WC shop3)
+                     (fashion-clothes shop4)
+                     (chinese-restaurant shop5)
+                     (italian-restaurant shop6)
+                 )
+  )
+
+  (:goal
+      (satisfied h2)
+  )
+)
+\end{verbatim}
+\noindent When given as input to KPlanner, the domain and the problem instance produce the following output:
+\begin{verbatim}
+INIT: 9
+  1 :    approach-person_h2_shop2 --> 2 
+  2 :    load-bags_h2_r --> 3 
+  3 :    carry-bags_h2_r_entr2 --> 4 
+  4 :    ask_food_h2 (F) --> 5    ask_food_h2 (T) --> 6 
+  5 :    bye_h2 --> 0 
+  6 :    bringto_h2_shop2_shop6 --> 7 
+  7 :    advertise-italian_h2_shop6 --> 8 
+  8 :    bye_h2 --> 0 
+  9 :    move_shop4_shop2_r --> 1 
+  0 : GOAL
+\end{verbatim}\\
+\noindent The state description is the conjunction of the properties that holds true in a state.\\ 
+Consider, for instance, the state $4,5,6$ corresponding to the sensing action \textit{ask\_food} (the ground predicates corresponding to the shops are omitted): 
+\begin{verbatim}
+  4 = ( at-robot_shop2  at-person_shop2  close-to_h2  -bags-loaded_r -needs-help_h2 )
+  5 = ( at-robot_shop2   at-person_shop2  close-to_h2  
+        -bags-loaded_r  -needs-help_h2  -needs-food_h2 )
+  6 = ( at-robot_shop2  at-person_shop2  close-to_h2  
+        -bags-loaded_r  -needs-help_h2  needs-food_h2  )
+\end{verbatim}
+Where we can notice how the epistemic state changes.\\ 
+In particular, before the execution of  \textit{ask\_food}, we know only \textbf{-needs-help\_h2}. After its execution, we can observe two distinct state: one in which \textbf{needs-food\_h2} holds true, and one in which not.
+
+%\subsection{PDDL (ROSPlan)}
+%Here we introduce a slightly different version of PDDL, similar to KPDDL, that is used in the ROSPlan Framework (which will be presented in \ref{sec:rosplan}).\\
+%As in KPDDL, in this case PDDL is extended with introduction of the \textbf{:observe} construct for action effects, used to define sensing actions.
+%The coaches domain equivalent in this language is:
+%TODO completare
+
+\section{RDDL}
+RDDL\cite{sanner2010relational} stands for Relational Dynamic Influence Diagram Language and i
+
+
+\chapter{Conclusion}\label{sec:conclusion}
 
 \section{Future Development}
 %Some suggestion
