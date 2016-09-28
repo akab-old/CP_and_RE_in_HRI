@@ -40,9 +40,11 @@
 \BOOKMARK [2][-]{subsection.6.3.1}{PNPgen: A Conditional Planning Extension}{section.6.3}% 40
 \BOOKMARK [2][-]{subsection.6.3.2}{the Generation Algorithm}{section.6.3}% 41
 \BOOKMARK [0][-]{chapter.7}{Use Cases}{}% 42
-\BOOKMARK [1][-]{section.7.1}{Motivating Example: Implementation}{chapter.7}% 43
-\BOOKMARK [2][-]{subsection.7.1.1}{from PDDL to PNP}{section.7.1}% 44
-\BOOKMARK [2][-]{subsection.7.1.2}{from KPDDL to PNP}{section.7.1}% 45
-\BOOKMARK [2][-]{subsection.7.1.3}{from ROSPlan PDDL to PNP}{section.7.1}% 46
-\BOOKMARK [0][-]{chapter.8}{Conclusion}{}% 47
-\BOOKMARK [1][-]{section.8.1}{Future Development}{chapter.8}% 48
+\BOOKMARK [1][-]{section.7.1}{from PDDL to PNP}{chapter.7}% 43
+\BOOKMARK [2][-]{subsection.7.1.1}{Example 1: COACHES}{section.7.1}% 44
+\BOOKMARK [1][-]{section.7.2}{from KPDDL to PNP}{chapter.7}% 45
+\BOOKMARK [2][-]{subsection.7.2.1}{Example 1: COACHES}{section.7.2}% 46
+\BOOKMARK [1][-]{section.7.3}{from ROSPlan PDDL to PNP}{chapter.7}% 47
+\BOOKMARK [2][-]{subsection.7.3.1}{Example 1: COACHES}{section.7.3}% 48
+\BOOKMARK [0][-]{chapter.8}{Conclusion}{}% 49
+\BOOKMARK [1][-]{section.8.1}{Future Development}{chapter.8}% 50

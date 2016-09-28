@@ -1109,7 +1109,8 @@ PDDL, as stated in \ref{pddl}, is the standard de facto for AI planning. \\
 Standard PDDL doesn't have natively syntax constructs that allow conditioning on action effects and this lead to the born of different extension, like KPDDL.
 %In PDDL however, one can use the "\textbf{when}" in the action description effect to discriminate cases at %planning time. 
 Thus, PDDL planners usually generate total ordered plans.\\ 
-In fact, in our case, the chosen planner (FF) provides us an ordered list of actions. This kind of solution are interpreted as linear plans. The planner author consider also others planning systems for conformant, contingent and probabilistic planning, but these are not considered in this work.
+In fact, in our case, the chosen planner (FF) provides us an ordered list of actions. This kind of solution are interpreted as linear plans. 
+%The author consider also others planning systems for conformant, contingent and probabilistic planning, but these are not considered in this work.
 \newline 
 \scalebox{0.9}{
 \begin{algorithm}[H]
@@ -1410,9 +1411,15 @@ In this section I will characterize some example, describing the whole process f
 	\caption{a simple interface to generate PNPs from the output of (K)PDDL planners output.}
 \end{figure}
 
-\section{Motivating Example: Implementation}
-\subsection{from PDDL to PNP}
-First, I will present a solution in PDDL (ver. 1.2), which is the standard "de facto" for the specification of planning problems. We must then characterise objects, predicates, actions, initial and final states.\\
+%\section{Motivating Example: Implementation}
+\section{from PDDL to PNP}
+\noindent PDDL was meant to express the "physics" of a domain, and could not represent the epistemic state of an agent.\\
+In particular, in order to implement sensing actions, we should introduce in PDDL the concept of knowledge. This was achieved in KPDDL, in which the authors have introduced in the PDDL action definition the notion of inertial and sensing effects as we will see in the next section.
+
+\subsection{Example 1: COACHES}
+I will present a solution in PDDL (ver. 1.2) to the example presented in \ref{sec:motivating}.
+%PDDL is the standard "de facto" for the specification of planning problems. 
+We must then characterise objects, predicates, actions, initial and final states.\\
 I used FF\cite{hoffmann:nebel:jair-01}\footnote{\url{https://fai.cs.uni-saarland.de/hoffmann/ff.html}}(ver. 2.3)  planner to check the satisfiability of the problem and to solve it.
 For the sake of clarity, in the domain description I will consider only the agent $h2$ of the example. \\
 
@@ -1551,7 +1558,7 @@ step    0: SENSE-PERSON R H2
 	\caption{PNPgen generates the PNP from FF output.}
 \end{figure}
 
-\noindent Once the PNP is generated, could be visualized and manipulated using Jarp.
+\noindent When the PNP is generated, it could be visualized and manipulated using Jarp.
 
 \newpage
 \begin{figure}[H]
@@ -1561,10 +1568,11 @@ step    0: SENSE-PERSON R H2
 \end{figure}
 \newpage
 
-\noindent PDDL was meant to express the "physics" of a domain, and could not represent the epistemic state of an agent.
-In particular, in order to implement sensing actions, we must introduce in PDDL the concept of knowledge. This was achieved in KPDDL\cite{iocchi2003}, in which the authors have introduced in the PDDL action definition the notion of inertial and sensing effects as we will see in the next section.
+\section{from KPDDL to PNP}
+\noindent with KPDDL is possible to represent conditional plans. The cons reside in the fact that depending on the written domain, the planner could take much time to compute a solution. The author provides the possibility to drive the search by the means of a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while with 1 a depth-first search.\\ 
+In any case, this not represents a safe solution for an on-line approach, as we will see.
 
-\subsection{from KPDDL to PNP}
+\subsection{Example 1: COACHES}
 In KPDDL sensing actions could be modelled using the syntactic construct \textbf{:sense}. Most of the predicates, actions and constants remain unchanged with respect to the PDDL case:
 \begin{verbatim}
 
@@ -1649,8 +1657,6 @@ In particular, before the execution of  \textit{ask\_food}, we know only \textbf
 \end{figure}
 
 \noindent From the solution file, we can automatically generate the PNP. Action with no conditions are deterministic, while every time we sense for a property we branch on the boolean result of the action (true or false) as we can see from figure \ref{fig:coaches_kpddlgen}.\\
-
-\noindent As we have seen, KPDDL is able to represent conditional plans. The cons reside in the fact that depending on the written domain, the planner could take much time to compute a solution. The author also includes the possibility to drive the search with a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while 1 is for depth-first search.\\ In any case, this not represents a safe solution for an on-line approach.
  
 \newpage
 \begin{figure}[H]
@@ -1661,7 +1667,17 @@ In particular, before the execution of  \textit{ask\_food}, we know only \textbf
 \end{figure}
 \newpage
 
-\subsection{from ROSPlan PDDL to PNP}
+\section{from ROSPlan PDDL to PNP}
+\noindent ROSPlan represents the most prominent solution for an on-line approach due to its planner.
+CLG has a very intelligent heuristic that can present almost instantaneously a solution, when present, or communicate that this not exist. 
+%TODO parlare di CLG
+It is perfectly integrated into ROS and, due to its modularity, it can be extended to other formalisms (like we have done for this work).\\
+
+\noindent The infrastructure provides a safe way to handle planning failures, since even when a solution is not found in the first place, it can replan a certain number of times based on a tunable parameter.\\
+This comes in handy since if the PNP execution fails, we have a second level of redundancy to make sure that the robot doesn't suddenly stop. \\
+The integration between ROSPlan and PNP is an ongoing work and I will discuss possible future implementations in the next chapter.
+
+\subsection{Example 1: COACHES}
 In this case, we must introduce a slightly different version of PDDL, similar to KPDDL, that is used in the ROSPlan Framework.\\
 As in KPDDL, in this case PDDL is extended with introduction of the \textbf{:observe} construct for action effects, used to define sensing actions.\\
 For instance, a sensing action has the following form:
@@ -1755,10 +1771,6 @@ The following picture depict the connection between our node (\textit{pnp\_rospl
 \end{figure}
 
 \noindent You will find the correspondent PNP in the next page.\\
-\noindent ROSPlan represents the most prominent solution for an on-line approach. It is perfectly integrated into ROS and, due to its modularity, it can be extended to other formalisms (like we have done for this work).\\
-The infrastructure provides a safe way to handle planning failures, since even when a solution is not found in the first place, it can replan a certain number of times based on a tunable parameter.\\
-This comes in handy since if the PNP execution fails, we have a second level of redundancy to make sure that the robot doesn't suddenly stop. \\
-The integration between ROSPlan and PNP is an ongoing work and I will discuss possible future implementations in the next chapter.
 
 \newpage
 \begin{figure}[H]
@@ -1769,8 +1781,13 @@ The integration between ROSPlan and PNP is an ongoing work and I will discuss po
 \newpage
 
 \chapter{Conclusion}\label{sec:conclusion}
-One of the fundamental aspects of moving robots from laboratories to everyday environments, is that the interaction with unaware persons should be natural and smooth in terms of execution.
-This work	 
+One of the fundamental aspects of moving robots from laboratories to everyday environments is that the interaction with unaware persons should be the most natural and smooth as possible.\\
+In fact, a robot that "freeze" during an interaction or that could not response actively to the external stimuli is very far from the definition of social.\\
+In this work we have discussed an approach that tries to take advantage of the expressivity of some of the languages and formalisms present in the literature to represent, generate and execute conditional plans, i.e. plans that incorporates observations.\\
+This kind of plans are robust with respect to action failures since we can represent very complex plans that are otherwise impossible to write "manually". \\
+Using the PNP framework we can easily visualize and eventually modify a plan.\\
+Furthermore, the work fits both on-line and off-line needs, depending on the chosen formalism.    
+
 
 \section{Future Development}
 A robot must be capable of discerning cases in which an interaction is desirable and cases in which is not. Like in the simple case of a "welcome robot", it is important that the robot says "hi" when a person shows in front of him but it must also take into account the fact that a person could appear in front of him multiple times. 
@@ -1781,93 +1798,9 @@ Another important but maybe trickier case is to equip the robot with the capabil
 \item Add More Formalisms -- PDDL extensions in the translation
 \item Planner selection/study
 \item from Boolean Evaluation to an Higher Logic
+\item Merging plans
+\item ER rules
 \end{itemize}
-%\begin{thebibliography}{1}
-%
-%\bibitem{coaches} L. Iocchi, L. Jeanpierre, M. T. Lazaro, A.-I. Mouaddib \\
-%{\em A Practical Framework for Robust Decision-Theoretic Planning and Execution for Service Robots}  2006.
-%
-%\bibitem{alami} Rachid Alami, Mamoun Gharbi, Benjamin Vadant, Raph{\"a}el Lallement and Adolfo Suarez\\
-%{\em On human-aware task and motion planning abilities for a teammate robot}
-%
-%\bibitem{strips} Richard E. Fikes, Nils J. NHsson \\
-%{\em STRIPS: A New Approach to the Application of Theorem Proving to Problem Solving}
-%
-%\bibitem{strips_comp} Tom Bylander \\
-%{\em  The Computational Complexity of Propositional STRIPS Planning. Artificial Intelligence 69 (September 1994)}
-%
-%\bibitem{adl} Pednault \\ 
-%{\em Formulating multi-agent dynamic-world problems in the classical planning framework.}
-%
-%\bibitem{pddl} Drew Mcdermott, Malik Ghallab, Adele Howe, Craig Knoblock, Ashwin Ram, Manuela Veloso, Daniel Weld, David Wilkins \\
-%{\em PDDL - The Planning Domain Definition Language}
-%
-%\bibitem{sitcalc1} J. McCarty, P. Hayes \\ 
-%{\em Some philosophical problems from the standpointof artificial intelligence, Machine Intelligence 4, 1969}
-%
-%\bibitem{sitcalc2} R. Reiter \\ 
-%{\em Proving properties of states in the situation calculus, Artificial intelligence 64, 1993}
-%
-%\bibitem{wiasp} Vladimir Lifschitz\\
-%{\em What Is Answer Set Programming?}
-
-%\bibitem{asp_ex1} Esra Erdem, Erdi Aker, Volkan Patoglu\\
-%{\em Answer set programming for collaborative housekeeping robotics: representation, reasoning, and execution}
-%
-%\bibitem{asp_ex2} Xiaoping Chen, Jianmin Ji, Jiehui Jiang, Guoqiang Jin, Feng Wang, and Jiongkun Xie\\
-%{\em Developing High-level Cognitive Functions for Service Robots}
-%
-%\bibitem{asp+unc1} Yi Wang, Joohyung Lee\\
-%{\em Handling Uncertainty in Answer Set Programming}
-%
-%\bibitem{alck} Francesco M. Donini, Daniele Nardi, Riccardo Rosati \\
-%{\em Autoepistemic Description Logics}
-%
-%\bibitem{ppddl} Hakan L. S. Younes, Michael L. Littman\\
-%{\em PPDDL1.0: An Extension to PDDL for Expressing Planning Domains with Probabilistic Effects}
-%
-%\bibitem{rddl} Scott Sanner \\
-%{\em Relational Dynamic Influence Diagram Language (RDDL): Language Description}
-%
-%\bibitem{kpddl} Luca Iocchi, Daniele Nardi, Riccardo Rosati\\
-%{\em A PDDL Extension for Describing Planning Domains with Incomplete
-%Information and Sensing}
-%
-%\bibitem{belief_compression} Nicholas Roy, Geoffrey Gordon, Sebastian Thrun\\
-%{\em Finding Approximate POMDP Solutions Through Belief Compression}
-%
-%\bibitem{belief_particle} Ronen Brafman, Alexander Gorohovski, Guy Shani\\
-%{\em A Contingent Planning-Based POMDP Replanner}
-
-%\bibitem{pnp} Vittorio Amos Ziparo and Luca Iocchi.\\
-%{\em Petri Net Plans. \\ 
-%In Proc. of Fourth International Workshop on Modelling of Objects, Components, and Agents (MOCA'06) @ Petri Nets 2006 and ACSD 2006, Turku, Finland, 2006.}
-%
-%\bibitem{pnp2} V. Ziparo, L. Iocchi, D. Nardi, P. Palamara, and H. Costelha. \\
-%{\em PNP: A formal model for representation and execution of multi-robot plans \\ 
-%In Proc. of 7th Int. Conf. on Autonomous Agents and Multiagent Systems (AAMAS 2008), 2008.}
-%
-%\bibitem{pnp_app} E. Bastianelli, D. Bloisi, R. Capobianco, F. Cossu, G.Gemignani, L. Iocchi, D. Nardi. \\
-%{\em On-line Semantic Mapping. \\
-%In 16th International Conference on Advanced Robotics, 2013. }
-%
-%\bibitem{pnp_app2} P. Palamara, V. Ziparo, L. Iocchi, D. Nardi, P. Lima, H. Costelha.  \\
-%{\em A robotic soccer task using Petri Net Plans. \\
-%In Proc. of 7th Int. Conf. on Autonomous Agents and Multiagent Systems (AAMAS), 2008.}
-%
-%\bibitem{pnp_app3} A. Farinelli, L. Iocchi, D. Nardi, V. A. Ziparo  \\
-%{\em Assignment of Dynamically Perceived Tasks by Token Passing in Multi-Robot Systems. \\
-%Proceedings of the IEEE, Special Issue on Multi-Robot Systems, 2006}
-%
-%\bibitem{pnp_gen} F. M. Carlucci, L. Nardi, L. Iocchi, D. Nardi. \\
-%{\em Explicit Representation of Social Norms for Social Robots. \\
-%In Proc. of the IEEE/RSJ Int. Conf. on Intelligent Robots and Systems (IROS), 2015.}
-%\bibitem{popf} Amanda Coles and Andrew Coles and Maria Fox and Derek Long \\
-%{\em Forward-Chaining Partial-Order Planning. \\
-%Proceedings of the Twentieth International Conference on Automated Planning and Scheduling (ICAPS 2010)}
-%
-%
-%\end{thebibliography}
 
 
 \bibliographystyle{plain}
