@@ -29,6 +29,7 @@
   {\verbatim@font\footnotesize}
   {}{}
 \makeatother
+\usepackage{rotating}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,automata,positioning,intersections}
@@ -1047,7 +1048,9 @@ It can also handle replanning due to action failure or plan invalidation. The pl
 The first provides a list of action dispatch messages. The second stores the plan as an Esterel language program\footnote{\url{https://en.wikipedia.org/wiki/Esterel}}, that is represented as a DOT graph. \\
 
 \noindent The standard language and planner in ROSPlan are PDDL 2.1 and POPF\cite{coles2010forward},%\cite{popf}, 
-that accepts only domains with temporal constraints and no uncertainty. To integrate the work of this thesis with the ROSPlan architecture some modification was necessary, as we will discuss later.
+that accepts only domains with temporal constraints and no uncertainty. 
+Anyway, is it possible to replace the planner, the problem generation and the plan dispatch by simply providing your implementation of this modules.\\
+This was also our case since to integrate the work of this thesis with the ROSPlan architecture some modification was necessary, as we will discuss later.
 
 \chapter{System Overview}\label{sec:system}
 In this chapter I will explain the contribution of this thesis and illustrate the results obtained.\\
@@ -1106,7 +1109,7 @@ PDDL, as stated in \ref{pddl}, is the standard de facto for AI planning. \\
 Standard PDDL doesn't have natively syntax constructs that allow conditioning on action effects and this lead to the born of different extension, like KPDDL.
 %In PDDL however, one can use the "\textbf{when}" in the action description effect to discriminate cases at %planning time. 
 Thus, PDDL planners usually generate total ordered plans.\\ 
-In fact, in our case, the chosen planner (FF) provides us an ordered list of actions. This kind of solution are interpreted as linear plans.
+In fact, in our case, the chosen planner (FF) provides us an ordered list of actions. This kind of solution are interpreted as linear plans. The planner author consider also others planning systems for conformant, contingent and probabilistic planning, but these are not considered in this work.
 \newline 
 \scalebox{0.9}{
 \begin{algorithm}[H]
@@ -1137,7 +1140,7 @@ In fact, in our case, the chosen planner (FF) provides us an ordered list of act
 \end{algorithm}}\\
 \newline
 Even if the generated plan is not conditional, we decide to incorporate PDDL for multiple reasons.\\ 
-First, to show the actual needs for conditional plans in the study cases.\\ 
+First of all, we want to show the actual needs for conditional plans in the study cases.\\ 
 Second, PDDL is the most diffused planning language. Since one of the primary intents of this work is to provide a general tool for PNP generation, it is clear that we cannot ignore it. Many formalisms derive from PDDL, thus, talking about future implementations, one could think to extend this class to implement translators for others PDDL extensions.  
 Furthermore, the generation of this kind of plans is very fast (linear in time in the number of actions) and composing different linear plans is possible to obtain more complex behaviours.
 
@@ -1170,7 +1173,7 @@ $\pi_{cp} \leftarrow$ make\_state($v_s$.last)\;
 \end{algorithm}}
 
 \newpage
-\subsection{Digraph Translator}
+\subsection{Digraph Translator}\label{sec:digraph_transl}
 ROSPlan offers different representation for plans, as discussed in \ref{rosplan}. \\
 Nonetheless it was necessary to use a different planner with respect to the one provided, namely CLG\cite{clg}\footnote{\url{http://www.ai.upf.edu/software/clg-contingent-planner}}. \\
 This planner uses a slightly modified version of PDDL which introduce a syntax structure to action effects, \textbf{:observe}, that it is used to define sensing actions, in a very similar way to KPDDL.\\
@@ -1221,112 +1224,112 @@ The languages considered for the generation, along with planners and the semanti
 
 \noindent In the following I will provide some example of generated PNPs together with the description of the algorithm that is responsible for the generation.
 
-\subsection{ROSPlan and PNPgen}
-A ROS node serves as interface between ROSPlan and PNPgen. This node actively listens the topic where the plan is published by the planning system.  An example of a valid PDDL domain, taken from \ref{sec:motivating} is:
-
-\begin{verbatim}
-(define (domain coaches)
-  (:requirements :strips :typing)
-  (:types
-         person robot location
-  )
-  (:predicates
-              (at-robot ?x) (at-person ?x)
-              (close-to ?x)(satisfied ?x)
-  )
-  
-  (:action sense_person
-                       :parameters (?x -location)
-                       :precondition (at-robot ?x)
-                       :observe (at-person ?x)
-  )
-
-  (:action move
-    :parameters ( ?from - location ?to - location ?r - robot)
-    :precondition (at-robot ?from)
-    :effect (at-robot ?to)
-  )
-
-  (:action approach-person
-               :parameters ( ?p - person ?x - location)
-               :precondition (and (at-robot ?x)(at-person ?x))
-               :effect (close-to ?p)
-  )
-
-  (:action bye
-              :parameters (?p - person)
-              :precondition (close-to ?p)
-              :effect (satisfied ?p)
-  ))
-\end{verbatim}\\
-Where we can notice the sensing action "\textit{sense\_person}" that inspect the value of the predicate "\textit{at-person}".\\
-\noindent The planning system fetch the PDDL model from the Knowledge Base and generates a problem instance.
-After that, he calls the planner and dispatch its output on the topic "\textit{/kcl\_rosplan/plan\_graph}"
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.3]{images/dia_system.png}
-	\caption{The planning system architecture.}
-\end{figure}
-
-The correspondent output for the previous PDDL domain is:
-
-\begin{verbatim}
-digraph plan_0 {
-0[ label="sense_person_shop4" style="fill: #fff; "];
-1[ label="move_shop4_shop5_r" style="fill: #fff; "];
-2[ label="sense_person_shop5" style="fill: #fff; "];
-3[ label="move_shop4_shop3_r" style="fill: #fff; "];
-4[ label="sense_person_shop3" style="fill: #fff; "];
-5[ label="move_shop4_shop2_r" style="fill: #fff; "];
-6[ label="sense_person_shop2" style="fill: #fff; "];
-7[ label="move_shop4_shop1_r" style="fill: #fff; "];
-8[ label="sense_person_shop1" style="fill: #fff; "];
-9[ label="move_shop4_shop6_r" style="fill: #fff; "];
-10[ label="approach-person_h2_shop6" style="fill: #fff; "];
-11[ label="bye_h2" style="fill: #fff; "];
-12[ label="approach-person_h2_shop1" style="fill: #fff; "];
-13[ label="bye_h2" style="fill: #fff; "];
-14[ label="approach-person_h2_shop2" style="fill: #fff; "];
-15[ label="bye_h2" style="fill: #fff; "];
-16[ label="approach-person_h2_shop3" style="fill: #fff; "];
-17[ label="bye_h2" style="fill: #fff; "];
-18[ label="approach-person_h2_shop5" style="fill: #fff; "];
-19[ label="bye_h2" style="fill: #fff; "];
-20[ label="approach-person_h2_shop4" style="fill: #fff; "];
-21[ label="bye_h2" style="fill: #fff; "];
-"0" -> "1" [ label="at-person shop4" ];
-"0" -> "20" [ label="(not (at-person shop4))" ];
-"1" -> "2"
-"2" -> "3" [ label="at-person shop5" ];
-"2" -> "18" [ label="(not (at-person shop5))" ];
-"3" -> "4"
-"4" -> "5" [ label="at-person shop3" ];
-"4" -> "16" [ label="(not (at-person shop3))" ];
-"5" -> "6"
-"6" -> "7" [ label="" ];
-"6" -> "14" [ label="(not )" ];
-"7" -> "8"
-"8" -> "9" [ label="at-person shop2" ];
-"8" -> "12" [ label="(not (at-person shop2))" ];
-"9" -> "10"
-"10" -> "11"
-"12" -> "13"
-"14" -> "15"
-"16" -> "17"
-"18" -> "19"
-"20" -> "21"
-}
-\end{verbatim}
-
-\noindent As soon as a plan is published, the node writes it to a file and calls the PNPgen class responsible for the translation and generation of the actual PNP.\\ 
-The following picture depict the connection between our node (\textit{pnp\_rosplan\_interface}) and the rest of the architecture:
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[scale=0.3]{images/rospnp.png}
-	\caption{A snapshot of the nodes used to translate a digraph into a PNP.}
-\end{figure}
+%\subsection{ROSPlan and PNPgen}
+%A ROS node serves as interface between ROSPlan and PNPgen. This node actively listens the topic where the plan is published by the planning system.  An example of a valid PDDL domain, taken from \ref{sec:motivating} is:
+%
+%\begin{verbatim}
+%(define (domain coaches)
+%  (:requirements :strips :typing)
+%  (:types
+%         person robot location
+%  )
+%  (:predicates
+%              (at-robot ?x) (at-person ?x)
+%              (close-to ?x)(satisfied ?x)
+%  )
+%  
+%  (:action sense_person
+%                       :parameters (?x -location)
+%                       :precondition (at-robot ?x)
+%                       :observe (at-person ?x)
+%  )
+%
+%  (:action move
+%    :parameters ( ?from - location ?to - location ?r - robot)
+%    :precondition (at-robot ?from)
+%    :effect (at-robot ?to)
+%  )
+%
+%  (:action approach-person
+%               :parameters ( ?p - person ?x - location)
+%               :precondition (and (at-robot ?x)(at-person ?x))
+%               :effect (close-to ?p)
+%  )
+%
+%  (:action bye
+%              :parameters (?p - person)
+%              :precondition (close-to ?p)
+%              :effect (satisfied ?p)
+%  ))
+%\end{verbatim}\\
+%Where we can notice the sensing action "\textit{sense\_person}" that inspect the value of the predicate "\textit{at-person}".\\
+%\noindent The planning system fetch the PDDL model from the Knowledge Base and generates a problem instance.
+%After that, he calls the planner and dispatch its output on the topic "\textit{/kcl\_rosplan/plan\_graph}"
+%
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.3]{images/dia_system.png}
+%	\caption{The planning system architecture.}
+%\end{figure}
+%
+%The correspondent output for the previous PDDL domain is:
+%
+%\begin{verbatim}
+%digraph plan_0 {
+%0[ label="sense_person_shop4" style="fill: #fff; "];
+%1[ label="move_shop4_shop5_r" style="fill: #fff; "];
+%2[ label="sense_person_shop5" style="fill: #fff; "];
+%3[ label="move_shop4_shop3_r" style="fill: #fff; "];
+%4[ label="sense_person_shop3" style="fill: #fff; "];
+%5[ label="move_shop4_shop2_r" style="fill: #fff; "];
+%6[ label="sense_person_shop2" style="fill: #fff; "];
+%7[ label="move_shop4_shop1_r" style="fill: #fff; "];
+%8[ label="sense_person_shop1" style="fill: #fff; "];
+%9[ label="move_shop4_shop6_r" style="fill: #fff; "];
+%10[ label="approach-person_h2_shop6" style="fill: #fff; "];
+%11[ label="bye_h2" style="fill: #fff; "];
+%12[ label="approach-person_h2_shop1" style="fill: #fff; "];
+%13[ label="bye_h2" style="fill: #fff; "];
+%14[ label="approach-person_h2_shop2" style="fill: #fff; "];
+%15[ label="bye_h2" style="fill: #fff; "];
+%16[ label="approach-person_h2_shop3" style="fill: #fff; "];
+%17[ label="bye_h2" style="fill: #fff; "];
+%18[ label="approach-person_h2_shop5" style="fill: #fff; "];
+%19[ label="bye_h2" style="fill: #fff; "];
+%20[ label="approach-person_h2_shop4" style="fill: #fff; "];
+%21[ label="bye_h2" style="fill: #fff; "];
+%"0" -> "1" [ label="at-person shop4" ];
+%"0" -> "20" [ label="(not (at-person shop4))" ];
+%"1" -> "2"
+%"2" -> "3" [ label="at-person shop5" ];
+%"2" -> "18" [ label="(not (at-person shop5))" ];
+%"3" -> "4"
+%"4" -> "5" [ label="at-person shop3" ];
+%"4" -> "16" [ label="(not (at-person shop3))" ];
+%"5" -> "6"
+%"6" -> "7" [ label="" ];
+%"6" -> "14" [ label="(not )" ];
+%"7" -> "8"
+%"8" -> "9" [ label="at-person shop2" ];
+%"8" -> "12" [ label="(not (at-person shop2))" ];
+%"9" -> "10"
+%"10" -> "11"
+%"12" -> "13"
+%"14" -> "15"
+%"16" -> "17"
+%"18" -> "19"
+%"20" -> "21"
+%}
+%\end{verbatim}
+%
+%\noindent As soon as a plan is published, the node writes it to a file and calls the PNPgen class responsible for the translation and generation of the actual PNP.\\ 
+%The following picture depict the connection between our node (\textit{pnp\_rosplan\_interface}) and the rest of the architecture:
+%
+%\begin{figure}[htbp]
+%	\centering
+%	\includegraphics[scale=0.3]{images/rospnp.png}
+%	\caption{A snapshot of the nodes used to translate a digraph into a PNP.}
+%\end{figure}
 
 \newpage
 \subsection{the Generation Algorithm}
@@ -1400,6 +1403,12 @@ In particular, I will characterize the input/output of each problem and provide 
 
 \chapter{Use Cases}\label{sec:use_cases}
 In this section I will characterize some example, describing the whole process from the problem definition to the plan generation. In order to do that I will start from the motivating example introduced in section\ref{sec:motivating}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{images/pddltransl.png}
+	\caption{a simple interface to generate PNPs from the output of (K)PDDL planners output.}
+\end{figure}
 
 \section{Motivating Example: Implementation}
 \subsection{from PDDL to PNP}
@@ -1484,7 +1493,7 @@ Beside from predicates that model environmental properties, we notice the ones t
 )
 \end{verbatim}
 
-\noindent It is clear from the specifications that they are not real sensing actions, as we defined.\\ 
+\noindent It is clear from the specifications that they are not real sensing actions, as we have previously defined.\\ 
 In fact, in standard PDDL, the construct "\textbf{when}" is the only one that allow a simple form of conditioning on actions effects. 
 All the information must be known at planning time in order to compute a solution and there isn't the possibility of specifying actions with non-deterministic effects.
 
@@ -1511,12 +1520,7 @@ All the information must be known at planning time in order to compute a solutio
        (sportive-clothes shop2)(fashion-clothes shop4)
        (chinese-restaurant shop5)(italian-restaurant shop6)
 )
-\end{verbatim}
-
-\begin{verbatim}
-(:goal
-    (satisfied h2)
-)
+(:goal (satisfied h2) )
 \end{verbatim}
 \noindent Given this domain and this problem instance, where the "\textit{desire-fashion h2}" predicate is explicitly indicated in the initial state, the output of the FF planner is:
 \begin{verbatim}
@@ -1537,9 +1541,25 @@ step    0: SENSE-PERSON R H2
         5: ADVERTISE-FASHION SHOP4 H2
         6: CHECK_SATISFACTION H2
 \end{verbatim}
-\noindent In this scenario, we can imagine an infrastructure with a planning system capable of generates problem instances and a module responsible for gathering the informations (through sensors and physical interfaces) and that generate the fluents. This module, for instance, would be the one responsible for the Knowledge Base updates so to justify the presence of  "\textit{desire-fashion h2}" ground in the initial state description.\\
+\noindent In this scenario, we can imagine an infrastructure with a planning system responsible of the generation of the problem instances and a module responsible for gathering the informations (through sensors and physical interfaces) and that manage fluents. This module, for instance, would be the one responsible for the Knowledge Base updates so to justify the presence of  "\textit{desire-fashion h2}" ground in the initial state description.\\
 
-%TODO mostrare la generazione del piano
+\noindent Once the solution is computed and stored in a file, the PDDL translator fills its internal structure to represent the plan and subsequently expose it to PNPgen. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{images/pddl_coaches.png}
+	\caption{PNPgen generates the PNP from FF output.}
+\end{figure}
+
+\noindent Once the PNP is generated, could be visualized and manipulated using Jarp.
+
+\newpage
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35, angle=270, trim=100mm -100mm 0mm 0mm]{images/coaches_pddl.png}
+	\caption{the PNP generated from the coaches PDDL domain. Notice that we had to move some places/transitions for a better visualization.}
+\end{figure}
+\newpage
 
 \noindent PDDL was meant to express the "physics" of a domain, and could not represent the epistemic state of an agent.
 In particular, in order to implement sensing actions, we must introduce in PDDL the concept of knowledge. This was achieved in KPDDL\cite{iocchi2003}, in which the authors have introduced in the PDDL action definition the notion of inertial and sensing effects as we will see in the next section.
@@ -1622,21 +1642,138 @@ Consider, for instance, the state $4,5,6$ corresponding to the sensing action \t
 Where we can notice how the epistemic state changes.\\ 
 In particular, before the execution of  \textit{ask\_food}, we know only \textbf{-needs-help\_h2}. After its execution, we can observe two distinct state: one in which \textbf{needs-food\_h2} holds true, and one in which not.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{images/kpddl_coaches.png}
+	\caption{PNPgen generates the PNP from KPlanner output. the observation are enclosed between square brackets.}
+\end{figure}
+
+\noindent From the solution file, we can automatically generate the PNP. Action with no conditions are deterministic, while every time we sense for a property we branch on the boolean result of the action (true or false) as we can see from figure \ref{fig:coaches_kpddlgen}.\\
+
+\noindent As we have seen, KPDDL is able to represent conditional plans. The cons reside in the fact that depending on the written domain, the planner could take much time to compute a solution. The author also includes the possibility to drive the search with a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while 1 is for depth-first search.\\ In any case, this not represents a safe solution for an on-line approach.
+ 
+\newpage
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.21, angle=270, trim=100mm -100mm 0mm 0mm]{images/coaches_kpddl.png}
+	\caption{the PNP generated from the coaches KPDDL domain. Notice that we had to move some places/transitions for a better visualization.}
+	\label{fig:coaches_kpddlgen}
+\end{figure}
+\newpage
+
 \subsection{from ROSPlan PDDL to PNP}
-Here we introduce a slightly different version of PDDL, similar to KPDDL, that is used in the ROSPlan Framework (which will be presented in \ref{sec:rosplan}).\\
-As in KPDDL, in this case PDDL is extended with introduction of the \textbf{:observe} construct for action effects, used to define sensing actions.
-The coaches domain equivalent in this language is:
-%TODO completare
+In this case, we must introduce a slightly different version of PDDL, similar to KPDDL, that is used in the ROSPlan Framework.\\
+As in KPDDL, in this case PDDL is extended with introduction of the \textbf{:observe} construct for action effects, used to define sensing actions.\\
+For instance, a sensing action has the following form:
+\begin{verbatim}
+  (:action sense_person
+                       :parameters (?x -location)
+                       :precondition (at-robot ?x)
+                       :observe (at-person ?x)
+  )
+\end{verbatim}
+Beside from the \textit{observe} construct, we must provide the problem specification with the following expression:
+\begin{verbatim}
+ (oneof
+   (at-person shop1)
+   (at-person shop2)
+   (at-person shop3)
+   (at-person shop4)
+   (at-person shop5)
+   (at-person shop6)
+ )
+\end{verbatim}
+These are necessary for the planner to derive a supplementary heuristic used while searching for the solution. We avoid to present the complete domain as this is essentially the same of the previous sections.\\
 
-\subsection{from RDDL to PNP}
-RDDL\cite{sanner2010relational} stands for Relational Dynamic Influence Diagram Language and i
+\noindent A ROS node serves as interface between ROSPlan and PNPgen. This node actively listens the topic where the plan is published by the planning system. 
+\noindent The planning system fetch the PDDL model from the Knowledge Base and generates a problem instance.
+After that, he calls the planner and dispatch its output on the topic "\textit{/kcl\_rosplan/plan\_graph}"
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.3]{images/dia_system.png}
+	\caption{The planning system architecture.}
+\end{figure}
+
+\noindent The output is represented as a direct graph, as described in section \ref{sec:digraph_transl}:
+
+\begin{verbatim}
+digraph plan_0 {
+0[ label="sense_person_shop4" style="fill: #fff; "];
+1[ label="move_shop4_shop5_r" style="fill: #fff; "];
+2[ label="sense_person_shop5" style="fill: #fff; "];
+3[ label="move_shop5_shop3_r" style="fill: #fff; "];
+4[ label="sense_person_shop3" style="fill: #fff; "];
+5[ label="move_shop3_shop2_r" style="fill: #fff; "];
+6[ label="sense_person_shop2" style="fill: #fff; "];
+7[ label="move_shop2_shop1_r" style="fill: #fff; "];
+8[ label="sense_person_shop1" style="fill: #fff; "];
+9[ label="move_shop1_shop6_r" style="fill: #fff; "];
+10[ label="approach-person_h2_shop6" style="fill: #fff; "];
+11[ label="bye_h2" style="fill: #fff; "];
+12[ label="approach-person_h2_shop1" style="fill: #fff; "];
+13[ label="bye_h2" style="fill: #fff; "];
+14[ label="approach-person_h2_shop2" style="fill: #fff; "];
+15[ label="bye_h2" style="fill: #fff; "];
+16[ label="approach-person_h2_shop3" style="fill: #fff; "];
+17[ label="bye_h2" style="fill: #fff; "];
+18[ label="approach-person_h2_shop5" style="fill: #fff; "];
+19[ label="bye_h2" style="fill: #fff; "];
+20[ label="approach-person_h2_shop4" style="fill: #fff; "];
+21[ label="bye_h2" style="fill: #fff; "];
+"0" -> "20" [ label="at-person shop4" ];
+"0" -> "1" [ label="(not (at-person shop4))" ];
+"1" -> "2"
+"2" -> "18" [ label="at-person shop5" ];
+"2" -> "3" [ label="(not (at-person shop5))" ];
+"3" -> "4"
+"4" -> "16" [ label="at-person shop3" ];
+"4" -> "5" [ label="(not (at-person shop3))" ];
+"5" -> "6"
+"6" -> "14" [ label="at-person shop2" ];
+"6" -> "7" [ label="(not (at-person shop2))" ];
+"7" -> "8"
+"8" -> "12" [ label="at-person shop1" ];
+"8" -> "9" [ label="(not (at-person shop1))" ];
+"9" -> "10"
+"10" -> "11"
+"12" -> "13"
+"14" -> "15"
+"16" -> "17"
+"18" -> "19"
+"20" -> "21"
+}
+\end{verbatim}
+
+\noindent As soon as a plan is published, the node writes it to a file and calls the PNPgen class responsible for the translation and generation of the actual PNP.\\ 
+The following picture depict the connection between our node (\textit{pnp\_rosplan\_interface}) and the rest of the architecture:
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[scale=0.3]{images/rospnp.png}
+	\caption{A snapshot of the nodes used to translate a digraph into a PNP.}
+\end{figure}
+
+\noindent You will find the correspondent PNP in the next page.\\
+\noindent ROSPlan represents the most prominent solution for an on-line approach. It is perfectly integrated into ROS and, due to its modularity, it can be extended to other formalisms (like we have done for this work).\\
+The infrastructure provides a safe way to handle planning failures, since even when a solution is not found in the first place, it can replan a certain number of times based on a tunable parameter.\\
+This comes in handy since if the PNP execution fails, we have a second level of redundancy to make sure that the robot doesn't suddenly stop. \\
+The integration between ROSPlan and PNP is an ongoing work and I will discuss possible future implementations in the next chapter.
+
+\newpage
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.13, angle=270, trim=100mm -100mm 0mm 0mm]{images/rosplan_ex1.png}
+	\caption{the PNP generated from the ROSPlan Digraph. Notice that we had to move some places/transitions for a better visualization.}
+\end{figure}
+\newpage
 
 \chapter{Conclusion}\label{sec:conclusion}
+One of the fundamental aspects of moving robots from laboratories to everyday environments, is that the interaction with unaware persons should be natural and smooth in terms of execution.
+This work	 
 
 \section{Future Development}
-%Some suggestion
-A robot must be capable of discerning cases in which an interaction is desirable and cases in which is not. Like in the simple case of a "welcome robot", where is important that the robot says "hi" when a person shows in front of him but it must also take into account the fact that a person could appear in front of him multiple times. 
+A robot must be capable of discerning cases in which an interaction is desirable and cases in which is not. Like in the simple case of a "welcome robot", it is important that the robot says "hi" when a person shows in front of him but it must also take into account the fact that a person could appear in front of him multiple times. 
 Another important but maybe trickier case is to equip the robot with the capability of understanding the mood of the person and than react consequently. Although this could be seen as a fictional case, since is impossible at the moment even for the most complex cognitive robot to understand emotions, there are some simple cases that could be treated. The goal, in this case, is not to reproduce a perfect model of the human mind state and how it could react to some sorts of events, but rather discover some patterns that could lead to undesirable outcomes. For instance, a person could be busy with its work and the interference of the robot, when is not helpful in the context of the human task, could be perceived as noise. Thus is important to maintain a representation of the person daily routines and enrich this when is possible with the information that comes from the social interactions that occurs from time to time between the two. If we are interested in developing robots strictly social, we cannot leave aside the emotional aspect of the interaction. 
 
 
