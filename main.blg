@@ -3,56 +3,56 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: main.aux
 The style file: plain.bst
 Database file #1: biblio.bib.bib
-Repeated entry---line 251 of file biblio.bib.bib
+Repeated entry---line 259 of file biblio.bib.bib
  : @article{sanner2010relational
  :                              ,
 I'm skipping whatever remains of this entry
 Warning--string name "jair" is undefined
---line 264 of file biblio.bib.bib
+--line 272 of file biblio.bib.bib
 Warning--empty journal in hoffmann:nebel:jair-01
 Warning--empty booktitle in iocchi2003
 Warning--empty year in iocchi2003
 Warning--empty journal in mcdermott1998pddl
 Warning--empty year in ziparo2008pnp
-You've used 28 entries,
+You've used 29 entries,
             2118 wiz_defined-function locations,
-            662 strings with 9269 characters,
-and the built_in function-call counts, 11310 in all, are:
-= -- 1122
-> -- 538
-< -- 15
-+ -- 218
-- -- 184
-* -- 760
-:= -- 1776
-add.period$ -- 87
-call.type$ -- 28
-change.case$ -- 176
+            666 strings with 9364 characters,
+and the built_in function-call counts, 11725 in all, are:
+= -- 1166
+> -- 545
+< -- 16
++ -- 221
+- -- 186
+* -- 780
+:= -- 1831
+add.period$ -- 90
+call.type$ -- 29
+change.case$ -- 180
 chr.to.int$ -- 0
-cite$ -- 33
-duplicate$ -- 460
-empty$ -- 861
-format.name$ -- 184
-if$ -- 2434
+cite$ -- 34
+duplicate$ -- 483
+empty$ -- 902
+format.name$ -- 186
+if$ -- 2533
 int.to.chr$ -- 0
-int.to.str$ -- 28
-missing$ -- 27
-newline$ -- 142
-num.names$ -- 56
-pop$ -- 209
+int.to.str$ -- 29
+missing$ -- 28
+newline$ -- 147
+num.names$ -- 58
+pop$ -- 216
 preamble$ -- 1
-purify$ -- 147
+purify$ -- 150
 quote$ -- 0
-skip$ -- 361
+skip$ -- 381
 stack$ -- 0
-substring$ -- 729
-swap$ -- 158
-text.length$ -- 15
+substring$ -- 766
+swap$ -- 169
+text.length$ -- 16
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 112
+type$ -- 116
 warning$ -- 5
-while$ -- 110
-width$ -- 30
-write$ -- 304
+while$ -- 115
+width$ -- 31
+write$ -- 315
 (There was 1 error message)

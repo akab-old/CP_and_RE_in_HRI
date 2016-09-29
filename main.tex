@@ -721,7 +721,7 @@ Given an action $a$ and a belief state $b$, the next belief state deriving from 
 The introduced formalisms and models show the essential bond between expressiveness and computational complexity. The planning problem in classic logic is decidable but the complexity varies from constant to EXPTIME depending on which characteristics are added to the language. 
 \newline
 
-\noindent For instance, STRIPS is the less expressive of the presented formalisms, still deciding whether a plan exists is PSPACE-complete \cite{bylander1994computational}.\\%\cite{strips_comp}. 
+\noindent For instance, STRIPS is the less expressive of the presented formalisms, still deciding whether a plan exists is PSPACE-complete \cite{bylander1994computational}.%\cite{strips_comp}. 
 Many restrictions can be enforced in order to make this problem decidable in polynomial time, like restricting the type of formulas or the number of pre-postconditions. 
 \newline
 
@@ -734,6 +734,11 @@ Many restrictions can be enforced in order to make this problem decidable in pol
 \noindent Talking about POMDPs models, they are often computationally intractable to solve exactly and thus it is necessary to introduce methods to approximate solutions. Some examples are \cite{roy2005finding}%\cite{belief_compression} 
 and \cite{brafman2014contingent},%\cite{belief_particle}, 
 where particle filters and PCA are respectively used to represent the belief state compactly or exploit its properties.
+\newline
+
+\noindent Planning with partial observability is the most difficult planning task as it falls in EXPSPACE-complete class of complexity \cite{rintanen2004complexity}. The difficulty resides in the plan verification since the state space, in this case, is doubly exponentially bigger in the size of the problem instance with respect to classical planning case.
+The discussion of good heuristics and search algorithms that try to exploit the structure of such problems is not the purpose of this thesis.
+We will focus instead on the representation of the state space, relying on state of the art planners present in literature.
 
 %\newpage
 %\subsection{Bechmarks Experiments} \label{sec:benchmarks}
@@ -806,7 +811,7 @@ where particle filters and PCA are respectively used to represent the belief sta
 %A robot operates in the corridor of a shopping mall including several shops. Each shop-keeper can define a set of advertisements that the robot is asked to communicate to customers of the mall and each advertisement has an associated reward for the shopping mall. The robot can execute the following actions in the environment: move to any location (i.e., in front of any shop), approach a specific person or a group of people, perform advertisement actions, perform other assistive actions upon request, bring a person to any location in the mall. The problem we want to solve is the following: given the current position of the robot, the information about shops and advertisements and an initial probability distribution of the presence of people in the shopping mall (for example, provided by an external system of video-cameras), plan and execute the behavior that maximizes the global actual reward, also recovering from possible failures due to unpredicted or erroneous interactions with people.
 
 \chapter{Conditional Planning and Execution}\label{sec:approach}
-In this chapter I will explain the reasons behind this work and illustrate a motivating example.\\
+In this chapter I will explain the reasons behind this work.\\
 \newline
 \noindent As we have seen in the previous chapter, different planning formalisms try to capture different aspects of real-world problems. By the way they model and abstract the world, they also produce different solution concepts.\\
 Is not always obvious in advance which formalism is the best for a specific problem. Less expressive formalism are often preferred due to the fact that are less expensive in terms of computational power.\\
@@ -814,11 +819,14 @@ For instance if we consider decidable logic formalisms, $ALCK_{NF}$ is one of th
 Classical Planning models only deterministic actions, and the planner is often embedded in a controlled execution loop that replan on unexpected outcomes. In fully-observable and non-deterministic planners, actions are assumed to be non-deterministic but there is no uncertainty about the perception. They produce strategies that are guaranteed to reach the goal. \\
 If we expand the domain and consider also probabilistic planners, they introduce also outcome probabilities and the aim, in this case, is to maximise a cumulative reward. They are also the most expensive and often intractable at representation and/or execution level. \\
 Rule-bases are not manageable when they become larger. This rules are created by experts that express their knowledge through the rules and it is difficult to find all the inconsistencies and the side-effects when new rules are inserted.\\
-This brief analysis shows that there is a compromise between expressivity and computational complexity. \\ 
-Epistemic logic could helps us to deal with the uncertainties the real world introduce in the domain of a problem but, again, it is very likely that the state space grows exponentially. A solution is to consider only a small group of states that represents the epistemic knowledge of the robot.\\
+This brief analysis shows that there is a compromise between expressivity and computational complexity. 
+Epistemic logic could helps us to represent the uncertainties the real world introduce in the domain.\\
+In this case the states are called belief states, since they represent the uncertainty of the agent about the world.
+The problem is that the belief space is computationally exponentially bigger than state space. A good representation is thus needed.  \\
+A solution is to consider only a small group of states that represents the epistemic knowledge of the robot.\\
 So if we denote as $Z$ the states that represents the epistemic knowledge and with $Y$ all the others, we have that:
 \begin{center}
-$|Y|$ + $|2^Z|$ $<<$ $|2^X|$ and $X = Y \cup Z$
+$|Y|$ + $|2^Z| \ll |2^X|$ and $X = Y \cup Z$
 \end{center}
 
 \noindent The next step is to identify a group of formalisms from the ones described in \ref{sec:formalism} that allow us to represent explicitly the epistemic state.\\
@@ -950,7 +958,8 @@ The main advantages of this approach are two:
 \item Once produced,the PNP can be extended of modified to deal with unexpected outcomes that may arise during the execution of an action and not considered in the domain, either manually or automatically as we will discuss later.
 \end{enumerate} 
 
-Some examples of PNPgen input are enlisted in the following.
+\noindent Furthermore, when used in combination with a formal language we can describe and generate plans that are otherwise too complex to be constructed manually (using a visual editor, i.e. Jarp).
+Some examples of PNPgen input are enlisted in the following. Conditional plans generation is discussed in \ref{sec:generator} and \ref{sec:use_cases}.
 \subsection{Linear Plans}
 PNPgen is able to generate linear plans from a file that describes a sequence of actions to execute, separated by semicolons. An example of a valid file is:
 \begin{center}
@@ -1050,10 +1059,10 @@ The first provides a list of action dispatch messages. The second stores the pla
 \noindent The standard language and planner in ROSPlan are PDDL 2.1 and POPF\cite{coles2010forward},%\cite{popf}, 
 that accepts only domains with temporal constraints and no uncertainty. 
 Anyway, is it possible to replace the planner, the problem generation and the plan dispatch by simply providing your implementation of this modules.\\
-This was also our case since to integrate the work of this thesis with the ROSPlan architecture some modification was necessary, as we will discuss later.
+This was also our case since to integrate the work of this thesis with the ROSPlan architecture some modification, in collaboration with the authors, was necessary. We will talk more about later.
 
 \chapter{System Overview}\label{sec:system}
-In this chapter I will explain the contribution of this thesis and illustrate the results obtained.\\
+In this chapter I will present the system infrastructure.\\
 \newline
 
 \noindent The main objective of this work is the generation of robust condition plans that deals with uncertainty in the problem representation.\\
@@ -1177,9 +1186,12 @@ $\pi_{cp} \leftarrow$ make\_state($v_s$.last)\;
 \subsection{Digraph Translator}\label{sec:digraph_transl}
 ROSPlan offers different representation for plans, as discussed in \ref{rosplan}. \\
 Nonetheless it was necessary to use a different planner with respect to the one provided, namely CLG\cite{clg}\footnote{\url{http://www.ai.upf.edu/software/clg-contingent-planner}}. \\
-This planner uses a slightly modified version of PDDL which introduce a syntax structure to action effects, \textbf{:observe}, that it is used to define sensing actions, in a very similar way to KPDDL.\\
+CLG stand for Closed-Loop Greedy planner. 
+This planner rely on a slightly modified version of PDDL which introduce a syntax structure to action effects, \textbf{:observe}, that it is used to define sensing actions, in a very similar way to KPDDL.\\
 The description of the problem P, which represent a non-deterministic search problem in belief space, is translated into a non-deterministic problem X(P) in state space by the CLG suite.\\
 CLG Planner then accepts P and solves it using X(P) for keeping track of the beliefs and a strengthening relaxation X+(P) to choose which action to apply next.\\
+The relaxation is a classical planning problem that provides an informed heuristic
+estimator which embeds the sensing. \\
 The semantic of the solution is then a digraph (a directed graph), which is represented as:
 \begin{verbatim}
     digraph plan_#N{
@@ -1212,7 +1224,7 @@ The algorithm is similar to the ones of KPDDL and PDDL:\\
 \newline
 This is a very convenient representation and the translation+solution computation process happens almost instantaneously, making it possible to run the complete algorithm on-line on a ROS node. 
 
-\section{Generator Module}
+\section{Generator Module}\label{sec:generator}
 \subsection{PNPgen: A Conditional Planning Extension}
 One of the main objective of this thesis consist of define a representation for conditional plans and extend the PNPgen framework with modules that allow to automatically generate PNPs from different languages.\\
 Of particular interest is the integration with ROSPlan, that allow the generation of plans on fly directly on the robot through the use of ROS infrastructure.\\ 
@@ -1670,7 +1682,6 @@ In particular, before the execution of  \textit{ask\_food}, we know only \textbf
 \section{from ROSPlan PDDL to PNP}
 \noindent ROSPlan represents the most prominent solution for an on-line approach due to its planner.
 CLG has a very intelligent heuristic that can present almost instantaneously a solution, when present, or communicate that this not exist. 
-%TODO parlare di CLG
 It is perfectly integrated into ROS and, due to its modularity, it can be extended to other formalisms (like we have done for this work).\\
 
 \noindent The infrastructure provides a safe way to handle planning failures, since even when a solution is not found in the first place, it can replan a certain number of times based on a tunable parameter.\\

@@ -125,6 +125,11 @@ Raymond Reiter.
 \newblock Proving properties of states in the situation calculus.
 \newblock {\em Artificial Intelligence}, 64(2):337--351, 1993.
 
+\bibitem{rintanen2004complexity}
+Jussi Rintanen.
+\newblock Complexity of planning with partial observability.
+\newblock In {\em ICAPS}, pages 345--354, 2004.
+
 \bibitem{roy2005finding}
 Nicholas Roy, Geoffrey~J Gordon, and Sebastian Thrun.
 \newblock Finding approximate pomdp solutions through belief compression.
