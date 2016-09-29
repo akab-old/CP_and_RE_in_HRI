@@ -1250,9 +1250,9 @@ open $\pi$\;
 }
 
 initialize $\pi_{cp}$\;
-\ForEach{pair in $v_p$}{
-	state\_name = first of pair\;
-	state\_action = second of pair\;
+\ForEach{p in $v_p$}{
+	state\_name = first of p\;
+	state\_action = second of p\;
 	i-th element of $\pi_{cp}$ = state\;
 }
 
@@ -1277,29 +1277,31 @@ $\pi_{cp} \leftarrow addGoal()$\;
 
 \end{algorithm}}\\
 \newline
+\noindent Notice that the planner doesn't specify a goal state, so we add a goal after each leaf for safety of execution.
 The solution and the correspondent translation are computed almost instantaneously, thanks to CLG heuristic, making it possible to run the complete algorithm on-line on a ROS node. 
 
 \section{Generator Module}\label{sec:generator}
 \subsection{PNPgen: A Conditional Planning Extension}
-In order to achieve our results, it was necessary to extend PNPgen framework with modules that allow to automatically generate PNPs from the discussed planners outputs.\\
-Summarizing, the languages considered for the generation, along with planners and the semantic structures are:
+Summarizing, the languages formalism induce the following solutions:
 \begin{itemize}
-\item \textbf{PDDL/FF planner}: produce a linear plan.
-\item \textbf{PDDL/CLG Planner}: produce a tree. 
-\item \textbf{KPDDL/KPlanner}: produce a direct graph.
+\item \textbf{PDDL (FF planner)}: produce a linear plan.
+\item \textbf{PDDL (CLG Planner)}: produce a tree. 
+\item \textbf{KPDDL (KPlanner)}: produce a direct graph.
 \end{itemize}
+In order to achieve our results, it was necessary to extend PNPgen module to consider also conditional plans.\\
+This means, in particular, to realize a graph search on the conditional plan. In fact the generation of the actual PNP, once we have created the conditional plan, is common for every formalisms.\\
 
-\noindent In the following I will discuss the algorithm that is responsible for PNPs generation.
 
+\noindent In the next section I will discuss the algorithm that is responsible for PNPs generation.
 \subsection{the Generation Algorithm}
 The algorithm responsible for the generation of the PNP performs a graph expansion using the conditional plan representation kept by the correspondent translator class.\\
-The simplest case is the one of the standard PDDL domain, in which he recursively expands the conditional plan states. In fact, for each, there is only one successor and no observation. \\
+The simplest case is the one of the standard PDDL domain, in which the algorithm recursively expands the serial sequence of states. In fact, for each, there is only one successor and no observation. \\
 
 \scalebox{0.8}{
 \begin{algorithm}[H]
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
-\Input{$\pi$: the computed plan,\\
+\Input{$\pi$: the conditional plan,\\
  	   $s_i$: $\pi$ initial state}
 \Output{$\pi_c$: PNP generated from the plan}
 \eIf{$\pi$ has next}{
@@ -1311,10 +1313,18 @@ The simplest case is the one of the standard PDDL domain, in which he recursivel
 \end{algorithm}
 }\\
 
-\noindent More interesting is the case of the actual conditional plans, as showed in the following:\\
+\noindent More interesting is the case of the plans with observations, as showed in algorithm \ref{cond_gen}.\\
+In order to be sure that every node is visited only once, and thus to avoid dangerous loops in the generation procedure, we maintain a stack of the visited nodes.
+Each time, we take the top of this stack, check if it is a final state or has outgoing edges, and expand it.
+If it hasn't outcomes, we add a final state and continue with the search. Otherwise, for each edge, we check if the corresponding destination is already in the visited map. If this is the case, we connect it with the current state and close the loop. Otherwise we expand it and create a new branch. \\
+
+\noindent In the next chapter I will show some examples and results to demonstrate the approach. \\
+In particular, I will characterize the input/output of each problem and provide a sketch for a possible optimal solution.
+
 %\newpage
 \scalebox{0.8}{
 \begin{algorithm}[H]
+\label{cond_gen}
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
 \Input{$\pi$: a Conditional Plan,\\
@@ -1322,28 +1332,27 @@ The simplest case is the one of the standard PDDL domain, in which he recursivel
  	   $M_{SA}$: a Map between state-action and outcomes}
 \KwData{$M_V$: a Map of the visited places\\
         $SS$: a Stack containing the places to explore\\
-        $a$: an action \\
-        $V_O$: a list of possible action outcomes}
+        $v_o$: a list of possible action outcomes}
 \Output{$\pi_c$: PNP generated from a Conditional Plan}
  %\KwResult{how to write algorithm with \LaTeX2e }
   $curr\_state \leftarrow \pi.first\_state$\; 
   $\pi_c \leftarrow addCondition(init)$\;
   $M_V \leftarrow insert(curr\_state)$\;
   $SS \leftarrow push(curr\_state)$\;
- \While{$(SS \neq 0)$}{
-  $curr\_state = top \,\, of \,\, SS$\;
+ \While{(SS $\neq$ 0)}{
+  curr\_state = top of SS\;
   $SS.pop()$\;
-  $a = M_{SA}[curr\_state]$\;
-  \If{$(a == "" \,\, and \,\, curr\_state \neq s_f)$}{
-  	$continue$\;  
+  action = $M_{SA}[curr\_state]$\;
+  \If{(action == "" and curr\_state $\neq s_f$ )}{
+  	continue\;  
   }
-  $V_O \leftarrow M_{SA}[curr\_state].outcomes$\;
-  \If{$V_O == 0$}{
+  $v_o \leftarrow M_{SA}[curr\_state].outcomes$\;
+  \If{$v_o == 0$}{
   	$addFinalState(\pi_c)$\;
-  	$continue$\;
+  	continue\;
   }
-  $addAction(\pi_c,a,current\_state)$\;
-  \ForEach{element $e$ of $V_O$\\}
+  $addAction(\pi_c,action,current\_state)$\;
+  \ForEach{element $e$ of $v_o$\\}
   {
   	$succ\_state = successor(e)$\;
   	$obs = observation(e)$\;
@@ -1355,10 +1364,7 @@ The simplest case is the one of the standard PDDL domain, in which he recursivel
   }
  }
  \caption{PNPgen from Conditional Plan}
-\end{algorithm}}
-
-\noindent In the next section I will review the motivating example with a possible solution for some of the described formalisms. \\
-In particular, I will characterize the input/output of each problem and provide a sketch for a possible optimal solution.
+\end{algorithm}}\\
 
 \chapter{Use Cases}\label{sec:use_cases}
 In this section I will characterize some example, describing the whole process from the problem definition to the plan generation. In order to do that I will start from the motivating example introduced in section\ref{sec:motivating}.
