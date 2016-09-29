@@ -35,7 +35,7 @@
 \BOOKMARK [1][-]{section.6.2}{Translator Module}{chapter.6}% 35
 \BOOKMARK [2][-]{subsection.6.2.1}{PDDL Translator}{section.6.2}% 36
 \BOOKMARK [2][-]{subsection.6.2.2}{KPDDL Translator}{section.6.2}% 37
-\BOOKMARK [2][-]{subsection.6.2.3}{Digraph Translator}{section.6.2}% 38
+\BOOKMARK [2][-]{subsection.6.2.3}{ROSPlan Translator}{section.6.2}% 38
 \BOOKMARK [1][-]{section.6.3}{Generator Module}{chapter.6}% 39
 \BOOKMARK [2][-]{subsection.6.3.1}{PNPgen: A Conditional Planning Extension}{section.6.3}% 40
 \BOOKMARK [2][-]{subsection.6.3.2}{the Generation Algorithm}{section.6.3}% 41
