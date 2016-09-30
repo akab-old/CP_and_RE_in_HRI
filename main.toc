@@ -45,7 +45,8 @@
 \contentsline {subsection}{\numberline {7.1.1}Example 1: COACHES}{54}{subsection.7.1.1}
 \contentsline {section}{\numberline {7.2}from KPDDL to PNP}{60}{section.7.2}
 \contentsline {subsection}{\numberline {7.2.1}Example 1: COACHES}{60}{subsection.7.2.1}
-\contentsline {section}{\numberline {7.3}from ROSPlan PDDL to PNP}{64}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}Example 1: COACHES}{64}{subsection.7.3.1}
-\contentsline {chapter}{\numberline {8}Conclusion}{69}{chapter.8}
-\contentsline {section}{\numberline {8.1}Future Development}{69}{section.8.1}
+\contentsline {subsection}{\numberline {7.2.2}Example 2: COACHES enhanced}{65}{subsection.7.2.2}
+\contentsline {section}{\numberline {7.3}from ROSPlan PDDL to PNP}{68}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Example 1: COACHES}{68}{subsection.7.3.1}
+\contentsline {chapter}{\numberline {8}Conclusion}{73}{chapter.8}
+\contentsline {section}{\numberline {8.1}Future Development}{73}{section.8.1}

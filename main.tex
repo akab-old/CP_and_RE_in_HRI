@@ -717,7 +717,7 @@ Given an action $a$ and a belief state $b$, the next belief state deriving from 
 \noindent $C(b,a) = \sum\limits_{s \in S}C(s,a)b(s)$ 
 \end{center}
 
-\section{Analysis of Formalisms}\label{analysis}
+\section{Analysis of Formalisms}\label{sec:analysis}
 The introduced formalisms and models show the essential bond between expressiveness and computational complexity. The planning problem in classic logic is decidable but the complexity varies from constant to EXPTIME depending on which characteristics are added to the language. 
 \newline
 
@@ -1367,19 +1367,20 @@ In particular, I will characterize the input/output of each problem and provide 
 \end{algorithm}}\\
 
 \chapter{Use Cases}\label{sec:use_cases}
-In this section I will characterize some example, describing the whole process from the problem definition to the plan generation. In order to do that I will start from the motivating example introduced in section\ref{sec:motivating}.
+In this section I will characterize some examples, describing the whole process from the problem definition to the plan generation.\\ In order to do so I will start from the motivating example introduced in section \ref{sec:motivating}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{images/pddltransl.png}
-	\caption{a simple interface to generate PNPs from the output of (K)PDDL planners output.}
+	\caption{a simple interface to generate PNPs from (K)PDDL.}
 \end{figure}
 
 %\section{Motivating Example: Implementation}
 \section{from PDDL to PNP}
 \noindent PDDL was meant to express the "physics" of a domain, and could not represent the epistemic state of an agent.\\
-In particular, in order to implement sensing actions, we should introduce in PDDL the concept of knowledge. This was achieved in KPDDL, in which the authors have introduced in the PDDL action definition the notion of inertial and sensing effects as we will see in the next section.
+The plan is generated and then executed with "eyes closed". The advantage of this kind of approach is that is very fast, but it could easily fail due to mismatch between the planned plan and the real world.
 
+\newpage
 \subsection{Example 1: COACHES}
 I will present a solution in PDDL (ver. 1.2) to the example presented in \ref{sec:motivating}.
 %PDDL is the standard "de facto" for the specification of planning problems. 
@@ -1514,7 +1515,27 @@ step    0: SENSE-PERSON R H2
 \end{verbatim}
 \noindent In this scenario, we can imagine an infrastructure with a planning system responsible of the generation of the problem instances and a module responsible for gathering the informations (through sensors and physical interfaces) and that manage fluents. This module, for instance, would be the one responsible for the Knowledge Base updates so to justify the presence of  "\textit{desire-fashion h2}" ground in the initial state description.\\
 
-\noindent Once the solution is computed and stored in a file, the PDDL translator fills its internal structure to represent the plan and subsequently expose it to PNPgen. 
+\noindent Once the solution is computed and stored in a file, the PDDL translator fills its internal structure to represent the plan and subsequently expose it to PNPgen. The correspondent translation is the following:
+
+\begin{verbatim}
+plan{ 
+ n_states=7
+ 0[label=0,actions=sense-person_r_h2]
+ 1[label=1,actions=move_shop4_shop2_r]
+ 2[label=2,actions=approach-person_h2_shop2]
+ 3[label=3,actions=ask_clothes_r_h2_shop1]
+ 4[label=4,actions=bringto_r_h2_shop2_shop4]
+ 5[label=5,actions=advertise-fashion_shop4_h2]
+ 6[label=6,actions=check_satisfaction_h2]
+
+ "0" -> "1"
+ "1" -> "2"
+ "2" -> "3"
+ "3" -> "4"
+ "4" -> "5"
+ "5" -> "6"
+}
+\end{verbatim}
 
 \begin{figure}[H]
 	\centering
@@ -1522,19 +1543,21 @@ step    0: SENSE-PERSON R H2
 	\caption{PNPgen generates the PNP from FF output.}
 \end{figure}
 
-\noindent When the PNP is generated, it could be visualized and manipulated using Jarp.
+\noindent When the PNP is generated, it could be visualized and manipulated using Jarp. The correspondent PNP in showed in \ref{fig:pddl_coaches}.\\ 
+The whole process, translation+generation, take place in 0,005s (average time). The planning runs in only 0,007s.\\ All the results are obtained using the linux command \textbf{time}\footnote{\url{https://linux.die.net/man/1/time}}.  
 
 \newpage
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.35, angle=270, trim=100mm -100mm 0mm 0mm]{images/coaches_pddl.png}
-	\caption{the PNP generated from the coaches PDDL domain. Notice that we had to move some places/transitions for a better visualization.}
+	\includegraphics[scale=0.48, angle=270, trim=60mm 0mm 0mm 0mm]{images/coaches_pddl.png}
+	\caption{the PNP generated from the coaches PDDL domain. Notice that we had to modify the PNP for a better visualization.}
+	\label{fig:pddl_coaches}
 \end{figure}
 \newpage
 
 \section{from KPDDL to PNP}
-\noindent with KPDDL is possible to represent conditional plans. The cons reside in the fact that depending on the written domain, the planner could take much time to compute a solution. The author provides the possibility to drive the search by the means of a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while with 1 a depth-first search.\\ 
-In any case, this not represents a safe solution for an on-line approach, as we will see.
+\noindent KPDDL permits to represent conditional plans. The cons reside in the fact that depending on the written domain, the planner could take much time to compute a solution. The author provides the possibility to drive the solution search by the means of a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while with 1 a depth-first search.\\ 
+In any case, this not represents a safe solution for an on-line approach as there are no ways to know if a solution exist (see \ref{sec:analysis}).
 
 \subsection{Example 1: COACHES}
 In KPDDL sensing actions could be modelled using the syntactic construct \textbf{:sense}. Most of the predicates, actions and constants remain unchanged with respect to the PDDL case:
@@ -1550,13 +1573,13 @@ In KPDDL sensing actions could be modelled using the syntactic construct \textbf
            :parameters ( ?p - person )
            :precondition (close-to ?p)
            :sense (needs-obj ?p)
- )
+  )
 
- (:action ask_clothes
-          :parameters ( ?p - person )
-          :precondition (close-to ?p)
-          :sense (needs-clothes ?p)
- )
+  (:action ask_clothes
+           :parameters ( ?p - person )
+           :precondition (close-to ?p)
+           :sense (needs-clothes ?p)
+  )
 
 
  (:action ask_food
@@ -1588,46 +1611,142 @@ In KPDDL sensing actions could be modelled using the syntactic construct \textbf
   )
 )
 \end{verbatim}
+\noindent As we can see, we do not need to model explicitly in the initial state the knowledge about the person needs.\\
+\textit{satisfied} is a predicate to indicate a final state and became true after the action \textit{bye}, when the robot as finished to acquire information from the human:
+
+\begin{verbatim}
+(:action bye
+            :parameters (?p - person)
+            :precondition (not (needs-food ?p))
+            :effect (satisfied ?p)
+)
+\end{verbatim}
+\noindent As we can see, in this case the property to sense is \textit{needs-food}.
 \noindent When given as input to KPlanner, the domain and the problem instance produce the following output:
 \begin{verbatim}
-INIT: 9
+INIT: 7
   1 :    approach-person_h2_shop2 --> 2 
-  2 :    load-bags_h2_r --> 3 
-  3 :    carry-bags_h2_r_entr2 --> 4 
-  4 :    ask_food_h2 (F) --> 5    ask_food_h2 (T) --> 6 
-  5 :    bye_h2 --> 0 
-  6 :    bringto_h2_shop2_shop6 --> 7 
-  7 :    advertise-italian_h2_shop6 --> 8 
-  8 :    bye_h2 --> 0 
-  9 :    move_shop4_shop2_r --> 1 
+  2 :    ask_food_h2 (F) --> 3    ask_food_h2 (T) --> 4 
+  3 :    bye_h2 --> 0 
+  4 :    bringto_h2_shop2_shop6 --> 5 
+  5 :    advertise-italian_h2_shop6 --> 6 
+  6 :    bye_h2 --> 0 
+  7 :    move_shop4_shop2_r --> 1 
   0 : GOAL
 \end{verbatim}\\
 \noindent The state description is the conjunction of the properties that holds true in a state.\\ 
-Consider, for instance, the state $4,5,6$ corresponding to the sensing action \textit{ask\_food} (the ground predicates corresponding to the shops are omitted): 
+Consider, for instance, the state $2, 3, 4$ corresponding to the sensing action \textit{ask\_food} (the ground predicates corresponding to the shops are omitted): 
 \begin{verbatim}
-  4 = ( at-robot_shop2  at-person_shop2  close-to_h2  -bags-loaded_r -needs-help_h2 )
-  5 = ( at-robot_shop2   at-person_shop2  close-to_h2  
-        -bags-loaded_r  -needs-help_h2  -needs-food_h2 )
-  6 = ( at-robot_shop2  at-person_shop2  close-to_h2  
-        -bags-loaded_r  -needs-help_h2  needs-food_h2  )
+  4 = ( at-robot_shop2  at-person_shop2  close-to_h2 )
+  5 = ( at-robot_shop2  at-person_shop2  close-to_h2 -needs-food_h2 )
+  6 = ( at-robot_shop2  at-person_shop2  close-to_h2 needs-food_h2 )
 \end{verbatim}
-Where we can notice how the epistemic state changes.\\ 
-In particular, before the execution of  \textit{ask\_food}, we know only \textbf{-needs-help\_h2}. After its execution, we can observe two distinct state: one in which \textbf{needs-food\_h2} holds true, and one in which not.
+Here we can notice how the epistemic state changes.\\ 
+In particular, after \textit{ask\_food} execution, we can observe two distinct state: one in which \textbf{needs-food\_h2} holds true, and one in which not.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{images/kpddl_coaches.png}
+	\includegraphics[scale=0.4, trim = 20mm 0mm 0mm 0mm]{images/kpddl_coaches.png}
 	\caption{PNPgen generates the PNP from KPlanner output. the observation are enclosed between square brackets.}
 \end{figure}
 
-\noindent From the solution file, we can automatically generate the PNP. Action with no conditions are deterministic, while every time we sense for a property we branch on the boolean result of the action (true or false) as we can see from figure \ref{fig:coaches_kpddlgen}.\\
+\noindent We translate the solution in our conditional plan representation format. Notice that even the KPlanner output doesn't differ so much from our representation, this is meant to be the same for every considered formalisms (present and future).
+
+\begin{verbatim}
+plan{ 
+
+ n_states=8
+
+ 0[label=7,actions=move_shop4_shop2_r]
+ 1[label=1,actions=approach-person_h2_shop2]
+ 2[label=2,actions=ask_food_h2]
+ 3[label=3,actions=bye_h2]
+ 4[label=4,actions=bringto_h2_shop2_shop6]
+ 5[label=5,actions=advertise-italian_h2_shop6]
+ 6[label=6,actions=bye_h2]
+ 7[label=GOAL,actions=]
+
+ "7" -> "1"
+ "1" -> "2"
+ "2" [f] -> "3" ; "2" [t] -> "4"
+ "3" -> "GOAL"
+ "4" -> "5"
+ "5" -> "6"
+ "6" -> "GOAL"
+
+}
+\end{verbatim}
+
+\noindent Once represented, we can translate the conditional plan into a PNP.
+Action with no conditions are intend to be deterministic, while every time we sense for a property we branch on the boolean result of the action (true or false) as we can see from figure \ref{fig:coaches_kpddlgen}.\\
+The planner takes 0.569s on average to run given this problem instance, most of these spent in the search.  
+The translation+generation takes only 0.008s time to run. We will compare this results with the ones of the next example.
  
 \newpage
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.21, angle=270, trim=100mm -100mm 0mm 0mm]{images/coaches_kpddl.png}
-	\caption{the PNP generated from the coaches KPDDL domain. Notice that we had to move some places/transitions for a better visualization.}
+	\includegraphics[scale=0.5, angle=270, trim=50mm 0mm 0mm 50mm]{images/coaches_kpddl.png}
+	\caption{the PNP generated from the coaches KPDDL domain. Notice that we had to modify the PNP for a better visualization.}
 	\label{fig:coaches_kpddlgen}
+\end{figure}
+\newpage
+
+\subsection{Example 2: COACHES enhanced}
+As counterexample, consider the following domain in which we have modified the bye action and we ask the agent to sense for two properties:
+\begin{verbatim}
+(:action bye
+            :parameters (?p - person)
+            :precondition (   and
+                              (not (needs-obj ?p))
+                              (not (needs-food ?p))
+                          )
+            :effect (satisfied ?p)
+)
+\end{verbatim}
+\noindent The conditional plan correspondent to the computed solution is the following:
+\begin{verbatim}
+plan{ 
+
+ n_states=12
+
+ 0[label=11,actions=move_shop4_shop2_r]
+ 1[label=1,actions=approach-person_h2_shop2]
+ 2[label=2,actions=ask_object_h2]
+ 3[label=3,actions=ask_food_h2]
+ 4[label=4,actions=bye_h2]
+ 5[label=5,actions=bringto_h2_shop2_shop6]
+ 6[label=6,actions=advertise-italian_h2_shop6]
+ 7[label=7,actions=bye_h2]
+ 8[label=8,actions=bringto_h2_shop2_shop1]
+ 9[label=9,actions=advertise-objects_shop1_h2]
+ 10[label=10,actions=bringto_h2_shop1_shop2]
+ 11[label=GOAL,actions=]
+
+ "11" -> "1"
+ "1" -> "2"
+ "2" [f] -> "3" ; "2" [t] -> "8"
+ "3" [f] -> "4" ; "3" [t] -> "5"
+ "4" -> "GOAL"
+ "5" -> "6"
+ "6" -> "7"
+ "7" -> "GOAL"
+ "8" -> "9"
+ "9" -> "10"
+ "10" -> "3"
+
+}
+\end{verbatim}
+As we can see is significantly more complex than the previous, as we can also see from the correspondent PNP depicted in \ref{fig:kpddl_ex2}.\\
+Such complex PNPs are very time consuming to be manually constructed and error prone. However, we can notice that doubling the number of epistemic variables, the time for the planner to run exponentially increase from 0.569s to 23,8252s! The run time of our system however remain almost the same (from 0,008s to 0,009).
+It is clear that if we double the epistemic states, the planner runs indefinitely.
+
+
+\newpage
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5, angle=270, trim=73mm 0mm 0mm -80mm]{images/kpddl_ex2.png}
+	\caption{the PNP generated from the modified coaches KPDDL domain. Notice that we had to modify the PNP for a better visualization.}
+	\label{fig:kpddl_ex2}
 \end{figure}
 \newpage
 
