@@ -1555,6 +1555,22 @@ The whole process, translation+generation, take place in 0,005s (average time). 
 \end{figure}
 \newpage
 
+\subsection{Example 2: Gripper Problem}
+The problem consists in a robot with two hands, moving balls from a room A to a room B. The size of the problem is expressed terms of balls to move from one room to another. We show that doubling the problem size the generation algorithm double its runtime, i.e. the algorithm is linear in the problem size.\\
+This is demonstrated in the following table:
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.48]{images/gripper_pddl.png}
+	\caption{the time for PNPgen to run for an increasing size problem.}
+	\label{fig:gripper_pddl}
+\end{figure}
+\noindent Where the time is the average among five algorithms runs. Obviously also PNPs double their sizes, as we can see from the generation stats:
+\begin{enumerate}
+\item \textbf{50 balls:} Actions: 149 Places: 299 Transitions: 298 Edges: 596.
+\item \textbf{100 balls:} Actions: 299 Places: 599 Transitions: 598 Edges: 1196.
+\item \textbf{200 balls:} Actions: 599 Places: 1199 Transitions: 1198 Edges: 2396.
+\end{enumerate}
+
 \section{from KPDDL to PNP}
 \noindent KPDDL permits to represent conditional plans. The cons reside in the fact that depending on the written domain, the planner could take much time to compute a solution. The author provides the possibility to drive the solution search by the means of a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while with 1 a depth-first search.\\ 
 In any case, this not represents a safe solution for an on-line approach as there are no ways to know if a solution exist (see \ref{sec:analysis}).
@@ -1737,7 +1753,7 @@ plan{
 }
 \end{verbatim}
 As we can see is significantly more complex than the previous, as we can also see from the correspondent PNP depicted in \ref{fig:kpddl_ex2}.\\
-Such complex PNPs are very time consuming to be manually constructed and error prone. However, we can notice that doubling the number of epistemic variables, the time for the planner to run exponentially increase from 0.569s to 23,8252s! The run time of our system however remain almost the same (from 0,008s to 0,009).
+Such complex PNPs are very time consuming to be manually constructed and error prone. However, we can notice that doubling the number of epistemic variables, the time for the planner to run increases exponentially from 0.569s to 23,8252s! The run time of our system however remain almost the same (from 0,008s to 0,009).
 It is clear that if we double the epistemic states, the planner runs indefinitely.
 
 
@@ -1751,9 +1767,9 @@ It is clear that if we double the epistemic states, the planner runs indefinitel
 \newpage
 
 \section{from ROSPlan PDDL to PNP}
-\noindent ROSPlan represents the most prominent solution for an on-line approach due to its planner.
-CLG has a very intelligent heuristic that can present almost instantaneously a solution, when present, or communicate that this not exist. 
-It is perfectly integrated into ROS and, due to its modularity, it can be extended to other formalisms (like we have done for this work).\\
+\noindent ROSPlan represents the most prominent solution for an on-line approach.
+The used planner, CLG, has a very intelligent heuristic that can present almost instantaneously a solution, when present, or communicate that this not exist. 
+The ROSPlan framework is perfectly integrated into ROS and, due to its modularity, it can be extended to consider other formalisms (like we have done for this work).\\
 
 \noindent The infrastructure provides a safe way to handle planning failures, since even when a solution is not found in the first place, it can replan a certain number of times based on a tunable parameter.\\
 This comes in handy since if the PNP execution fails, we have a second level of redundancy to make sure that the robot doesn't suddenly stop. \\
@@ -1861,6 +1877,8 @@ The following picture depict the connection between our node (\textit{pnp\_rospl
 	\caption{the PNP generated from the ROSPlan Digraph. Notice that we had to move some places/transitions for a better visualization.}
 \end{figure}
 \newpage
+
+\subsection{Example 2: }
 
 \chapter{Conclusion}\label{sec:conclusion}
 One of the fundamental aspects of moving robots from laboratories to everyday environments is that the interaction with unaware persons should be the most natural and smooth as possible.\\

@@ -42,10 +42,11 @@
 \BOOKMARK [0][-]{chapter.7}{Use Cases}{}% 42
 \BOOKMARK [1][-]{section.7.1}{from PDDL to PNP}{chapter.7}% 43
 \BOOKMARK [2][-]{subsection.7.1.1}{Example 1: COACHES}{section.7.1}% 44
-\BOOKMARK [1][-]{section.7.2}{from KPDDL to PNP}{chapter.7}% 45
-\BOOKMARK [2][-]{subsection.7.2.1}{Example 1: COACHES}{section.7.2}% 46
-\BOOKMARK [2][-]{subsection.7.2.2}{Example 2: COACHES enhanced}{section.7.2}% 47
-\BOOKMARK [1][-]{section.7.3}{from ROSPlan PDDL to PNP}{chapter.7}% 48
-\BOOKMARK [2][-]{subsection.7.3.1}{Example 1: COACHES}{section.7.3}% 49
-\BOOKMARK [0][-]{chapter.8}{Conclusion}{}% 50
-\BOOKMARK [1][-]{section.8.1}{Future Development}{chapter.8}% 51
+\BOOKMARK [2][-]{subsection.7.1.2}{Example 2: Gripper Problem}{section.7.1}% 45
+\BOOKMARK [1][-]{section.7.2}{from KPDDL to PNP}{chapter.7}% 46
+\BOOKMARK [2][-]{subsection.7.2.1}{Example 1: COACHES}{section.7.2}% 47
+\BOOKMARK [2][-]{subsection.7.2.2}{Example 2: COACHES enhanced}{section.7.2}% 48
+\BOOKMARK [1][-]{section.7.3}{from ROSPlan PDDL to PNP}{chapter.7}% 49
+\BOOKMARK [2][-]{subsection.7.3.1}{Example 1: COACHES}{section.7.3}% 50
+\BOOKMARK [0][-]{chapter.8}{Conclusion}{}% 51
+\BOOKMARK [1][-]{section.8.1}{Future Development}{chapter.8}% 52
