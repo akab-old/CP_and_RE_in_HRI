@@ -50,7 +50,23 @@
 \newpage
 
 \chapter{Introduction}
-This chapter present the thesis, with motivations and goal of this work
+This chapter presents the thesis, with motivations and goal of this work.\\
+\newline
+\noindent Robotic is living its golden age. AI assistants and autonomous vehicles are only some of the example of the systems that are now present in our everyday life.
+This new era imposes us to reason about how the integration with this systems must happen.
+We must ensure that this process is the smoothest as possible, in a way that is natural for human beings.
+Namely, we need socially acceptable robotic systems. To achieve that, we must equip these systems with the ability to represent the knowledge about the state of the involved agents (humans), in order to produce the most accurate response to their needs. \\
+
+\noindent The primary intent of this thesis is to present a planning system that can represent the knowledge of an agent (the robot) about the current situation and the involved actors and that is robust with respect to execution failures. \\
+
+
+\noindent To motivate this work, I will start with an example.\\
+In chapter \ref{sec:related_works} I will present the context of this work and the state of the art.\\ 
+In chapter \ref{sec:plan_repr} I will review some of the formalisms in literature, showing their pros and cons in terms of representation expressivity and computation complexity.\\ 
+In chapter \ref{sec:approach} I make some consideration about the analysis done in the precedent chapter and I will introduce the used approach.\\ 
+In chapter \ref{sec:foundation} the tools used for the developing of the thesis are presented. In chapter \ref{sec:system} the system is presented, with the architecture and algorithms descriptions.\\ 
+Finally, in chapter \ref{sec:use_cases} and \ref{sec:conclusion} some problem examples are shown and considerations about the work are done.
+
 %\section{Planning}
 %\subsection{Planners Characteristics/Requirements}
 %\begin{enumerate}
@@ -59,7 +75,7 @@ This chapter present the thesis, with motivations and goal of this work
 %\item  How to deal with Exogenous Events $\shortrightarrow$ Implicit/Explicit Modelling 
 %\item  Hyerarchical Tasks
 %\item  Frame Problem: how to represent the fact that things do not arbitrarly changes.
-%\item  Qualification problem: how to deal with the things that prevent me from achieving my intendend result (impossibility of list alla preconditions). 
+%\item  Qualification problem: how to deal with the things that prevent me from achieving my intendend result (impossibility of list all preconditions). 
 %\item  How to model/deal time (explicit/implicit)
 %\item  World-based (STRIPS) vs Plan-based Planner (Partial-order Planning)
 %\item  Total-order (HTN) vs Partial-order planning
@@ -319,13 +335,10 @@ So a possible plan for $H2$ would be:
 \end{figure}
 
 \noindent Where the squares ($ \square $) represents sensing actions.\\ 
-A \textbf{sensing action} is an action that incorporates an observation (a boolean evaluation in this case) and it is used by the robot to characterise its (partial) knowledge of the environment. We assume that a state in which at least one of the $Z$ properties holds is a goal state. \\
-\newline
-\noindent I will now introduce some formalisms for planning problem representation.\\ 
-A more detailed discussion about this formalisms and others will be presented in \ref{sec:formalism}.
+A \textbf{sensing action} is an action that incorporates an observation (a boolean evaluation in this case) and it is used by the robot to characterise its (partial) knowledge of the environment. We assume that a state in which at least one of the $Z$ properties holds is a goal state. 
 
 \section{Planning: some hints}
-Once a problem is characterized, we must define the techniques necessary to solve it.\\
+Once a problem is characterized, we must define the techniques necessary to solve it.
 Planning is "\textit{the task of coming up with a sequence of actions that will achieve a goal}" \cite{russell2005ai}.\\
 When talking about complex problems, classical search-based planning approaches cease to be useful as any algorithm easily get lost in the possible huge state space.
 In this cases, a language for represent the problem represent a better solution.
@@ -337,15 +350,10 @@ On other hand, we must deal with some contraindications:
 \item \textbf{Expressivity vs Complexity.} Can we represent the problem? Is it possible to compute a solution?
 \end{itemize} 
 
-\noindent Try to address all this questions is behind the scope of this thesis.\\ 
-Instead, I will show how to deal with sensing uncertainty
+\noindent Try to address all this questions is behind the scope of this thesis.
+Instead, I will show how to deal with representation uncertainty
 and how to generate robust plans, that are plans that execute safely with limited or no needs for replanning.\\
-\newline
-\noindent In chapter \ref{sec:related_works} I will present the context of this work and the state of the art.\\ 
-In chapter \ref{sec:plan_repr} I will review some of the formalisms in literature, showing their pros and cons in terms of representation expressivity and computation complexity.\\ 
-In chapter \ref{sec:approach} I make some consideration about the analysis done in the precedent chapter and I will introduce the used approach.\\ 
-In chapter \ref{sec:foundation} the tools used for the developing of the thesis are presented. In chapter \ref{sec:system} the system is presented, with the architecture and algorithms descriptions.\\ 
-Finally, in chapter \ref{sec:use_cases} and \ref{sec:conclusion} some problem examples and considerations about the work are done.
+
 \chapter{Related Works}\label{sec:related_works}
 This chapter reviews the state of the art and identifies the field of interest of this work.
 
@@ -389,7 +397,10 @@ In this cases the interaction between the human and the robot is minimal. The hu
 
 \subsection{Strictly Social Cases (HRI Mandatory)}
 Those cases represents the most significant for this work. In this case the interaction is the principal objective and the robot itself could start the interaction. A representation of the human state is maintained.\\
-\textbf{Examples:} \textit{Project COACHES (\url{https://coaches.greyc.fr/}), Amelia the Assistant (\url{http://www.ipsoft.com/amelia/}), assistance task}.
+\textbf{Examples:} \textit{Project COACHES (\url{https://coaches.greyc.fr/}), Amelia the Assistant (\url{http://www.ipsoft.com/amelia/}), assistance task}.\\
+
+\noindent I will now introduce some formalisms for planning problem representation.\\ 
+%A more detailed discussion about this formalisms and others will be presented in \ref{sec:formalism}.
 
 
 \chapter{Plan Representation}\label{sec:plan_repr}
