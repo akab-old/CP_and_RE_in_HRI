@@ -48,6 +48,7 @@
 \contentsline {subsection}{\numberline {7.2.1}Example 1: COACHES}{61}{subsection.7.2.1}
 \contentsline {subsection}{\numberline {7.2.2}Example 2: COACHES enhanced}{66}{subsection.7.2.2}
 \contentsline {section}{\numberline {7.3}from ROSPlan PDDL to PNP}{69}{section.7.3}
-\contentsline {subsection}{\numberline {7.3.1}Example 1: COACHES}{69}{subsection.7.3.1}
-\contentsline {chapter}{\numberline {8}Conclusion}{74}{chapter.8}
-\contentsline {section}{\numberline {8.1}Future Development}{74}{section.8.1}
+\contentsline {subsection}{\numberline {7.3.1}Example 1: simple COACHES}{69}{subsection.7.3.1}
+\contentsline {subsection}{\numberline {7.3.2}Example 2: COACHES complete}{73}{subsection.7.3.2}
+\contentsline {chapter}{\numberline {8}Conclusion}{76}{chapter.8}
+\contentsline {section}{\numberline {8.1}Future Development}{77}{section.8.1}

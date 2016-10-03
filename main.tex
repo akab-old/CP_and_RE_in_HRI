@@ -1369,12 +1369,6 @@ In particular, I will characterize the input/output of each problem and provide 
 \chapter{Use Cases}\label{sec:use_cases}
 In this section I will characterize some examples, describing the whole process from the problem definition to the plan generation.\\ In order to do so I will start from the motivating example introduced in section \ref{sec:motivating}.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{images/pddltransl.png}
-	\caption{a simple interface to generate PNPs from (K)PDDL.}
-\end{figure}
-
 %\section{Motivating Example: Implementation}
 \section{from PDDL to PNP}
 \noindent PDDL was meant to express the "physics" of a domain, and could not represent the epistemic state of an agent.\\
@@ -1756,7 +1750,6 @@ As we can see is significantly more complex than the previous, as we can also se
 Such complex PNPs are very time consuming to be manually constructed and error prone. However, we can notice that doubling the number of epistemic variables, the time for the planner to run increases exponentially from 0.569s to 23,8252s! The run time of our system however remain almost the same (from 0,008s to 0,009).
 It is clear that if we double the epistemic states, the planner runs indefinitely.
 
-
 \newpage
 \begin{figure}[H]
 	\centering
@@ -1775,8 +1768,9 @@ The ROSPlan framework is perfectly integrated into ROS and, due to its modularit
 This comes in handy since if the PNP execution fails, we have a second level of redundancy to make sure that the robot doesn't suddenly stop. \\
 The integration between ROSPlan and PNP is an ongoing work and I will discuss possible future implementations in the next chapter.
 
-\subsection{Example 1: COACHES}
-In this case, we must introduce a slightly different version of PDDL, similar to KPDDL, that is used in the ROSPlan Framework.\\
+\subsection{Example 1: simple COACHES}
+This is a simplified version of the coaches example, in which we inspect only the person position.
+We must introduce a slightly different version of PDDL, similar to KPDDL, that is used in the ROSPlan Framework.\\
 As in KPDDL, in this case PDDL is extended with introduction of the \textbf{:observe} construct for action effects, used to define sensing actions.\\
 For instance, a sensing action has the following form:
 \begin{verbatim}
@@ -1868,30 +1862,86 @@ The following picture depict the connection between our node (\textit{pnp\_rospl
 	\caption{A snapshot of the nodes used to translate a digraph into a PNP.}
 \end{figure}
 
-\noindent You will find the correspondent PNP in the next page.\\
-
+\noindent You will find a portion of the correspondent PNP in the next page.\\
 \newpage
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.13, angle=270, trim=100mm -100mm 0mm 0mm]{images/rosplan_ex1.png}
-	\caption{the PNP generated from the ROSPlan Digraph. Notice that we had to move some places/transitions for a better visualization.}
+	\includegraphics[scale=0.4]{images/rosplan_coaches1.png}
+	\caption{a portion of the PNP generated from the ROSPlan Digraph. Notice that we had to move some places/transitions for a better visualization.}
 \end{figure}
-\newpage
 
-\subsection{Example 2: }
+%PNP stats: 'Actions: 22 Places: 68 Transitions: 67 Edges: 134
+
+\subsection{Example 2: COACHES complete}
+This is the complete coaches example, as presented in the previous sections. Namely, we try to infer also the person needs using the following sensing action:
+\begin{verbatim}
+  (:action ask
+    :parameters ( ?p - person ?x - desire)
+    :precondition (close-to ?p)
+    :observe (needs ?x)
+  )
+\end{verbatim} 
+\noindent The predicate \textit{needs} can take five values: 	obj, food, clothes, WC and help.
+As before, we must specify the possible outcomes in the initial state:
+\begin{verbatim}
+  (:init (and
+             (at-robot shop4)
+             (oneof
+               (at-person shop1)
+               (at-person shop2)
+               (at-person shop3)
+               (at-person shop4)
+               (at-person shop5)
+               (at-person shop6)
+             )
+             (oneof
+               (needs obj)
+               (needs food)
+               (needs clothes)
+               (needs help)
+               (needs WC)
+             )
+         )
+  )
+\end{verbatim}
+
+%PNP stats: 'Actions: 70 Places: 212 Transitions: 211 Edges: 422
+\noindent We do not show the complete PNP since it is too big to fit in a page. Consider that for this case there are 211 places and 422 edges. As we can see from the image \ref{fig:rosplan_ex2}, the generated PNP is complete in the sense that can represent the epistemic knowledge of the robot and the generation happens almost instantaneously. This example concludes our analysis.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5,angle=270, trim=50mm 0mm 0mm 0mm]{images/rosplan_coaches2.png}
+	\caption{a small portion of the PNP generated from the complete coaches domain. Notice that we had to modify the PNP for a better visualization.}
+	\label{fig:rosplan_ex2}
+\end{figure}
+
+
+%\subsection{Example 3: Wumpus}
 
 \chapter{Conclusion}\label{sec:conclusion}
 One of the fundamental aspects of moving robots from laboratories to everyday environments is that the interaction with unaware persons should be the most natural and smooth as possible.\\
 In fact, a robot that "freeze" during an interaction or that could not response actively to the external stimuli is very far from the definition of social.\\
 In this work we have discussed an approach that tries to take advantage of the expressivity of some of the languages and formalisms present in the literature to represent, generate and execute conditional plans, i.e. plans that incorporates observations.\\
-This kind of plans are robust with respect to action failures since we can represent very complex plans that are otherwise impossible to write "manually". \\
+This kind of plans are robust with respect to action failures since we can represent very complex plans that are otherwise impossible to write "manually".
 Using the PNP framework we can easily visualize and eventually modify a plan.\\
-Furthermore, the work fits both on-line and off-line needs, depending on the chosen formalism.    
+Furthermore, we have demonstrated the integration of our work with an infrastructure that runs on-line on the robot and how promising this approach is. We are indeed collaborating with ROSPlan\ref{sec:rosplan} authors to extend further this work. 
 
 
 \section{Future Development}
-A robot must be capable of discerning cases in which an interaction is desirable and cases in which is not. Like in the simple case of a "welcome robot", it is important that the robot says "hi" when a person shows in front of him but it must also take into account the fact that a person could appear in front of him multiple times. 
-Another important but maybe trickier case is to equip the robot with the capability of understanding the mood of the person and than react consequently. Although this could be seen as a fictional case, since is impossible at the moment even for the most complex cognitive robot to understand emotions, there are some simple cases that could be treated. The goal, in this case, is not to reproduce a perfect model of the human mind state and how it could react to some sorts of events, but rather discover some patterns that could lead to undesirable outcomes. For instance, a person could be busy with its work and the interference of the robot, when is not helpful in the context of the human task, could be perceived as noise. Thus is important to maintain a representation of the person daily routines and enrich this when is possible with the information that comes from the social interactions that occurs from time to time between the two. If we are interested in developing robots strictly social, we cannot leave aside the emotional aspect of the interaction. 
+There are some things still missing in our framework that can be considered for future implementations.\\
+For instance, it is evident the lack of a graphical interface.
+It is clear that if we want to expand our work considering more formalisms, a tool that automatically selects one or another based on desired properties becomes fundamental.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{images/pddltransl.png}
+	\caption{the current interface to generate PNPs from (K)PDDL.}
+\end{figure}
+
+\noindent Talking about formalisms to be added
+
+%A robot must be capable of discerning cases in which an interaction is desirable and cases in which is not. Like in the simple case of a "welcome robot", it is important that the robot says "hi" when a person shows in front of him but it must also take into account the fact that a person could appear in front of him multiple times. 
+%Another important but maybe trickier case is to equip the robot with the capability of understanding the mood of the person and than react consequently. Although this could be seen as a fictional case, since is impossible at the moment even for the most complex cognitive robot to understand emotions, there are some simple cases that could be treated. The goal, in this case, is not to reproduce a perfect model of the human mind state and how it could react to some sorts of events, but rather discover some patterns that could lead to undesirable outcomes. For instance, a person could be busy with its work and the interference of the robot, when is not helpful in the context of the human task, could be perceived as noise. Thus is important to maintain a representation of the person daily routines and enrich this when is possible with the information that comes from the social interactions that occurs from time to time between the two. If we are interested in developing robots strictly social, we cannot leave aside the emotional aspect of the interaction. 
 
 
 \begin{itemize}
