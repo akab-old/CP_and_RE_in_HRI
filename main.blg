@@ -14,45 +14,45 @@ Warning--empty booktitle in iocchi2003
 Warning--empty year in iocchi2003
 Warning--empty journal in mcdermott1998pddl
 Warning--empty year in ziparo2008pnp
-You've used 29 entries,
+You've used 32 entries,
             2118 wiz_defined-function locations,
-            666 strings with 9364 characters,
-and the built_in function-call counts, 11725 in all, are:
-= -- 1166
-> -- 545
-< -- 16
-+ -- 221
-- -- 186
-* -- 780
-:= -- 1831
-add.period$ -- 90
-call.type$ -- 29
-change.case$ -- 180
+            685 strings with 9880 characters,
+and the built_in function-call counts, 12904 in all, are:
+= -- 1287
+> -- 594
+< -- 17
++ -- 240
+- -- 202
+* -- 866
+:= -- 2014
+add.period$ -- 99
+call.type$ -- 32
+change.case$ -- 197
 chr.to.int$ -- 0
-cite$ -- 34
-duplicate$ -- 483
-empty$ -- 902
-format.name$ -- 186
-if$ -- 2533
+cite$ -- 37
+duplicate$ -- 528
+empty$ -- 997
+format.name$ -- 202
+if$ -- 2785
 int.to.chr$ -- 0
-int.to.str$ -- 29
-missing$ -- 28
-newline$ -- 147
-num.names$ -- 58
-pop$ -- 216
+int.to.str$ -- 32
+missing$ -- 31
+newline$ -- 162
+num.names$ -- 64
+pop$ -- 232
 preamble$ -- 1
-purify$ -- 150
+purify$ -- 164
 quote$ -- 0
-skip$ -- 381
+skip$ -- 416
 stack$ -- 0
-substring$ -- 766
-swap$ -- 169
-text.length$ -- 16
+substring$ -- 863
+swap$ -- 182
+text.length$ -- 17
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 116
+type$ -- 128
 warning$ -- 5
-while$ -- 115
-width$ -- 31
-write$ -- 315
+while$ -- 128
+width$ -- 34
+write$ -- 348
 (There was 1 error message)

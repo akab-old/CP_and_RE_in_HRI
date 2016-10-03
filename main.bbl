@@ -95,6 +95,11 @@ Vladimir Lifschitz.
 \newblock What is answer set programming?.
 \newblock In {\em AAAI}, volume~8, pages 1594--1597, 2008.
 
+\bibitem{liu2004conceptnet}
+Hugo Liu and Push Singh.
+\newblock Conceptnet—a practical commonsense reasoning tool-kit.
+\newblock {\em BT technology journal}, 22(4):211--226, 2004.
+
 \bibitem{mccarthy1969some}
 John McCarthy and Patrick~J Hayes.
 \newblock Some philosophical problems from the standpoint of artificial
@@ -146,10 +151,21 @@ Scott Sanner.
   description.
 \newblock {\em Unpublished ms. Australian National University}, 2010.
 
+\bibitem{tsamardinos2000merging}
+Ioannis Tsamardinos, Martha~E Pollack, and John~F Horty.
+\newblock Merging plans with quantitative temporal constraints, temporally
+  extended actions, and conditional branches.
+\newblock In {\em AIPS}, pages 264--272, 2000.
+
 \bibitem{wang2015handling}
 Yi~Wang and Joohyung Lee.
 \newblock Handling uncertainty in answer set programming.
 \newblock In {\em AAAI}, pages 4218--4219, 2015.
+
+\bibitem{yang1992merging}
+Qiang Yang, Dana~S Nau, and James Hendler.
+\newblock Merging separately generated plans with restricted interactions.
+\newblock {\em Computational Intelligence}, 8(4):648--676, 1992.
 
 \bibitem{younes2004ppddl1}
 H{\aa}kan~LS Younes and Michael~L Littman.
