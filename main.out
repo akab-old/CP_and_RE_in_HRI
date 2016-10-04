@@ -40,13 +40,13 @@
 \BOOKMARK [2][-]{subsection.6.3.1}{PNPgen: A Conditional Planning Extension}{section.6.3}% 40
 \BOOKMARK [2][-]{subsection.6.3.2}{the Generation Algorithm}{section.6.3}% 41
 \BOOKMARK [0][-]{chapter.7}{Use Cases}{}% 42
-\BOOKMARK [1][-]{section.7.1}{from PDDL to PNP}{chapter.7}% 43
+\BOOKMARK [1][-]{section.7.1}{Fast-Forward \(PDDL\)}{chapter.7}% 43
 \BOOKMARK [2][-]{subsection.7.1.1}{Example 1: COACHES}{section.7.1}% 44
 \BOOKMARK [2][-]{subsection.7.1.2}{Example 2: Gripper Problem}{section.7.1}% 45
-\BOOKMARK [1][-]{section.7.2}{from KPDDL to PNP}{chapter.7}% 46
+\BOOKMARK [1][-]{section.7.2}{KPlanner \(KPDDL\)}{chapter.7}% 46
 \BOOKMARK [2][-]{subsection.7.2.1}{Example 1: COACHES}{section.7.2}% 47
 \BOOKMARK [2][-]{subsection.7.2.2}{Example 2: COACHES enhanced}{section.7.2}% 48
-\BOOKMARK [1][-]{section.7.3}{from ROSPlan PDDL to PNP}{chapter.7}% 49
+\BOOKMARK [1][-]{section.7.3}{Closed-Loop Greedy Planner \(PDDL\)}{chapter.7}% 49
 \BOOKMARK [2][-]{subsection.7.3.1}{Example 1: simple COACHES}{section.7.3}% 50
 \BOOKMARK [2][-]{subsection.7.3.2}{Example 2: COACHES complete}{section.7.3}% 51
 \BOOKMARK [0][-]{chapter.8}{Conclusion}{}% 52

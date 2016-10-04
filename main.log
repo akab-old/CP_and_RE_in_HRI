@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.2.1)  3 OCT 2016 22:08
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.2.1)  4 OCT 2016 21:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1550,47 +1550,47 @@ File: images/coaches_pddl.png Graphic file (type png)
 Package pdftex.def Info: images/coaches_pddl.png used on input line 1557.
 (pdftex.def)             Requested size: 475.97507pt x 282.81339pt.
  [59 <./images/coaches_pddl.png>]
-<images/gripper_pddl.png, id=850, 787.94376pt x 187.70125pt>
+<images/gripper_pddl.png, id=850, 493.845pt x 228.855pt>
 File: images/gripper_pddl.png Graphic file (type png)
 
 <use images/gripper_pddl.png>
 Package pdftex.def Info: images/gripper_pddl.png used on input line 1568.
-(pdftex.def)             Requested size: 378.20871pt x 90.09557pt.
- [60 <./images/gripper_pddl.png>]
+(pdftex.def)             Requested size: 237.0429pt x 109.84914pt.
+ [60 <./images/gripper_pddl.png>] [61]
 
-LaTeX Warning: Characters dropped after `\end{verbatim}' on input line 1611.
+LaTeX Warning: Characters dropped after `\end{verbatim}' on input line 1614.
 
-[61]
+[62]
 
-LaTeX Warning: Characters dropped after `\end{verbatim}' on input line 1657.
+LaTeX Warning: Characters dropped after `\end{verbatim}' on input line 1660.
 
-[62] <images/kpddl_coaches.png, id=870, 1188.44pt x 274.02374pt>
+<images/kpddl_coaches.png, id=871, 1188.44pt x 274.02374pt>
 File: images/kpddl_coaches.png Graphic file (type png)
 
 <use images/kpddl_coaches.png>
-Package pdftex.def Info: images/kpddl_coaches.png used on input line 1670.
+Package pdftex.def Info: images/kpddl_coaches.png used on input line 1673.
 (pdftex.def)             Requested size: 452.60579pt x 109.60754pt.
 
-Overfull \hbox (62.60579pt too wide) in paragraph at lines 1670--1671
+Overfull \hbox (62.60579pt too wide) in paragraph at lines 1673--1674
  [][] 
  []
 
 [63 <./images/kpddl_coaches.png>] [64]
-<images/coaches_kpddl.png, id=882, 1216.545pt x 650.43pt>
+<images/coaches_kpddl.png, id=883, 1216.545pt x 650.43pt>
 File: images/coaches_kpddl.png Graphic file (type png)
 
 <use images/coaches_kpddl.png>
-Package pdftex.def Info: images/coaches_kpddl.png used on input line 1709.
+Package pdftex.def Info: images/coaches_kpddl.png used on input line 1712.
 (pdftex.def)             Requested size: 537.1393pt x 254.08249pt.
  [65 <./images/coaches_kpddl.png>] [66] [67]
-<images/kpddl_ex2.png, id=899, 1347.0325pt x 834.11626pt>
+<images/kpddl_ex2.png, id=900, 1347.0325pt x 834.11626pt>
 File: images/kpddl_ex2.png Graphic file (type png)
 
 <use images/kpddl_ex2.png>
-Package pdftex.def Info: images/kpddl_ex2.png used on input line 1767.
+Package pdftex.def Info: images/kpddl_ex2.png used on input line 1770.
 (pdftex.def)             Requested size: 569.66232pt x 530.86784pt.
 
-Overfull \hbox (140.86784pt too wide) in paragraph at lines 1767--1768
+Overfull \hbox (140.86784pt too wide) in paragraph at lines 1770--1771
  [][] 
  []
 
@@ -1599,55 +1599,55 @@ Overfull \vbox (16.66231pt too high) has occurred while \output is active []
 
 
 [68 <./images/kpddl_ex2.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1774--1777
+Underfull \hbox (badness 10000) in paragraph at lines 1777--1780
 
  []
 
 [69]
-Underfull \hbox (badness 10000) in paragraph at lines 1805--1806
+Underfull \hbox (badness 10000) in paragraph at lines 1808--1809
 
  []
 
-<images/dia_system.png, id=909, 371.3875pt x 510.90875pt>
+<images/dia_system.png, id=910, 371.3875pt x 510.90875pt>
 File: images/dia_system.png Graphic file (type png)
 
 <use images/dia_system.png>
-Package pdftex.def Info: images/dia_system.png used on input line 1813.
+Package pdftex.def Info: images/dia_system.png used on input line 1816.
 (pdftex.def)             Requested size: 111.4171pt x 153.2738pt.
  [70 <./images/dia_system.png (PNG copy)>] [71]
-Overfull \hbox (38.99603pt too wide) in paragraph at lines 1867--1869
+Overfull \hbox (38.99603pt too wide) in paragraph at lines 1870--1872
 \OT1/cmr/m/n/12 The fol-low-ing pic-ture de-pict the con-nec-tion be-tween our 
 node (\OT1/cmr/m/it/12 pnp[]rosplan[]interface\OT1/cmr/m/n/12 )
  []
 
-<images/rospnp.png, id=920, 1034.36438pt x 445.665pt>
+<images/rospnp.png, id=921, 1034.36438pt x 445.665pt>
 File: images/rospnp.png Graphic file (type png)
  <use images/rospnp.png>
-Package pdftex.def Info: images/rospnp.png used on input line 1872.
+Package pdftex.def Info: images/rospnp.png used on input line 1875.
 (pdftex.def)             Requested size: 310.3117pt x 133.70053pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1876--1877
+Underfull \hbox (badness 10000) in paragraph at lines 1879--1880
 
  []
 
 [72 <./images/rospnp.png>]
-<images/rosplan_coaches1.png, id=928, 1226.5825pt x 614.295pt>
+<images/rosplan_coaches1.png, id=929, 1226.5825pt x 614.295pt>
 File: images/rosplan_coaches1.png Graphic file (type png)
 
 <use images/rosplan_coaches1.png>
-Package pdftex.def Info: images/rosplan_coaches1.png used on input line 1880.
+Package pdftex.def Info: images/rosplan_coaches1.png used on input line 1883.
 (pdftex.def)             Requested size: 490.62431pt x 245.71364pt.
 
-Overfull \hbox (100.62431pt too wide) in paragraph at lines 1880--1881
+Overfull \hbox (100.62431pt too wide) in paragraph at lines 1883--1884
  [][] 
  []
 
 [73 <./images/rosplan_coaches1.png>]
-<images/rosplan_coaches2.png, id=936, 1268.74pt x 647.41875pt>
+<images/rosplan_coaches2.png, id=937, 1268.74pt x 647.41875pt>
 File: images/rosplan_coaches2.png Graphic file (type png)
 
 <use images/rosplan_coaches2.png>
-Package pdftex.def Info: images/rosplan_coaches2.png used on input line 1924.
+Package pdftex.def Info: images/rosplan_coaches2.png used on input line 1928.
 (pdftex.def)             Requested size: 563.23674pt x 323.70857pt.
  [74]
 Overfull \vbox (10.23672pt too high) has occurred while \output is active []
@@ -1657,11 +1657,11 @@ Overfull \vbox (10.23672pt too high) has occurred while \output is active []
 Chapter 8.
 [76
 
-] <images/pddltransl.png, id=952, 732.7375pt x 102.3825pt>
+] <images/pddltransl.png, id=953, 732.7375pt x 102.3825pt>
 File: images/pddltransl.png Graphic file (type png)
 
 <use images/pddltransl.png>
-Package pdftex.def Info: images/pddltransl.png used on input line 1945.
+Package pdftex.def Info: images/pddltransl.png used on input line 1949.
 (pdftex.def)             Requested size: 366.36786pt x 51.19112pt.
  (./main.bbl [77 <./images/pddltransl.png>] [78
 
@@ -1673,20 +1673,20 @@ ma,
  []
 
 [80])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1973.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1977.
  [81]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1973.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1977.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1973.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1973.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1977.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1977.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 1FD9CD17E8F2E6438C52244AB4615D2F;3619.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1973.
+(rerunfilecheck)             Checksum: 04E6FF4753D52178F92C6B97385E6421;3636.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1977.
  ) 
 Here is how much of TeX's memory you used:
- 21631 strings out of 493304
- 390512 string characters out of 6139872
+ 21632 strings out of 493304
+ 390519 string characters out of 6139872
  527142 words of memory out of 5000000
  24292 multiletter control sequences out of 15000+600000
  22582 words of font info for 87 fonts, out of 8000000 for 9000
@@ -1741,10 +1741,10 @@ public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
 /amsfonts/euler/eurm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
 sfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/stm
 aryrd/stmary10.pfb>
-Output written on main.pdf (82 pages, 1082304 bytes).
+Output written on main.pdf (82 pages, 1082568 bytes).
 PDF statistics:
- 1134 PDF objects out of 1200 (max. 8388607)
- 974 compressed objects within 10 object streams
- 339 named destinations out of 1000 (max. 500000)
+ 1135 PDF objects out of 1200 (max. 8388607)
+ 975 compressed objects within 10 object streams
+ 340 named destinations out of 1000 (max. 500000)
  577 words of extra memory for PDF output out of 10000 (max. 10000000)
 

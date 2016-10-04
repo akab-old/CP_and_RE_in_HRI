@@ -52,7 +52,7 @@
 \chapter{Introduction}
 This chapter presents the thesis, with motivations and goal of this work.\\
 \newline
-\noindent Robotic is living its golden age. AI assistants and autonomous vehicles are only some of the example of the systems that are now present in our everyday life.
+\noindent Robotic is living its golden age. AI assistants and autonomous vehicles are only two of the examples of the systems that are now present in our everyday life.
 This new era imposes us to reason about how the integration with this systems must happen.
 We must ensure that this process is the smoothest as possible, in a way that is natural for human beings.
 Namely, we need socially acceptable robotic systems. To achieve that, we must equip these systems with the ability to represent the knowledge about the state of the involved agents (humans), in order to produce the most accurate response to their needs. \\
@@ -1379,9 +1379,9 @@ In particular, I will characterize the input/output of each problem and provide 
 
 \chapter{Use Cases}\label{sec:use_cases}
 In this section I will characterize some examples, describing the whole process from the problem definition to the plan generation.\\ In order to do so I will start from the motivating example introduced in section \ref{sec:motivating}.
+%PDDL like languages, planner in title
 
-%\section{Motivating Example: Implementation}
-\section{from PDDL to PNP}
+\section{Fast-Forward (PDDL)}
 \noindent PDDL was meant to express the "physics" of a domain, and could not represent the epistemic state of an agent.\\
 The plan is generated and then executed with "eyes closed". The advantage of this kind of approach is that is very fast, but it could easily fail due to mismatch between the planned plan and the real world.
 
@@ -1562,21 +1562,24 @@ The whole process, translation+generation, take place in 0,005s (average time). 
 
 \subsection{Example 2: Gripper Problem}
 The problem consists in a robot with two hands, moving balls from a room A to a room B. The size of the problem is expressed terms of balls to move from one room to another. We show that doubling the problem size the generation algorithm double its runtime, i.e. the algorithm is linear in the problem size.\\
-This is demonstrated in the following table:
+This is demonstrated in the following table, along with the computation time of the FF planner:
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.48]{images/gripper_pddl.png}
 	\caption{the time for PNPgen to run for an increasing size problem.}
 	\label{fig:gripper_pddl}
 \end{figure}
-\noindent Where the time is the average among five algorithms runs. Obviously also PNPs double their sizes, as we can see from the generation stats:
+\noindent Where the time in the second column is the average of five algorithm runs. In particular, we notice that the time to generate a PNP is negligible with respect to the time that takes FF to compute a solution.\\  
+Obviously also PNPs double their sizes, as we can see from the generation stats:
 \begin{enumerate}
 \item \textbf{50 balls:} Actions: 149 Places: 299 Transitions: 298 Edges: 596.
 \item \textbf{100 balls:} Actions: 299 Places: 599 Transitions: 598 Edges: 1196.
 \item \textbf{200 balls:} Actions: 599 Places: 1199 Transitions: 1198 Edges: 2396.
+\item \textbf{500 balls:} Actions: 1499 Places: 2999 Transitions: 2998 Edges: 5996.
 \end{enumerate}
 
-\section{from KPDDL to PNP}
+\newpage
+\section{KPlanner (KPDDL)}
 \noindent KPDDL permits to represent conditional plans. The cons reside in the fact that depending on the written domain, the planner could take much time to compute a solution. The author provides the possibility to drive the solution search by the means of a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while with 1 a depth-first search.\\ 
 In any case, this not represents a safe solution for an on-line approach as there are no ways to know if a solution exist (see \ref{sec:analysis}).
 
@@ -1770,7 +1773,7 @@ It is clear that if we double the epistemic states, the planner runs indefinitel
 \end{figure}
 \newpage
 
-\section{from ROSPlan PDDL to PNP}
+\section{Closed-Loop Greedy Planner (PDDL)}
 \noindent ROSPlan represents the most prominent solution for an on-line approach.
 The used planner, CLG, has a very intelligent heuristic that can present almost instantaneously a solution, when present, or communicate that this not exist. 
 The ROSPlan framework is perfectly integrated into ROS and, due to its modularity, it can be extended to consider other formalisms (like we have done for this work).\\
@@ -1918,6 +1921,7 @@ As before, we must specify the possible outcomes in the initial state:
 
 %PNP stats: 'Actions: 70 Places: 212 Transitions: 211 Edges: 422
 \noindent We do not show the complete PNP since it is too big to fit in a page. Consider that for this case there are 211 places and 422 edges. As we can see from the image \ref{fig:rosplan_ex2}, the generated PNP is complete in the sense that it discern between all different cases (\textit{food}, \textit{clothes}, \textit{obj} etc.) and the generation happens almost instantaneously. This example concludes our analysis.
+%TODO parlare della rappresentazione ottenuta (albero - esempio porte)
 
 \begin{figure}[H]
 	\centering
