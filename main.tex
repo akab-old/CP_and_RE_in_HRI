@@ -60,7 +60,7 @@ Namely, we need socially acceptable robotic systems. To achieve that, we must eq
 \noindent The primary intent of this thesis is to present a planning system that can represent the knowledge of an agent (the robot) about the current situation and the involved actors and that is robust with respect to execution failures. \\
 
 
-\noindent To motivate this work, I will start with an example.\\
+\noindent To motivate this work I will present in the next section an example \ref{sec:motivating}.\\
 In chapter \ref{sec:related_works} I will present the context of this work and the state of the art.\\ 
 In chapter \ref{sec:plan_repr} I will review some of the formalisms in literature, showing their pros and cons in terms of representation expressivity and computation complexity.\\ 
 In chapter \ref{sec:approach} I make some consideration about the analysis done in the precedent chapter and I will introduce the used approach.\\ 
@@ -134,68 +134,22 @@ Finally, in chapter \ref{sec:use_cases} and \ref{sec:conclusion} some problem ex
 
 \section{Motivating Example: COACHES}
 \label{sec:motivating}
-%\subsection{Example : Waitress Robot}
-%We first focus on an instance of the problem where a person is sitting waiting to order.
-%Initially we cannot assume nothing about the client state (is he hungry? is he thirsty?), but in the plan we must consider all the situation equally probable.
-%A possible set of variables describing the state of the environment could be: \\ 
-%$Y = \{OpenDoor, ClosedDoor, FoodReady, DrinkReady\}$\\
-%A minimal set of properties describing the human state could be:\\
-%$Z = \{H, T\}$\\
-%\noindent where $H$ stands for hungry and $T$ for thirsty. \\
-%For the actions we have the set:\\
-%$\{OrderDrink, OrderFood, OpenDoor, EnterDoor, Wait\}$
-%Consider this instance of the problem, where a person is sitting at the table waiting to order. The following graph shows a possible solution for ordering problem:
-%
-%\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,
-%                    thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
-%
-%  \node[main node] (1) [label=above:INIT]{};
-%  \node[main node] (2) [xshift=-2cm, yshift=-2cm, below left = of 1]{};
-%  \node[main node] (3) [yshift=-1.5cm, below  = of 1]{};
-%  \node[main node] (4) [xshift=1cm, yshift=-1cm, below  = of 1]{};
-%  \node[main node] (5) [xshift=4cm,yshift=-2cm,below right = of 1]{};
-%  \node[main node] (6) [below = of 2]{};
-%  \node[main node] (7) [below = of 3]{};
-%  \node[main node] (8) [below = of 4]{};
-%  \node[main node] (9) [below = of 5]{};
-%  \node[main node] (10) [below = of 6]{};
-%  \node[main node] (11) [below = of 7]{};
-%  \node[main node] (12) [below = of 8]{};
-%  \node[main node] (13) [below = of 10]{};
-%
-%
-%\path[red] (1) edge node[left] {$H \wedge T$} (2);
-%\path[red] (1) edge node[left] {$H \wedge \neg T$} (3);
-%\path[red] (1) edge node[right] {$\neg H \wedge T$} (4);
-%\path[red] (1) edge node[right] {$\neg H \wedge \neg T$} (5);
-%\path (2) edge node[left] {$OrderFood$}(6);
-%\path (3) edge node[left] {$OrderFood$}(7);
-%\path (4) edge node[right] {$OrderDrink$}(8);
-%\path (5) edge node[right] {$Wait$}(9);
-%\path (6) edge node[left] {$OrderDrink$}(10);
-%\path (7) edge node[left] {$Wait$}(11);
-%\path (8) edge node[right] {$Wait$}(12);
-%\path (10) edge node[left] {$Wait$} (13);
-%
-%
-%\end{tikzpicture}
-%
-%\noindent In this graph is it clear the interleaving between deterministic states and epistemic ones.
-
-%\subsection{Example: Service Robot assisting customers of a shopping mall}
 This example is taken from \cite{iocchi2016practical} \\ %\cite{coaches}. \\
-The input to the problem is a qualitative information about the location of the robot and the person. 
-The output is the executed behaviour which maximizes the global actual reward, which is to satisfy the person needs.
-The robot could execute some actions and provide a some services. These are: 
+It describes a service robot acting in a shopping mall,  assisting people and presenting the available services.
+The input to the problem is a qualitative information about the location of the robot. 
+The output is the executed behaviour which tries to infer people's needs and satisfy it when they are clarified.
+The robot can then execute some actions and provide some services. These are: 
 \begin{itemize}
 \item move to a location
-\item approach a person or a group of people
+\item approach a person
 \item perform advertisement
 \item bring a person to a location
-\item help people carry things
+%\item help people carry things
 \end{itemize}
-For the sake of clarity, we introduce a simple example in which we focus on the aspects of the interaction and we do not consider other uncertainties coming from the robotic system (issues in localization and navigation, face detection, etc). 
-Consider the situation in the following image:
+For the sake of clarity, I will introduce a simple example in which we focus on the aspects of the interaction and we do not consider other uncertainties coming from the perception system (issues in localisation and navigation, face detection, etc). 
+
+\newpage
+\noindent Consider the situation in the following image:
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{images/mall_situation1.png}
@@ -203,22 +157,19 @@ Consider the situation in the following image:
 	\label{fig:mall_1}
 \end{figure}
 
-\noindent The qualitative information about the people locations indicates that there is a person in front of shop 2, another wandering nearby shop 6 and a third person in front of him. 
-\noindent So the set of actions could be represented as \\ 
+\noindent The image indicates that there is a person in front of shop 2, another wandering nearby shop 6 and a third person in front of him. \\
+\noindent The set of executable actions is \\ 
 
-$A = \{sense\_person, move, bringto, approach\_person, approach\_group, advertise, \\ 
-       carry\_bags, wait, ask\_clothes, ask\_food, ask\_object, bye\}$\\ 
+$A = \{sense\_person, move, bringto, approach\_person, advertise,\\ 
+		%carry\_bags, 
+       wait, ask\_clothes, ask\_food, ask\_object, ask\_WC, bye\}$\\ 
 
-\noindent where $X$ could be a generic location or the position of a shop.
-\noindent The robot is able to represent knowledge about the environment and try to guess people wishes.
-For instance, based on the people locations, he tries to infer from its knowledge if a person is interested in one particular shop or services and could provide an advertisement. 
-He maintains an internal database of all the goods for sale, divided by category, so he can better individuate people needs.
-If we recap the formula introduced in \ref{sec:approach}, we have that: \\
+\noindent The robot is able to represent knowledge about the environment and try to guess what people wishes.
+For instance, based on the people locations, he tries to infer if a person is interested in one particular shop or services and can provide suggestions in the form of advertisements. \\
 
+\noindent Given these informations, the whole state space can be subdivided in two groups: one that describes generic information about the environment (robot and person location, the type of shop, etc.) and one for describing the knowledge of the robot. In particular, we have that:\\
 \centerline{$X = Y \cup Z$}
-
-\noindent where $X$ represents the complete state variables, $Y$ are the environmental state variables while $Z$ are the epistemic state variables. \\
-
+\noindent where $X$ represents the complete state variables, $Y$ are the environmental state variables while $Z$ are the epistemic state variables (i.e. the state the characterise the robot knowledge). \\
 \noindent $Z = \{food, clothes, object, WC, help, none\}$\\
 \noindent $Y = \{time, person\_atX, group\_atX, RLocation, foodCategory_i, genericGood_j, \\ clothingStore_k \}$\\
 
