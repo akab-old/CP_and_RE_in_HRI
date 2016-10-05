@@ -144,7 +144,7 @@ The robot can then execute some actions and provide some services. These are:
 \item approach a person
 \item perform advertisement
 \item bring a person to a location
-%\item help people carry things
+\item help people carry things
 \end{itemize}
 For the sake of clarity, I will introduce a simple example in which we focus on the aspects of the interaction and we do not consider other uncertainties coming from the perception system (issues in localisation and navigation, face detection, etc). 
 
@@ -162,18 +162,17 @@ For the sake of clarity, I will introduce a simple example in which we focus on 
 The robot
 \noindent The set of executable actions is \\ 
 
-$A = \{sense\_person, move, bringto, approach\_person, advertise,\\ 
-		%carry\_bags, 
-       wait, ask\_clothes, ask\_food, ask\_object, ask\_WC, bye\}$\\ 
+$A = \{sense\_person, move, bringto, approach\_person, advertise,carry\_bags,\\
+       wait, ask\_bags, ask\_clothes, ask\_food, ask\_object, ask\_WC, bye\}$\\ 
 
-\noindent The robot is able to represent knowledge about the environment and try to guess what people wishes.
+\noindent The robot is able to acquire and represent knowledge about the environment and try to guess what people wishes.
 For instance, based on the people locations, he tries to infer if a person is interested in one particular shop or services and can provide suggestions in the form of advertisements. \\
 
 \noindent Given these informations, the whole state space can be subdivided in two groups: one that describes generic information about the environment (robot and person location, the type of shop, etc.) and one for describing the knowledge of the robot. In particular, we have that:\\
 \centerline{$X = Y \cup Z$}
 \noindent where $X$ represents the complete state space, $Y$ are the environmental state variables while $Z$ are the epistemic state variables (i.e. the state the characterise the robot knowledge). \\
 \noindent $Z = \{food, clothes, object, WC, help, none\}$\\
-\noindent $Y = \{at$-$person, at$-$robot, close$-$to, store-type \}$\\
+\noindent $Y = \{at$-$person, at$-$robot, close$-$to, store$-$type \}$\\
 
 \noindent where $food, clothes, WC, help, none$ represent the person interest in a service. 
 Consider person $h2$, that is standing in front of shop 2. \\
@@ -192,8 +191,8 @@ This situation is summarized in the following figure:
 	\label{fig:mall_2}
 \end{figure} 
 \noindent Given this situation we can reasonably assume that the person is interest in a clothes stores, but we cannot exclude others situations (for instance, he can be hungry). \\
-\newpage
-A possible non-optimal plan that inspects $h2$ state of mind is:
+
+\noindent A possible non-optimal plan that inspects $h2$ state of mind is:
 
 \begin{figure}[H]
 	\centering
@@ -202,12 +201,12 @@ A possible non-optimal plan that inspects $h2$ state of mind is:
 	\label{fig:coaches_graph}
 \end{figure}
 
-\noindent We say non-optimal on purpose, since the presented plan can infer only a property at the time. It is what we call a weak plan, i.e. a plan that is guaranteed to terminate but only when multiple goal are defined. If is it the case where only a goal is present, we need at least an edge going back to the initial place of the plan to guaranteed that the robot doesn't get stuck in some situation. 
+\noindent We say non-optimal on purpose, since the presented plan can infer only a property at the time. It is what we call a weak plan, i.e. a plan that is guaranteed to terminate but only when multiple goal are defined. If is it the case where only a goal is present, we need at least an edge going back to the initial place of the plan to guaranteed that the robot doesn't get stuck in some situation.
 
 %TODO (maybe) show an example of strong plan  
 
 \noindent In \ref{fig:coaches_graph}, the the squares ($ \square $) represents sensing actions.\\ 
-A \textbf{sensing action} is an action that incorporates an observation (a boolean evaluation in this case) and it is used by the robot to characterise its (partial) knowledge of the environment. We assume that a state in which at least one of the $Z$ properties holds is a goal state. \\
+A \textbf{sensing action} is an action that incorporates an observation (a boolean evaluation) and it is used by the robot to characterise its (partial) knowledge of the environment. We assume that a state in which at least one of the $Z$ properties holds is a goal state. \\
 
 \noindent This example demonstrate the need for a robot that can properly represent the state of the world (both epistemic and physic), search a solution in a possibly, as we will see, huge state space and continuously execute it. 
 We will resume this example in following chapters.
