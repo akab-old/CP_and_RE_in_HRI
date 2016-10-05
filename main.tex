@@ -239,100 +239,76 @@ This situation is summarized in the following figure:
 	\label{fig:mall_2}
 \end{figure} 
 \noindent We can reasonably think that the person is looking for a specific article inside this shop, or another clothing shop, and that he's not certainly hungry. \\
+\newpage
 So a possible plan for $H2$ would be:
+
 \begin{figure}[H]
-\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.5cm,
-                    thin,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
-
-%  \tikzset{every loop/.style={min distance=7mm,in=30,looseness=10}}
-%  \node[main node, initial by arrow, initial text={}] [label=right:INIT](S0){\small $S_0$};
-%  \node[main node] [below = of S0] (S1){\small $S_1$};
-%  \node[main node] [below = of S1] (S2){\small $S_2$};
-%  \node[main node] [below left = 2cm of S2] (S3){\small $S_3$};
-%  \node[main node] [below = 2cm of S2, right = 2cm of S3] (S4){\small $S_4$};
-%  \node[main node] [below = 2cm of S3] (S5){\small $S_5$};
-%  \node[main node] [below = 2cm of S4] (S6){\small $S_6$};
-%  \node[main node] [below right = of S4] (S7){\small $S_7$};
-%  \node[main node] [below = of S7] (S8){\small $S_8$};
-%  \node[main node] [below right = 2cm of S7] (S9){\small $S_9$};
-%  \node[main node] [below right = 3.5cm of S6] [label=below:GOAL](S10){\small $S_{10}$};
-%
-%\path (S0) edge [loop above] node {\small $wait$} ();
-%\path (S0) edge node {\small $goto\_2$} (S1);
-%\path (S1) edge node {\small $approach$} (S2);
-%\path (S2) edge node[left] {\small \coloIn this way robot can make assumption about the state of the world, characterize its knowledge, and replan when the outcomes are unexpected.\\r{red} $ask\_clothes$} (S3);
-%\path (S2) edge node[right] {\small \color{red} $\neg \,\, ask\_clothes$} (S4);
-%\path (S3) edge node[left] {\small $advertise$} (S5);
-%\path (S3) edge node[below] {\small $bringto\_X$} (S4);
-%\path (S4) edge node[left] {\small $bringto\_WC$} (S6);
-%\path (S4) edge node[right] {\small $ask\_food$} (S7);
-%\path (S4) edge[bend left=90] node[right] {\small $none$} (S9);
-%\path (S5) edge[bend right] node[left] {\small $bye$} (S10);
-%\path (S6) edge node[left] {\small $bye$} (S10);
-%\path (S7) edge node[right] {\small $bringto\_X$} (S8);
-%\path (S8) edge node[right] {\small $bye$} (S10);
-%\path (S9) edge node[right] {\small $bye$} (S10);
-
-  \tikzset{every loop/.style={min distance=7mm,in=30,looseness=10}}
-  \node[main node, line width=0.5mm][label=right:INIT](init){};
-  \node[draw,rectangle] [below = of init](sensep)[label=left:\color{blue}$sense\_person$] {};
-  \node[main node] [below = of sensep] (choice1){};
-%  \node[draw=none] [left = of choice1] (3dot1) {...};
-%  \node[draw=none] [right = of choice1] (3dot2) {...};
-  \node[main node] [below = of choice1] (circle1){};
-  \node[draw,rectangle] [below = of circle1] [label=right:\color{blue}$ask\_clothes$] (askclot){};
-  \node[main node] [below left = of askclot] (choice2){};
-  \node[draw,rectangle] [below right = 3cm of askclot] [label=right:\color{blue}$ask\_object$] (askobj){};
-  \node[main node, line width=1mm] [below left = of choice2] [label=below:\small\textbf{clothes}](goal1){};
-  \node[main node] [below right = of choice2] (circle2){};
-  \node[main node, line width=1mm] [below = of circle2] [label=below:\small\textbf{clothes}](goal2){};
-  \node[main node] [below left = of askobj] (circle3){};
-  \node[draw,rectangle] [below right = 4cm of askobj] [label=right:\color{blue}$ask\_food$] (askfood){};
-  \node[main node] [below = of circle3] (circle4){};
-  \node[main node, line width=1mm] [below = of circle4][label=below:\small\textbf{object}](goal3){};
-  \node[main node] [below left = of askfood] (choice3){};
-  \node[main node] [below right = of askfood] (circle5){};
-  \node[main node, line width=1mm] [below = of circle5][label=below:\small\textbf{none}](goal4){};
-  \node[main node] [below left = of choice3] (circle6){};
-  \node[main node] [below right = of choice3] (circle7){};
-  \node[main node, line width=1mm] [below = 2.cm of circle6][label=below:\small\textbf{food}](goal5){};
-  \node[main node, line width=1mm] [below = 2.cm of circle7][label=below:\small\textbf{food}](goal6){};
-
-\path (init) edge node[left] {\small $wait$} (sensep);
-%\path (sensep) edge [bend right] node[right] {\small \color{red} F} (init);
-%\path (sensep) edge node[right] {\small \color{red} T} (choice1);
-\draw[name path=e1] (sensep) to [bend right] node[right] {\small \color{red} $F$} (init);
-\draw[name path=e2] (sensep) to node[left] {\small \color{red} $T$} (choice1);
-\path[name path=arc1] (sensep) circle (1);
-\draw[name intersections={of=e1 and arc1, by=i1},
-      name intersections={of=e2 and arc1, by=i2},
-      -,shorten >=1pt,thick]
-  (i1) to[bend left] (i2); 
-  
-%\path (choice1) edge node[above left] {$goto\_Sh6$} (3dot1);
-%\path (choice1) edge node[above right] {$goto\_Entr1$} (3dot2);
-\path (choice1) edge node[right] {\small $move$} (circle1);
-\path (circle1) edge node[right] {\small $approach\_person$} (askclot);
-\path (askclot) edge node[left] {\small \color{red} T}(choice2);
-\path (askclot) edge node[right] {\small \color{red} F}(askobj);
-\path (choice2) edge node[left] {\small $advertise$} (goal1);
-\path (choice2) edge node[right] {\small $bringto\_Sh4$} (circle2);
-\path (circle2) edge node[left] {\small $advertise$} (goal2);
-\path (askobj) edge node[left] {\small \color{red} T}(circle3);
-\path (askobj) edge node[right] {\small \color{red} F}(askfood);
-\path (circle3) edge node[right] {\small $bringto\_Market$}(circle4);
-\path (circle4) edge node[left] {\small $advertise$}(goal3);
-\path (askfood) edge node[left] {\small \color{red} T}(choice3);
-\path (askfood) edge node[right] {\small \color{red} F}(circle5);
-\path (circle5) edge node[right] {\small $bye$}(goal4);
-\path (choice3) edge node[left] {\small $bringto\_5$}(circle6);
-\path (choice3) edge node[right] {\small $bringto\_6$}(circle7);
-\path (circle6) edge node[left] {\small $advertise$} (goal5);
-\path (circle7) edge node[left] {\small $advertise$} (goal6);
-
-\end{tikzpicture}
-\caption{a plan for H2}
+	\centering
+	\includegraphics[scale=0.4]{images/coaches_graph.png}
+	\caption{a sketch that show a possible solution plan for the problem of h2.}
+	\label{fig:coaches_graph}
 \end{figure}
+
+
+%\begin{figure}[H]
+%\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.5cm,
+%                    thin,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+%
+%  \tikzset{every loop/.style={min distance=7mm,in=30,looseness=10}}
+%  \node[main node, line width=0.5mm][label=right:INIT](init){};
+%  \node[draw,rectangle] [below = of init](sensep)[label=left:\color{blue}$sense\_person$] {};
+%  \node[main node] [below = of sensep] (choice1){};
+%  \node[main node] [below = of choice1] (circle1){};
+%  \node[draw,rectangle] [below = of circle1] [label=right:\color{blue}$ask\_clothes$] (askclot){};
+%  \node[main node] [below left = of askclot] (choice2){};
+%  \node[draw,rectangle] [below right = 3cm of askclot] [label=right:\color{blue}$ask\_object$] (askobj){};
+%  \node[main node, line width=1mm] [below left = of choice2] [label=below:\small\textbf{clothes}](goal1){};
+%  \node[main node] [below right = of choice2] (circle2){};
+%  \node[main node, line width=1mm] [below = of circle2] [label=below:\small\textbf{clothes}](goal2){};
+%  \node[main node] [below left = of askobj] (circle3){};
+%  \node[draw,rectangle] [below right = 4cm of askobj] [label=right:\color{blue}$ask\_food$] (askfood){};
+%  \node[main node] [below = of circle3] (circle4){};
+%  \node[main node, line width=1mm] [below = of circle4][label=below:\small\textbf{object}](goal3){};
+%  \node[main node] [below left = of askfood] (choice3){};
+%  \node[main node] [below right = of askfood] (circle5){};
+%  \node[main node, line width=1mm] [below = of circle5][label=below:\small\textbf{none}](goal4){};
+%  \node[main node] [below left = of choice3] (circle6){};
+%  \node[main node] [below right = of choice3] (circle7){};
+%  \node[main node, line width=1mm] [below = 2.cm of circle6][label=below:\small\textbf{food}](goal5){};
+%  \node[main node, line width=1mm] [below = 2.cm of circle7][label=below:\small\textbf{food}](goal6){};
+%
+%\path (init) edge node[left] {\small $wait$} (sensep);
+%\draw[name path=e1] (sensep) to [bend right] node[right] {\small \color{red} $F$} (init);
+%\draw[name path=e2] (sensep) to node[left] {\small \color{red} $T$} (choice1);
+%\path[name path=arc1] (sensep) circle (1);
+%\draw[name intersections={of=e1 and arc1, by=i1},
+%      name intersections={of=e2 and arc1, by=i2},
+%      -,shorten >=1pt,thick]
+%  (i1) to[bend left] (i2); 
+%  
+%
+%\path (choice1) edge node[right] {\small $move$} (circle1);
+%\path (circle1) edge node[right] {\small $approach\_person$} (askclot);
+%\path (askclot) edge node[left] {\small \color{red} T}(choice2);
+%\path (askclot) edge node[right] {\small \color{red} F}(askobj);
+%\path (choice2) edge node[left] {\small $advertise$} (goal1);
+%\path (choice2) edge node[right] {\small $bringto\_Sh4$} (circle2);
+%\path (circle2) edge node[left] {\small $advertise$} (goal2);
+%\path (askobj) edge node[left] {\small \color{red} T}(circle3);
+%\path (askobj) edge node[right] {\small \color{red} F}(askfood);
+%\path (circle3) edge node[right] {\small $bringto\_Market$}(circle4);
+%\path (circle4) edge node[left] {\small $advertise$}(goal3);
+%\path (askfood) edge node[left] {\small \color{red} T}(choice3);
+%\path (askfood) edge node[right] {\small \color{red} F}(circle5);
+%\path (circle5) edge node[right] {\small $bye$}(goal4);
+%\path (choice3) edge node[left] {\small $bringto\_5$}(circle6);
+%\path (choice3) edge node[right] {\small $bringto\_6$}(circle7);
+%\path (circle6) edge node[left] {\small $advertise$} (goal5);
+%\path (circle7) edge node[left] {\small $advertise$} (goal6);
+%
+%\end{tikzpicture}
+%\caption{a plan for H2}
+%\end{figure}
 
 \noindent Where the squares ($ \square $) represents sensing actions.\\ 
 A \textbf{sensing action} is an action that incorporates an observation (a boolean evaluation in this case) and it is used by the robot to characterise its (partial) knowledge of the environment. We assume that a state in which at least one of the $Z$ properties holds is a goal state. 
@@ -1077,6 +1053,12 @@ This was also our case since to integrate the work of this thesis with the ROSPl
 \chapter{System Overview}\label{sec:system}
 In this chapter I will present the system infrastructure.\\
 \newline
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35, trim=55mm 0mm 0mm 30mm]{images/system_architecture.png}
+	\caption{This is a sketch of the system architecture. We can see how the PNP generation happens, from method choice to the final PNP.}
+\end{figure} 
 
 \noindent The main objective of this work is the generation of robust condition plans that deals with uncertainty in the problem representation.\\
 This approach consist of interpret the output of a planner and generate the correspondent PNP.\\
@@ -1920,8 +1902,11 @@ As before, we must specify the possible outcomes in the initial state:
 \end{verbatim}
 
 %PNP stats: 'Actions: 70 Places: 212 Transitions: 211 Edges: 422
-\noindent We do not show the complete PNP since it is too big to fit in a page. Consider that for this case there are 211 places and 422 edges. As we can see from the image \ref{fig:rosplan_ex2}, the generated PNP is complete in the sense that it discern between all different cases (\textit{food}, \textit{clothes}, \textit{obj} etc.) and the generation happens almost instantaneously. This example concludes our analysis.
-%TODO parlare della rappresentazione ottenuta (albero - esempio porte)
+\noindent We do not show the complete PNP since it is too big to fit in a page. Consider that for this case there are 211 places and 422 edges. As we can see from the image \ref{fig:rosplan_ex2}, the generated PNP is complete in the sense that it discern between all different cases (\textit{food}, \textit{clothes}, \textit{obj} etc.) and the generation happens almost instantaneously. 
+However... %TODO parlare della rappresentazione ottenuta (albero - esempio porte)
+
+This example concludes our analysis.
+
 
 \begin{figure}[H]
 	\centering
@@ -1956,6 +1941,7 @@ Another possible expansion could be to consider also high order logics in the co
 As a long term development, one could think to expand the architecture with a tool that merges or concatenate the plans obtained from different formalisms. This would allow taking advantage of the benefits of each approach while overcoming the computation problems that was discussed in \ref{sec:analysis}. 
 Some possible approaches use a heuristic search technique to solve inconsistency between different plans or define a language that describes the relation between different formalisms.\\
 Examples of similar approaches are discussed in \cite{tsamardinos2000merging} and \cite{yang1992merging}.
+%TODO Parlare di Robustify 
 
 %A robot must be capable of discerning cases in which an interaction is desirable and cases in which is not. Like in the simple case of a "welcome robot", it is important that the robot says "hi" when a person shows in front of him but it must also take into account the fact that a person could appear in front of him multiple times. 
 %Another important but maybe trickier case is to equip the robot with the capability of understanding the mood of the person and than react consequently. Although this could be seen as a fictional case, since is impossible at the moment even for the most complex cognitive robot to understand emotions, there are some simple cases that could be treated. The goal, in this case, is not to reproduce a perfect model of the human mind state and how it could react to some sorts of events, but rather discover some patterns that could lead to undesirable outcomes. For instance, a person could be busy with its work and the interference of the robot, when is not helpful in the context of the human task, could be perceived as noise. Thus is important to maintain a representation of the person daily routines and enrich this when is possible with the information that comes from the social interactions that occurs from time to time between the two. If we are interested in developing robots strictly social, we cannot leave aside the emotional aspect of the interaction. 

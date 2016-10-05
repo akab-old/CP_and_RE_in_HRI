@@ -1,0 +1,19 @@
+/* png generation: dot -Kneato -Tpng example.gv */
+digraph G {
+
+ init [shape=circle,label="",xlabel="INIT"];
+ s1 [shape=box,style=bold,label="",xlabel="sense_person",xlp="50.0,50.0",regular=true];
+ moveA [shape=circle,label=""];
+ moveB [shape=circle,label=""];
+ s2 [shape=box,style=bold,label="",xlabel="ask_clothes",regular=true];
+ clothes[shape=circle,label="",xlabel="clothes"];
+ s3 [shape=box,style=bold,label="",xlabel="ask_objects",regular=true];
+
+ init -> s1 [label="wait"];
+ s1->moveA [label="T",fontcolor=red,color=red];
+ s1->init [label="F",fontcolor=red,color=red];
+ moveA->moveB [label="move"];
+ moveB->s2 [label="approach_person"];
+ s2->clothes;
+ clothes->s3;
+ }
