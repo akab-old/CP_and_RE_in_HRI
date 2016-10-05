@@ -157,7 +157,9 @@ For the sake of clarity, I will introduce a simple example in which we focus on 
 	\label{fig:mall_1}
 \end{figure}
 
-\noindent The image indicates that there is a person in front of shop 2, another wandering nearby shop 6 and a third person in front of him. \\
+\noindent We assume that the entire mall space is discretized in a grid fashion, so we can identify robot/person positions by the place nearby (i.e. shop1, shop2, entrance1, etc.). 
+\noindent The image shows that there is a person in front of shop 2, another wandering nearby shop 6 and a third person in front of him. \\
+The robot
 \noindent The set of executable actions is \\ 
 
 $A = \{sense\_person, move, bringto, approach\_person, advertise,\\ 
@@ -169,17 +171,17 @@ For instance, based on the people locations, he tries to infer if a person is in
 
 \noindent Given these informations, the whole state space can be subdivided in two groups: one that describes generic information about the environment (robot and person location, the type of shop, etc.) and one for describing the knowledge of the robot. In particular, we have that:\\
 \centerline{$X = Y \cup Z$}
-\noindent where $X$ represents the complete state variables, $Y$ are the environmental state variables while $Z$ are the epistemic state variables (i.e. the state the characterise the robot knowledge). \\
+\noindent where $X$ represents the complete state space, $Y$ are the environmental state variables while $Z$ are the epistemic state variables (i.e. the state the characterise the robot knowledge). \\
 \noindent $Z = \{food, clothes, object, WC, help, none\}$\\
-\noindent $Y = \{time, person\_atX, group\_atX, RLocation, foodCategory_i, genericGood_j, \\ clothingStore_k \}$\\
+\noindent $Y = \{at$-$person, at$-$robot, close$-$to, store-type \}$\\
 
-\noindent where $food, clothes, WC, help, none$ represent the person interest in a service, while $FoodCategory_i, GenericGood_j, ClothingStore_k$ represents the specific required goods.\\
-Consider person $H2$, that is standing in front of shop 2. \\
+\noindent where $food, clothes, WC, help, none$ represent the person interest in a service. 
+Consider person $h2$, that is standing in front of shop 2. \\
 Lets assume that 
 \begin{itemize}
+\item shop 1 is a market
 \item shop 2 and shop 4 are clothes store. The first is a sportive clothes store, while the second is an high fashion store.
 \item shop 3 is a WC
-\item shop 1 is a market
 \item shop 5 and shop 6 are a chinese and an italian restaurant.
 \end{itemize}
 This situation is summarized in the following figure:
@@ -189,9 +191,9 @@ This situation is summarized in the following figure:
 	\caption{}
 	\label{fig:mall_2}
 \end{figure} 
-\noindent We can reasonably think that the person is looking for a specific article inside this shop, or another clothing shop, and that he's not certainly hungry. \\
+\noindent Given this situation we can reasonably assume that the person is interest in a clothes stores, but we cannot exclude others situations (for instance, he can be hungry). \\
 \newpage
-So a possible plan for $H2$ would be:
+A possible non-optimal plan that inspects $h2$ state of mind is:
 
 \begin{figure}[H]
 	\centering
@@ -200,86 +202,31 @@ So a possible plan for $H2$ would be:
 	\label{fig:coaches_graph}
 \end{figure}
 
+\noindent We say non-optimal on purpose, since the presented plan can infer only a property at the time. It is what we call a weak plan, i.e. a plan that is guaranteed to terminate but only when multiple goal are defined. If is it the case where only a goal is present, we need at least an edge going back to the initial place of the plan to guaranteed that the robot doesn't get stuck in some situation. 
 
-%\begin{figure}[H]
-%\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1.5cm,
-%                    thin,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
-%
-%  \tikzset{every loop/.style={min distance=7mm,in=30,looseness=10}}
-%  \node[main node, line width=0.5mm][label=right:INIT](init){};
-%  \node[draw,rectangle] [below = of init](sensep)[label=left:\color{blue}$sense\_person$] {};
-%  \node[main node] [below = of sensep] (choice1){};
-%  \node[main node] [below = of choice1] (circle1){};
-%  \node[draw,rectangle] [below = of circle1] [label=right:\color{blue}$ask\_clothes$] (askclot){};
-%  \node[main node] [below left = of askclot] (choice2){};
-%  \node[draw,rectangle] [below right = 3cm of askclot] [label=right:\color{blue}$ask\_object$] (askobj){};
-%  \node[main node, line width=1mm] [below left = of choice2] [label=below:\small\textbf{clothes}](goal1){};
-%  \node[main node] [below right = of choice2] (circle2){};
-%  \node[main node, line width=1mm] [below = of circle2] [label=below:\small\textbf{clothes}](goal2){};
-%  \node[main node] [below left = of askobj] (circle3){};
-%  \node[draw,rectangle] [below right = 4cm of askobj] [label=right:\color{blue}$ask\_food$] (askfood){};
-%  \node[main node] [below = of circle3] (circle4){};
-%  \node[main node, line width=1mm] [below = of circle4][label=below:\small\textbf{object}](goal3){};
-%  \node[main node] [below left = of askfood] (choice3){};
-%  \node[main node] [below right = of askfood] (circle5){};
-%  \node[main node, line width=1mm] [below = of circle5][label=below:\small\textbf{none}](goal4){};
-%  \node[main node] [below left = of choice3] (circle6){};
-%  \node[main node] [below right = of choice3] (circle7){};
-%  \node[main node, line width=1mm] [below = 2.cm of circle6][label=below:\small\textbf{food}](goal5){};
-%  \node[main node, line width=1mm] [below = 2.cm of circle7][label=below:\small\textbf{food}](goal6){};
-%
-%\path (init) edge node[left] {\small $wait$} (sensep);
-%\draw[name path=e1] (sensep) to [bend right] node[right] {\small \color{red} $F$} (init);
-%\draw[name path=e2] (sensep) to node[left] {\small \color{red} $T$} (choice1);
-%\path[name path=arc1] (sensep) circle (1);
-%\draw[name intersections={of=e1 and arc1, by=i1},
-%      name intersections={of=e2 and arc1, by=i2},
-%      -,shorten >=1pt,thick]
-%  (i1) to[bend left] (i2); 
-%  
-%
-%\path (choice1) edge node[right] {\small $move$} (circle1);
-%\path (circle1) edge node[right] {\small $approach\_person$} (askclot);
-%\path (askclot) edge node[left] {\small \color{red} T}(choice2);
-%\path (askclot) edge node[right] {\small \color{red} F}(askobj);
-%\path (choice2) edge node[left] {\small $advertise$} (goal1);
-%\path (choice2) edge node[right] {\small $bringto\_Sh4$} (circle2);
-%\path (circle2) edge node[left] {\small $advertise$} (goal2);
-%\path (askobj) edge node[left] {\small \color{red} T}(circle3);
-%\path (askobj) edge node[right] {\small \color{red} F}(askfood);
-%\path (circle3) edge node[right] {\small $bringto\_Market$}(circle4);
-%\path (circle4) edge node[left] {\small $advertise$}(goal3);
-%\path (askfood) edge node[left] {\small \color{red} T}(choice3);
-%\path (askfood) edge node[right] {\small \color{red} F}(circle5);
-%\path (circle5) edge node[right] {\small $bye$}(goal4);
-%\path (choice3) edge node[left] {\small $bringto\_5$}(circle6);
-%\path (choice3) edge node[right] {\small $bringto\_6$}(circle7);
-%\path (circle6) edge node[left] {\small $advertise$} (goal5);
-%\path (circle7) edge node[left] {\small $advertise$} (goal6);
-%
-%\end{tikzpicture}
-%\caption{a plan for H2}
-%\end{figure}
+%TODO (maybe) show an example of strong plan  
 
-\noindent Where the squares ($ \square $) represents sensing actions.\\ 
-A \textbf{sensing action} is an action that incorporates an observation (a boolean evaluation in this case) and it is used by the robot to characterise its (partial) knowledge of the environment. We assume that a state in which at least one of the $Z$ properties holds is a goal state. 
+\noindent In \ref{fig:coaches_graph}, the the squares ($ \square $) represents sensing actions.\\ 
+A \textbf{sensing action} is an action that incorporates an observation (a boolean evaluation in this case) and it is used by the robot to characterise its (partial) knowledge of the environment. We assume that a state in which at least one of the $Z$ properties holds is a goal state. \\
+
+\noindent This example demonstrate the need for a robot that can properly represent the state of the world (both epistemic and physic), search a solution in a possibly, as we will see, huge state space and continuously execute it. 
+We will resume this example in following chapters.
 
 \section{Planning: some hints}
-Once a problem is characterized, we must define the techniques necessary to solve it.
+We have individuated our needs. Once a problem is characterized, we must define the techniques necessary to solve it.
 Planning is "\textit{the task of coming up with a sequence of actions that will achieve a goal}" \cite{russell2005ai}.\\
 When talking about complex problems, classical search-based planning approaches cease to be useful as any algorithm easily get lost in the possible huge state space.
 In this cases, a language for represent the problem represent a better solution.
 The convenience of using a formal language is that it guides the planning algorithms through the search of the solution by exploiting the problem logical structure. \\
 On other hand, we must deal with some contraindications:
 \begin{itemize}
-\item \textbf{Uncertainty.} How to deal with uncertainty in action effects and in the state.
+\item \textbf{Uncertainty.} How to represent uncertainty in action effects and in the state.
 \item \textbf{Goal existence.} Does a goal exist? Is it possible to compute it?
 \item \textbf{Expressivity vs Complexity.} Can we represent the problem? Is it possible to compute a solution?
 \end{itemize} 
 
-\noindent Try to address all this questions is behind the scope of this thesis.
-Instead, I will show how to deal with representation uncertainty
-and how to generate robust plans, that are plans that execute safely with limited or no needs for replanning.\\
+\noindent Try to address all this questions is behind the scope of this thesis.\\
+Instead, I will focus on representation uncertainty and robust planning, that is produce plans that can be executed safely with limited or no needs for replanning.\\
 
 \chapter{Related Works}\label{sec:related_works}
 This chapter reviews the state of the art and identifies the field of interest of this work.
@@ -325,6 +272,8 @@ In this cases the interaction between the human and the robot is minimal. The hu
 \subsection{Strictly Social Cases (HRI Mandatory)}
 Those cases represents the most significant for this work. In this case the interaction is the principal objective and the robot itself could start the interaction. A representation of the human state is maintained.\\
 \textbf{Examples:} \textit{Project COACHES (\url{https://coaches.greyc.fr/}), Amelia the Assistant (\url{http://www.ipsoft.com/amelia/}), assistance task}.\\
+%TODO add the found examples on nurse/waitress robot
+
 
 \noindent I will now introduce some formalisms for planning problem representation.\\ 
 %A more detailed discussion about this formalisms and others will be presented in \ref{sec:formalism}.
