@@ -176,12 +176,12 @@ For instance, based on the people locations, he tries to infer if a person is in
 
 \noindent where $food, clothes, WC, help, none$ represent the person interest in a service. 
 Consider person $h2$, that is standing in front of shop 2. \\
-Lets assume that 
+Let's assume that 
 \begin{itemize}
 \item shop 1 is a market
-\item shop 2 and shop 4 are clothes store. The first is a sportive clothes store, while the second is an high fashion store.
+\item shop 2 and shop 4 are clothes store. The first is a sportive clothes store, while the second is a high fashion store.
 \item shop 3 is a WC
-\item shop 5 and shop 6 are a chinese and an italian restaurant.
+\item shop 5 and shop 6 are a Chinese and an Italian restaurant.
 \end{itemize}
 This situation is summarized in the following figure:
 \begin{figure}[H]
@@ -190,8 +190,7 @@ This situation is summarized in the following figure:
 	\caption{}
 	\label{fig:mall_2}
 \end{figure} 
-\noindent Given this situation we can reasonably assume that the person is interest in a clothes stores, but we cannot exclude others situations (for instance, he can be hungry). \\
-
+\noindent Given this situation we can reasonably assume that the person is interested in a clothes stores, but we cannot exclude others situations (for instance, he can be hungry). \\
 \noindent A possible non-optimal plan that inspects $h2$ state of mind is:
 
 \begin{figure}[H]
@@ -201,14 +200,19 @@ This situation is summarized in the following figure:
 	\label{fig:coaches_graph}
 \end{figure}
 
-\noindent We say non-optimal on purpose, since the presented plan can infer only a property at the time. It is what we call a weak plan, i.e. a plan that is guaranteed to terminate but only when multiple goal are defined. If is it the case where only a goal is present, we need at least an edge going back to the initial place of the plan to guaranteed that the robot doesn't get stuck in some situation.
+\noindent We say non-optimal on purpose since the presented plan can infer only a property at the time. This is a plan that is guaranteed to terminate but only when multiple goals are defined (like in this case). If is it the case where only a goal is present, we need at least an edge going back to the initial place of the plan to guaranteed that the robot doesn't get stuck in some situation, and can traverse multiple paths to reach the goal.
 
-%TODO (maybe) show an example of strong plan  
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{images/coaches_graph_with_back.png}
+	\caption{a sketch that show a possible robust solution plan for the problem of h2.}
+	\label{fig:coaches_graph_nack}
+\end{figure}
 
 \noindent In \ref{fig:coaches_graph}, the the squares ($ \square $) represents sensing actions.\\ 
 A \textbf{sensing action} is an action that incorporates an observation (a boolean evaluation) and it is used by the robot to characterise its (partial) knowledge of the environment. We assume that a state in which at least one of the $Z$ properties holds is a goal state. \\
 
-\noindent This example demonstrate the need for a robot that can properly represent the state of the world (both epistemic and physic), search a solution in a possibly, as we will see, huge state space and continuously execute it. 
+\noindent This example demonstrate the need for a robot that can properly represent the state of the world (both at epistemic and physic level), search a solution in a possibly, as we will see, huge state space and continuously execute it. 
 We will resume this example in following chapters.
 
 \section{Planning: some hints}
@@ -216,33 +220,32 @@ We have individuated our needs. Once a problem is characterized, we must define 
 Planning is "\textit{the task of coming up with a sequence of actions that will achieve a goal}" \cite{russell2005ai}.\\
 When talking about complex problems, classical search-based planning approaches cease to be useful as any algorithm easily get lost in the possible huge state space.
 In this cases, a language for represent the problem represent a better solution.
-The convenience of using a formal language is that it guides the planning algorithms through the search of the solution by exploiting the problem logical structure. \\
+The convenience of using a formal language is that it guides the planning algorithms through the search of the solution by exploiting the problem logical structure. 
 On other hand, we must deal with some contraindications:
 \begin{itemize}
 \item \textbf{Uncertainty.} How to represent uncertainty in action effects and in the state.
 \item \textbf{Goal existence.} Does a goal exist? Is it possible to compute it?
 \item \textbf{Expressivity vs Complexity.} Can we represent the problem? Is it possible to compute a solution?
 \end{itemize} 
-
 \noindent Try to address all this questions is behind the scope of this thesis.\\
 Instead, I will focus on representation uncertainty and robust planning, that is produce plans that can be executed safely with limited or no needs for replanning.\\
 
 \chapter{Related Works}\label{sec:related_works}
-This chapter reviews the state of the art and identifies the field of interest of this work.
+This chapter identifies the field of interest of this work and reviews the state of the art.
 
 \section{Social Robotics}
 \textbf{Social Norms}: "\textit{Norms are cultural products (including values, customs, and traditions) which represent individuals' basic knowledge of what others do and think that they should do.}"\footnote{\url{https://en.wikipedia.org/wiki/Norm_(social)}}\\
 \newline
-\noindent While the previously stated definition of social norms fits very well in an environment populated exclusively by humans, when robots are added to the context it can be very difficult to define what are social norms. In particular, what are the desirable characteristics that a robot must have in order to be defined "social"?\\
+\noindent While the previously stated definition of social norms fits very well in an environment populated exclusively by humans, when coming to robots we must do some considerations. Firs of all, what are the desirable characteristics that a robot must have in order to be defined "social"?\\
 \noindent Through recent years we have seen an increasing interest with respect to robotics and artificial intelligence. %TODO aggiungere qualche dato
 While the first "intelligent" personal assistants have made their appearance thanks to smartphones diffusion, robots for the major part are still relegated in a factory and seen as fictional characters.
 Even in the industrial context, where we can see some examples of human-robot cooperation, the interaction is far from being "social" since the human is seen as an obstacle to avoid and the interaction is programmatic.\\
-However, the precedent definition  give us some hints about the fundamental question:\\ 
+However, the precedent definition  give us some a hint:\\ 
 \noindent\textit{"basic knowledge of what others do and think that they should do."}\\
-The importance of developing a robot that is human aware reside in its ability of model human state of mind, especially when we talk about robots that must operate in human environments.\\
+The importance of developing a robot that is human aware reside in its ability of model human state of mind, especially when we talk about robots that must deliver services.\\
 We have started to see some examples of robots operating in public environments, and we always come to an end: people are for the most part frightened by robots as they do not know what to expect from it.
-Thus, when developing robots for operating beside humans, it is important that the robot has the ability of  drive the interaction, i.e. be an active (not passive) actor. Beside from have an "attractive" design, a robot of this kind must promote different modalities for interaction and maintain at any time a snapshot of person state of mind. The proactivity helps the robot to reduce is uncertainty about the human and ensure, with appropriate behaviours, that the person is always comfortable when in presence of the robot.\\
-In general we can state that social robotics norms that are norms of human being imitated/reproduced by the robot in order to encourage collaboration and that are socially acceptable, depending also on the cultural context.\\ 
+Thus, when developing robots for operating beside humans, it is important that the robot has also the ability of  drive the interaction, i.e. be an active (not passive) actor. Beside from have an "attractive" design, a robot of this kind must promote different modalities for interaction and maintain at any time a snapshot of person state of mind. The proactivity helps the robot to reduce is uncertainty about the human and ensure, with appropriate behaviours, that the person is always comfortable when in presence of the robot.\\
+In general we can state that social robotics norms are norms of human being imitated/reproduced by the robot in order to encourage collaboration and that are socially acceptable, depending also on the cultural context.\\ 
 \subsection{Human Robot Interaction (HRI)}
 \textbf{HRI}: \textit{“Understand and shape the interactions between
 one or more humans and one or more robots”} (Goodrich\&Schultz 2007)\\
@@ -250,8 +253,7 @@ one or more humans and one or more robots”} (Goodrich\&Schultz 2007)\\
 Human-robot Interaction study the interaction between human and robots. Its a multidisciplinary field, and attracts researcher from robotics, AI, cognitive psychology, and many more.
 Its main objective is to develop models for natural and social interaction between humans and robots. 
 A central idea in HRI research is that humans expect from a robot to exhibit a human-like behaviour when interacting with them, so they can feel comfortable as when interacting with a person. Is is important to underline that a social robot must interact with non-expert users, that don't know what to expect when dealing with it.\\
-
-\noindent Nowadays the most prominent context in which a social robot could be implied are:
+\noindent Nowadays the most prominent context in which a social robot can be implied are:
 \begin{itemize}
 \item Entertainment 
 \item Public Environment Assistance (museum, shopping mall, etc.)
@@ -611,10 +613,10 @@ The introduced formalisms and models show the essential bond between expressiven
 Many restrictions can be enforced in order to make this problem decidable in polynomial time, like restricting the type of formulas or the number of pre-postconditions. 
 \newline
 
-\noindent $ALCK_{NF}$ is an example of decidable formalism with a good expressiveness, since it allows to express the agent epistemic state explicitly. However the planning in its most general case falls in PSPACE complexity, thus intractable for an online approach. In this and similar cases, partial planning and restricted version of the formalism are used in order to solve the complexity problem.
+\noindent $ALCK_{NF}$ is an example of decidable formalism with a good expressiveness, since it allows to express the agent epistemic state explicitly. The introduction of epistemic operator however doesn't increase the class of complexity that, for instance checking/reasoning, falls in PSPACE-complete \cite{donini1997autoepistemic}. In this and similar cases, partial planning and restricted version of the formalism are used in order to solve the complexity problem.
 \newline
 
-\noindent In KPDDL is it possible to express incomplete information through epistemic states and define sensing actions that help to disambiguate the states. In practice, however, it was seen that even a small variation in the number of states makes the problem intractable, proving that the class of complexity is at least PSPACE (instance checking/reasoning in $ALCK_{NF}$ is PSPACE-complete \cite{donini1997autoepistemic}.%\cite{alck}). 
+\noindent In KPDDL is it possible to express incomplete information through epistemic states and define sensing actions that help to disambiguate the states. In practice, however, it was seen that even a small variation in the number of states makes the problem intractable, proving that the class of complexity is at least PSPACE-complete. 
 \newline
 
 \noindent Talking about POMDPs models, they are often computationally intractable to solve exactly and thus it is necessary to introduce methods to approximate solutions. Some examples are \cite{roy2005finding}%\cite{belief_compression} 
@@ -622,7 +624,7 @@ and \cite{brafman2014contingent},%\cite{belief_particle},
 where particle filters and PCA are respectively used to represent the belief state compactly or exploit its properties.
 \newline
 
-\noindent Planning with partial observability is the most difficult planning task as it falls in EXPSPACE-complete class of complexity \cite{rintanen2004complexity}. The difficulty resides in the plan verification since the state space, in this case, is doubly exponentially bigger in the size of the problem instance with respect to classical planning case.
+\noindent Planning with partial observability is the most difficult planning task as, in general, it falls in EXPSPACE-complete class of complexity \cite{rintanen2004complexity}. The difficulty resides in the plan verification since the state space, in this case, is doubly exponentially bigger in the size of the problem instance with respect to classical planning case.
 The discussion of good heuristics and search algorithms that try to exploit the structure of such problems is not the purpose of this thesis.
 We will focus instead on the representation of the state space, relying on state of the art planners present in literature.
 
@@ -711,8 +713,8 @@ Rule-bases are not manageable when they become larger. This rules are created by
 Epistemic logics could helps us to represent real world uncertainties.\\
 In this case the states of the planning problem are called belief states, since they represent the uncertainty of the agent about the world.
 The problem with this representation is that the belief space is computationally exponentially bigger than classical state space. A good representation is thus needed.\\
-A solution is to maintain only a small group of states that represents a compact description of the epistemic knowledge of the robot.\\
-So if we denote as $Z$ the states that represents the epistemic knowledge and with $Y$ the generic states, we have that:
+%A solution is to maintain only a small group of states that represents a compact description of the epistemic knowledge of the robot.\\
+If we denote as $Z$ the states that represents the epistemic knowledge and with $Y$ the generic states, we have that:
 \begin{center}
 $|Y|$ + $|2^Z| \ll |2^X|$ and $X = Y \cup Z$
 \end{center}
@@ -736,15 +738,7 @@ Where the properties showed are:
 \end{itemize}
 \noindent As we can see, PDDL (ROSPlan version), KPDDL, ASP and RDDL seems to fit our prerequisites. For this work we decide to consider the two version of PDDL (standard and ROSPlan) plus KPDDL. We will motivate this choice in the upcoming chapters.\\
 \noindent Once we have identified the languages that matches our prerequisites, we select them to represent and  solve a test domains. The last step is to translate the computed plan into a conditional plan as we will discuss later.\\
-%\noindent The next step is to identify the a group of formalisms from the ones described in \ref{sec:formalism} that allow us to represent the epistemic state. \\
-%This is done in the following table: 
-%\begin{itemize}
-%\item Huge state space
-%\item Decomposable
-%\item Hard Synchronization
-%\item Non-deterministic observation
-%\item Non-deterministic outcomes
-%\end{itemize}
+\newline
 \noindent Summarizing, our aim is to define an architecture capable of translate different formalisms into a conditional plan that will represent a PNP, in order to satisfy some tasks requirements, while finding the best trade-off between complexity and expressivity. \\
 
 \chapter{Foundation Tools}\label{sec:foundation}
