@@ -215,21 +215,6 @@ A \textbf{sensing action} is an action that incorporates an observation (a boole
 \noindent This example demonstrate the need for a robot that can properly represent the state of the world (both at epistemic and physic level), search a solution in a possibly, as we will see, huge state space and continuously execute it. 
 We will resume this example in following chapters.
 
-\section{Planning: some hints}
-We have individuated our needs. Once a problem is characterized, we must define the techniques necessary to solve it.
-Planning is "\textit{the task of coming up with a sequence of actions that will achieve a goal}" \cite{russell2005ai}.\\
-When talking about complex problems, classical search-based planning approaches cease to be useful as any algorithm easily get lost in the possible huge state space.
-In this cases, a language for represent the problem represent a better solution.
-The convenience of using a formal language is that it guides the planning algorithms through the search of the solution by exploiting the problem logical structure. 
-On other hand, we must deal with some contraindications:
-\begin{itemize}
-\item \textbf{Uncertainty.} How to represent uncertainty in action effects and in the state.
-\item \textbf{Goal existence.} Does a goal exist? Is it possible to compute it?
-\item \textbf{Expressivity vs Complexity.} Can we represent the problem? Is it possible to compute a solution?
-\end{itemize} 
-\noindent Try to address all this questions is behind the scope of this thesis.\\
-Instead, I will focus on representation uncertainty and robust planning, that is produce plans that can be executed safely with limited or no needs for replanning.\\
-
 \chapter{Related Works}\label{sec:related_works}
 This chapter identifies the field of interest of this work and reviews the state of the art.
 
@@ -276,13 +261,11 @@ Those cases represents the most significant for this work. In this case the inte
 %TODO add the found examples on nurse/waitress robot
 
 
-\noindent I will now introduce some formalisms for planning problem representation.\\ 
+\noindent I will now talk about the formalisms in literature for planning problems.\\ 
 %A more detailed discussion about this formalisms and others will be presented in \ref{sec:formalism}.
 
 
-\chapter{Plan Representation}\label{sec:plan_repr}
-In this chapter I will discuss about some of the most diffused formalisms and languages for plan representation.
-\section{Formalisms}\label{sec:formalism}
+\section{Planning}\label{sec:plan_repr}
 \subsection{STRIPS (Classical Planning)}
 \noindent STRIPS \cite{fikes1971strips} stand for STanford Research Institute Problem Solver. %\cite{strips}
 \\\noindent It is a formal language (and a planner) used to describe deterministic, static, fully observable domains. 
@@ -628,75 +611,22 @@ where particle filters and PCA are respectively used to represent the belief sta
 The discussion of good heuristics and search algorithms that try to exploit the structure of such problems is not the purpose of this thesis.
 We will focus instead on the representation of the state space, relying on state of the art planners present in literature.
 
-%\newpage
-%\subsection{Bechmarks Experiments} \label{sec:benchmarks}
-%In the following I will list some benchmarks domain problems. \\ 
-%Most are common to the planning community and are taken from international competitions like IPC (International Planning Competition). \\
-%It is somehow difficult to derive a complete and unbiased problem instance, as every new language/planner usually comes with its testing domains and this are most of the time uncommon.  
-% 
-%
-%\subsubsection{STRIPS/PDDL}
-%\begin{itemize}
-%\item Block World
-%\item Classical Planning Domains (IPC problems collection)
-%\end{itemize}
-%
-%\subsection{HATP}
-%\begin{itemize}
-%\item Assisted assembly
-%\item Dock-worker robot
-%\end{itemize}
-%
-%\subsection{ASP}
-%\begin{itemize}
-%\item Evolutionary studies
-%\item Natural language processing: Dependency parsing, linguistics, taxonomy, inferring Phylogenetic Trees
-%\item Graphs: graph colouring, Large clique, Hamiltonian cycle
-%\item Decision Support for the Space Shuttle
-%\item Automated Product Configuration
-%\item Coaches
-%\end{itemize}
-%
-%\subsection{MDP}
-%\begin{itemize}
-%\item SPUDD: grid world, coaches
-%\item Often in combination with other formalisms, any task with probabilistic outcomes (perception/state)
-%\end{itemize}
-%\subsection{POMDP}
-%\begin{itemize}
-%\item grid world with probabilistic outcomes (faulty navigation)
-%\end{itemize}
-%
-%\subsection{Various}
-%\subsubsection{Waitress Robot}
-%A mobile Robot with wheels and two arms has to serve clients in a restaurant environment. One of the arms is a tray where he can put 3 food/cocktail at maximum. He has also sensors to perceive the environment.
-%He transports the goods from the kitchen to the clients, taking ordinations from them and welcoming incoming persons. After he has received a client, he must bring him to the table and take the ordination. He could take multiple ordinations, but he must reply sooner to the cook when a food is ready. Every food has its maximum delivery time before it gets cold (discrete values from 1 to 3 minutes). Cocktails have no delivery time.
-%People could also recall the attention of the robot by the means of a button on the table so that they can order more foods/drinks. So the task priority is:
-%\begin{enumerate}
-%\item deliver goods
-%\item welcome person and take ordination
-%\item take random ordinations
-%\end{enumerate}
-%
-%\noindent  An object on the tray could fall down with a probability 0.4, so every time the robot deliver goods he must check if the object is effectively on the tray. If not he must notify the kitchen. The kitchen and the main room are connected via a door that could be both closed or open with equal probability and the robot must check its condition each item. Due to the ambient condition, he could also fail any perceive action with probability 0.2. If the door is closed and the robot doesn't perceive it, all the goods will fall certainly (if is there are any). The goal is to minimize the waiting time both for the clients and the cook given the previous priority list.
+\section{Planning: some hints}
+We have individuated our needs. Once a problem is characterized, we must define the techniques necessary to solve it.
+Planning is "\textit{the task of coming up with a sequence of actions that will achieve a goal}" \cite{russell2005ai}.\\
+When talking about complex problems, classical search-based planning approaches cease to be useful as any algorithm easily get lost in the possible huge state space.
+In this cases, a language for represent the problem represent a better solution.
+The convenience of using a formal language is that it guides the planning algorithms through the search of the solution by exploiting the problem logical structure. 
+On other hand, we must deal with some contraindications:
+\begin{itemize}
+\item \textbf{Uncertainty.} How to represent uncertainty in action effects and in the state.
+\item \textbf{Goal existence.} Does a goal exist? Is it possible to compute it?
+\item \textbf{Expressivity vs Complexity.} Can we represent the problem? Is it possible to compute a solution?
+\end{itemize} 
+\noindent Try to address all this questions is behind the scope of this thesis.\\
+Instead, I will focus on representation uncertainty and robust planning, that is produce plans that can be executed safely with limited or no needs for replanning.\\
 
-%\subsubsection{Assisted Assembly}
-%This example is inspired by the one presented in \cite{alami2014human} \\ %\cite{alami}.\\
-%In assisted assembly task a robot must bring tools to a worker and helps him with a welding procedure. The robot is a humanoid, thus with two arms and two legs, and has a perception system. The environment contains cavities that only the robot could pass in order to reach the worker or move a particular tool from one room to another. The worker is standing in front of its working table. 
-%The worker access is working station through a manhole that remains open all the time, costituting a threat for the robot. If the robot cross all the the worker room he could fall down in the hole with probability 0.6.
-%Tools are placed randomly in other rooms and the robot knows exactly where they are through a system of external cameras. When the worker requires a tool, he must bring him as soon as a possible minimizing the traveled rooms. There are 8 rooms and they are all accessible through the cavities. Cavities requires that the robot assumes particular configurations in order to pass through. Each configuration of the robot could be evaluated by a predicate that tells in constant time if the robot will pass or not, but this valid configurations changes according to the number and the type of tools transported. The robot has N degrees of freedom. For the assembly part of the task, the input of the problem is the kinematic model of the robot with its initial configuration, the representation of the environment and the tools required by the worker. The output is all the configurations that the robot must assumes in order to full fill the requirements, that are brings all the tools and minimize worker waiting time. \\
-%
-%\noindent In the assisted welding the robot stays in the same room of the worker and, since he has better understanding of spatial geometry, he must indicate to the worker the exact trajectory of the welding.
-%In this case the input of the problem are the initial configurations of both the robot and the worker, and the output must be a sequence of configurations that minimizes the change in stance of the worker according to some comfort measurement parameter that evaluates worker configurations.
 
-%\subsubsection{COACHES}
-%This examples are taken from \cite{iocchi2016practical}%\cite{coaches}.
-%\newline
-%\\\noindent \textbf{Basic Service Robot}\\
-%A robot is able to execute two activities A and B upon request of the user, but the user does not know about these robot abilities. The robot is normally in a waiting state. Whenever a user is detected in front of the robot (for example, with a simple face detector procedure), the robot can decide whether to start an interaction (for example, through a spoken dialogue) and, if so, it describes the activities that it can do A and B. The user can now select one of them or answer that s/he is not interested (for example by selecting an option on a user interface or by a speech command). If a goal is selected, the robot executes a task for achieving it. Each goal can be achieved with two alternatives tasks \textit{TaskA1} and \textit{TaskA2} for \textit{A} and \textit{TaskB1} and \textit{TaskB2} for \textit{B}. After the execution of the task, the robot comes back to the wait state, waiting for a next user. During the execution, the following inconveniences may occur: the user does not complete the interaction (for example, s/he does not answer the robot question), any task may fail for reasons not modeled in the task description, and any task may be aborted according to some external command or condition.
-%\newline
-%\\\noindent \textbf{Service Robot assisting customers of a shop-ping mall}\\
-%A robot operates in the corridor of a shopping mall including several shops. Each shop-keeper can define a set of advertisements that the robot is asked to communicate to customers of the mall and each advertisement has an associated reward for the shopping mall. The robot can execute the following actions in the environment: move to any location (i.e., in front of any shop), approach a specific person or a group of people, perform advertisement actions, perform other assistive actions upon request, bring a person to any location in the mall. The problem we want to solve is the following: given the current position of the robot, the information about shops and advertisements and an initial probability distribution of the presence of people in the shopping mall (for example, provided by an external system of video-cameras), plan and execute the behavior that maximizes the global actual reward, also recovering from possible failures due to unpredicted or erroneous interactions with people.
 
 \chapter{Conditional Planning and Execution}\label{sec:approach}
 In this chapter I will explain the reasons behind this work.\\
@@ -943,7 +873,7 @@ that accepts only domains with temporal constraints and no uncertainty.
 Anyway, is it possible to replace the planner, the problem generation and the plan dispatch by simply providing your implementation of this modules.\\
 This was also our case since to integrate the work of this thesis with the ROSPlan architecture some modification, in collaboration with the authors, was necessary. We will talk more about later.
 
-\chapter{System Overview}\label{sec:system}
+\chapter{Conditional Plan to PNP Universal Translator}\label{sec:system}
 In this chapter I will present the system infrastructure.\\
 \newline
 
@@ -1005,14 +935,15 @@ Also in this case, the chosen planner (Fast-Forward) provides us an ordered list
 This kind of solution are interpreted as linear plans. 
 The algorithm that realize the translation is listed below:
 %The author consider also others planning systems for conformant, contingent and probabilistic planning, but these are not considered in this work.
+%TODO togliere preprocess
 \newline 
 \scalebox{0.85}{
 \begin{algorithm}[H]
-\caption{ConditionalPlan translation from FF output Algorithm}
+\caption{Linear Plan translation from FF output Algorithm}
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
 \SetKwProg{Fn}{Function}{}{}
-\Input{$\pi$: the PDDL description of the plan}
+\Input{$\pi$: the action sequence}
 \KwData{$v_s$: a list of strings}
 \Output{$\pi_{cp}$: A Condition Plan}
 
@@ -1252,6 +1183,35 @@ In particular, I will characterize the input/output of each problem and provide 
  \caption{PNPgen from Conditional Plan}
 \end{algorithm}}\\
 
+\subsection{DIY Conditional Plan}
+Writing domains and waiting for a planner to compute a solution is a long processes and is not always needed.
+For instance, think about the case in which one wants simply to test the integration of a new perception module with the rest of the robotic architecture.
+So, as additional feature, we provide the possibility to directly explicit the conditional plan.
+A plan of this kind can be written in a txt file and has the following form:\\
+\begin{center}
+ $ P = t_1; t_2; ... ; t_n$\\
+ $t_n = a \,\, | <c \,\, ? \,\, t_1; ... ; t_{n-1} : (not \,\, c) \,\, ? \,\, t_n; ...; t_m >$\\
+\end{center}
+where $t_n$ are terms that represents atomic actions (\textbf{a}) or conditional branches over conditions (\textbf{c}). \\
+\textbf{c} could be a boolean evaluation, like in the definition above, or a multi branch choice:
+\begin{center}
+$<c_1 \,\, ? \,\, a_1 \,\, : c_2 \,\, ? \,\, a_2 \,\, : ... c_n \,\, ? \,\, a_n>$
+\end{center}
+As example, consider the following plan definition:
+\begin{verbatim}
+a1; a2; < c1 ? b1; b2; b3 : (not c1) ? c1; c2; < h1 ? a : h2 ? b : h3 ? c >; c4 > ; a3 ; a4
+\end{verbatim}
+This gives raise to the following conditional plan in fig. \ref{fig:inline_example}.
+The correspondent algorithm is showed in .
+%\newpage
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45,trim=5cm 0cm 0cm 0mm]{images/inline_ex3.png}
+	\caption{PNPgen generates the PNP from a file specification.}
+	\label{fig:inline_example}
+\end{figure}
+%\newpage
+
 \chapter{Use Cases}\label{sec:use_cases}
 In this section I will characterize some examples, describing the whole process from the problem definition to the plan generation.\\ In order to do so I will start from the motivating example introduced in section \ref{sec:motivating}.
 %PDDL like languages, planner in title
@@ -1261,7 +1221,7 @@ In this section I will characterize some examples, describing the whole process 
 The plan is generated and then executed with "eyes closed". The advantage of this kind of approach is that is very fast, but it could easily fail due to mismatch between the planned plan and the real world.
 
 \newpage
-\subsection{Example 1: COACHES}
+\subsection{Example 1: deterministic COACHES}
 I will present a solution in PDDL (ver. 1.2) to the example presented in \ref{sec:motivating}.
 %PDDL is the standard "de facto" for the specification of planning problems. 
 We must then characterise objects, predicates, actions, initial and final states.\\
@@ -1458,7 +1418,7 @@ Obviously also PNPs double their sizes, as we can see from the generation stats:
 \noindent KPDDL permits to represent conditional plans. The cons reside in the fact that depending on the written domain, the planner could take much time to compute a solution. The author provides the possibility to drive the solution search by the means of a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while with 1 a depth-first search.\\ 
 In any case, this not represents a safe solution for an on-line approach as there are no ways to know if a solution exist (see \ref{sec:analysis}).
 
-\subsection{Example 1: COACHES}
+\subsection{Example 1: COACHES v.1}
 In KPDDL sensing actions could be modelled using the syntactic construct \textbf{:sense}. Most of the predicates, actions and constants remain unchanged with respect to the PDDL case:
 \begin{verbatim}
 
@@ -1590,8 +1550,9 @@ The translation+generation takes only 0.008s time to run. We will compare this r
 \end{figure}
 \newpage
 
-\subsection{Example 2: COACHES enhanced}
-As counterexample, consider the following domain in which we have modified the bye action and we ask the agent to sense for two properties:
+\subsection{Example 2: COACHES v.2}
+In this example we have progressively augmented the space state to see how the planner performs.
+Consider the following domain in which we have modified the bye action and we ask the agent to sense for two properties:
 \begin{verbatim}
 (:action bye
             :parameters (?p - person)
@@ -1657,8 +1618,8 @@ The ROSPlan framework is perfectly integrated into ROS and, due to its modularit
 This comes in handy since if the PNP execution fails, we have a second level of redundancy to make sure that the robot doesn't suddenly stop. \\
 The integration between ROSPlan and PNP is an ongoing work and I will discuss possible future implementations in the next chapter.
 
-\subsection{Example 1: simple COACHES}
-This is a simplified version of the coaches example, in which we inspect only the person position.
+\subsection{Example 1: COACHES v.3}
+This is a simplified version of the coaches example, in which the robot inspects only the person position.
 We must introduce a slightly different version of PDDL, similar to KPDDL, that is used in the ROSPlan Framework.\\
 As in KPDDL, in this case PDDL is extended with introduction of the \textbf{:observe} construct for action effects, used to define sensing actions.\\
 For instance, a sensing action has the following form:
@@ -1669,7 +1630,8 @@ For instance, a sensing action has the following form:
                        :observe (at-person ?x)
   )
 \end{verbatim}
-Beside from the \textit{observe} construct, we must provide the problem specification with the following expression:
+Were the \textit{:observe} construct specify which are the predicates the actions must sense.
+Beside from defining \textit{:observe}, we must provide the problem specification with the following expression:
 \begin{verbatim}
  (oneof
    (at-person shop1)
@@ -1680,7 +1642,7 @@ Beside from the \textit{observe} construct, we must provide the problem specific
    (at-person shop6)
  )
 \end{verbatim}
-These are necessary for the planner to derive a supplementary heuristic used while searching for the solution. We avoid to present the complete domain as this is essentially the same of the previous sections.\\
+This is necessary for the planner to derive a supplementary heuristic used while searching for the solution. We avoid to present the complete domain as this is essentially the same of the previous sections.\\
 
 \noindent A ROS node serves as interface between ROSPlan and PNPgen. This node actively listens the topic where the plan is published by the planning system. 
 \noindent The planning system fetch the PDDL model from the Knowledge Base and generates a problem instance.
@@ -1761,7 +1723,7 @@ The following picture depict the connection between our node (\textit{pnp\_rospl
 
 %PNP stats: 'Actions: 22 Places: 68 Transitions: 67 Edges: 134
 
-\subsection{Example 2: COACHES complete}
+\subsection{Example 2: COACHES v.4}
 This is the complete coaches example, as presented in the previous sections. Namely, we try to infer also the person needs using the following sensing action:
 \begin{verbatim}
   (:action ask
@@ -1807,6 +1769,10 @@ This example concludes our analysis.
 	\caption{a small portion of the PNP generated from the complete coaches domain. Notice that we had to modify the PNP for a better visualization.}
 	\label{fig:rosplan_ex2}
 \end{figure}
+
+\section{Discussion}
+As we have seen in the precedents example, we have found a first set of satisfying formalisms to describe and represents conditional plans.
+In fact
 
 \chapter{Conclusion}\label{sec:conclusion}
 One of the fundamental aspects of moving robots from laboratories to everyday environments is that the interaction with unaware persons should be the most natural and smooth as possible.\\
