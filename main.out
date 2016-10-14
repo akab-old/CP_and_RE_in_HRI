@@ -17,7 +17,7 @@
 \BOOKMARK [2][-]{subsection.2.3.7}{Markov Decision Process \(MDP\)}{section.2.3}% 17
 \BOOKMARK [2][-]{subsection.2.3.8}{Partially Observable MDP \(POMDP\)}{section.2.3}% 18
 \BOOKMARK [1][-]{section.2.4}{Analysis of Formalisms}{chapter.2}% 19
-\BOOKMARK [1][-]{section.2.5}{Planning: some hints}{chapter.2}% 20
+\BOOKMARK [1][-]{section.2.5}{Considerations}{chapter.2}% 20
 \BOOKMARK [0][-]{chapter.3}{Conditional Planning and Execution}{}% 21
 \BOOKMARK [0][-]{chapter.4}{Foundation Tools}{}% 22
 \BOOKMARK [1][-]{section.4.1}{Petri Net Plan}{chapter.4}% 23
@@ -31,11 +31,11 @@
 \BOOKMARK [1][-]{section.4.5}{ROSPlan}{chapter.4}% 31
 \BOOKMARK [0][-]{chapter.5}{Conditional Plan to PNP Universal Translator}{}% 32
 \BOOKMARK [1][-]{section.5.1}{Conditional Plan Representation}{chapter.5}% 33
-\BOOKMARK [1][-]{section.5.2}{Translator Module}{chapter.5}% 34
+\BOOKMARK [1][-]{section.5.2}{Translator Modules}{chapter.5}% 34
 \BOOKMARK [2][-]{subsection.5.2.1}{PDDL Translator}{section.5.2}% 35
 \BOOKMARK [2][-]{subsection.5.2.2}{KPDDL Translator}{section.5.2}% 36
 \BOOKMARK [2][-]{subsection.5.2.3}{ROSPlan Translator}{section.5.2}% 37
-\BOOKMARK [1][-]{section.5.3}{Generator Module}{chapter.5}% 38
+\BOOKMARK [1][-]{section.5.3}{Generator Modules}{chapter.5}% 38
 \BOOKMARK [2][-]{subsection.5.3.1}{PNPgen: A Conditional Planning Extension}{section.5.3}% 39
 \BOOKMARK [2][-]{subsection.5.3.2}{the Generation Algorithm}{section.5.3}% 40
 \BOOKMARK [2][-]{subsection.5.3.3}{DIY Conditional Plan}{section.5.3}% 41
