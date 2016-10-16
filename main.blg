@@ -3,57 +3,50 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: main.aux
 The style file: plain.bst
 Database file #1: biblio.bib.bib
-Repeated entry---line 251 of file biblio.bib.bib
- : @article{sanner2010relational
- :                              ,
-I'm skipping whatever remains of this entry
-Warning--string name "jair" is undefined
---line 264 of file biblio.bib.bib
 Warning--I didn't find a database entry for "donini1997autoepistemic"
-Warning--empty journal in hoffmann:nebel:jair-01
 Warning--empty booktitle in iocchi2003
 Warning--empty year in iocchi2003
 Warning--empty journal in mcdermott1998pddl
 Warning--empty year in ziparo2008pnp
 You've used 31 entries,
             2118 wiz_defined-function locations,
-            680 strings with 9768 characters,
-and the built_in function-call counts, 12422 in all, are:
-= -- 1238
+            680 strings with 9761 characters,
+and the built_in function-call counts, 12433 in all, are:
+= -- 1242
 > -- 576
 < -- 16
 + -- 233
 - -- 196
-* -- 837
-:= -- 1947
+* -- 838
+:= -- 1949
 add.period$ -- 96
 call.type$ -- 31
 change.case$ -- 191
 chr.to.int$ -- 0
-cite$ -- 36
+cite$ -- 35
 duplicate$ -- 505
 empty$ -- 956
 format.name$ -- 196
-if$ -- 2674
+if$ -- 2675
 int.to.chr$ -- 0
 int.to.str$ -- 31
 missing$ -- 30
 newline$ -- 157
 num.names$ -- 62
-pop$ -- 223
+pop$ -- 221
 preamble$ -- 1
 purify$ -- 159
 quote$ -- 0
 skip$ -- 396
 stack$ -- 0
-substring$ -- 826
-swap$ -- 171
+substring$ -- 830
+swap$ -- 172
 text.length$ -- 16
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 124
-warning$ -- 5
-while$ -- 123
+warning$ -- 4
+while$ -- 124
 width$ -- 33
-write$ -- 337
-(There was 1 error message)
+write$ -- 338
+(There were 5 warnings)

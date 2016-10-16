@@ -132,14 +132,6 @@
   year={2015}
 }
 
-@inproceedings{donini1997autoepistemic,
-  title={Autoepistemic description logics},
-  author={Donini, Francesco M and Nardi, Daniele and Rosati, Riccardo},
-  booktitle={IJCAI (1)},
-  pages={136--141},
-  year={1997}
-}
-
 @article{younes2004ppddl1,
   title={PPDDL1. 0: An extension to PDDL for expressing planning domains with probabilistic effects},
   author={Younes, H{\aa}kan LS and Littman, Michael L},
@@ -266,13 +258,13 @@ We  show formally under which conditions the introduced translations are polynom
 
 
 
-@Article{hoffmann:nebel:jair-01,
-  author = 	 {J{\"o}rg Hoffmann and Bernhard Nebel},
-  title = 	 {The {FF} Planning System: Fast Plan Generation Through Heuristic Search},
-  journal = 	 jair,
-  year = 	 {2001},
-  volume =	 {14},
-  pages =	 {253-302}
+@article{hoffmann2001ff,
+  title={The FF planning system: Fast plan generation through heuristic search},
+  author={Hoffmann, J{\"o}rg and Nebel, Bernhard},
+  journal={Journal of Artificial Intelligence Research},
+  volume={14},
+  pages={253--302},
+  year={2001}
 }
 
 

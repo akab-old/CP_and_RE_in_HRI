@@ -67,11 +67,11 @@ Richard~E Fikes and Nils~J Nilsson.
   problem solving.
 \newblock {\em Artificial intelligence}, 2(3-4):189--208, 1971.
 
-\bibitem{hoffmann:nebel:jair-01}
+\bibitem{hoffmann2001ff}
 J{\"o}rg Hoffmann and Bernhard Nebel.
-\newblock The {FF} planning system: Fast plan generation through heuristic
+\newblock The ff planning system: Fast plan generation through heuristic
   search.
-\newblock 14:253--302, 2001.
+\newblock {\em Journal of Artificial Intelligence Research}, 14:253--302, 2001.
 
 \bibitem{iocchi2016practical}
 Luca Iocchi, Laurent Jeanpierre, Maria~Teresa Lazaro, and Abdel-Illah Mouaddib.

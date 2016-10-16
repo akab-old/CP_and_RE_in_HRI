@@ -972,7 +972,7 @@ First of all, we want to show the actual needs for conditional plans in the stud
 Second, PDDL is the most diffused planning language. Since one of the primary intents of this work is to provide a general tool for PNP generation, it is clear that we cannot ignore it.\\
 Many formalisms derive from PDDL, so this class could represent a starting point to implement other translators for different PDDL extensions. \\
 Furthermore, the generation of this kind of plans is very fast (linear in time in the number of actions) as the time complexity is linear in the number of the plan actions.
-%\newpage
+\newpage
 \subsection{KPDDL Translator}
 Linear plans are good to model simple cases, but the real world is full of non-determinism and uncertainty.
 KPDDL introduces a special construct to the classical PDDL structure that could model sensing effects, and allows formalising sensing actions. This helps the agent to disambiguate between two epistemic states: the one in which the sensed property holds and the case in which not.\\
@@ -1039,15 +1039,9 @@ The algorithm is similar to the ones of KPDDL and PDDL:\\
 \SetKwInOut{Output}{Output}
 \SetKwProg{Fn}{Function}{}{}
 \Input{$\pi$: the digraph description}
-\KwData{	$v_p$: a list of pair}
-\Output{$\pi_{cp}$: A Condition Plan}
+\Output{$\pi_{cp}$: the Condition Plan corresponding to $\pi$}
+\Fn{$Digraph_transl(\pi, \,\, \pi_{cp})$ : $\pi_{cp}$}{
 
-open $\pi$\;
-\While{line == state\_description }{
-	id = $readId(line)$\;	
-	action = $readAction(line)$\;
-	$v_p \leftarrow \{id,action\}$\;
-}
 
 initialize $\pi_{cp}$\;
 \ForEach{p in $v_p$}{
@@ -1074,7 +1068,7 @@ initialize $\pi_{cp}$\;
 }
 $\pi_{cp} \leftarrow addGoal()$\;
 \Return $\pi_{cp}$\;
-
+}
 \end{algorithm}}\\
 \newline
 \noindent Notice that the planner doesn't specify a goal state, so we add a goal after each leaf for safety of execution.
@@ -1133,42 +1127,37 @@ In particular, I will characterize the input/output of each problem and provide 
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
 \Input{$\pi$: a Conditional Plan,\\
- 	   $s_f$: $\pi$ final state\\
- 	   $M_{SA}$: a Map between state-action and outcomes}
-\KwData{$M_V$: a Map of the visited places\\
-        $SS$: a Stack containing the places to explore\\
-        $v_o$: a list of possible action outcomes}
+        $SS$: a stack containing the places to explore\\
+      }
 \Output{$\pi_c$: PNP generated from a Conditional Plan}
- %\KwResult{how to write algorithm with \LaTeX2e }
-  $curr\_state \leftarrow \pi.first\_state$\; 
-  $\pi_c \leftarrow addCondition(init)$\;
-  $M_V \leftarrow insert(curr\_state)$\;
-  $SS \leftarrow push(curr\_state)$\;
+\SetKwProg{Fn}{Function}{}{}
+\Fn{$genCondPlan(\pi)$ : $\pi_c$}{
  \While{(SS $\neq$ 0)}{
-  curr\_state = top of SS\;
-  $SS.pop()$\;
-  action = $M_{SA}[curr\_state]$\;
-  \If{(action == "" and curr\_state $\neq s_f$ )}{
-  	continue\;  
+  $s$ = $top(SS)$\;
+  $a$ = $act(s)$\;
+  \If{($a = 0 \And s \neq s_f$ )}{
+	$genCondPlan(\{\pi-s\})$\;  
   }
-  $v_o \leftarrow M_{SA}[curr\_state].outcomes$\;
-  \If{$v_o == 0$}{
-  	$addFinalState(\pi_c)$\;
-  	continue\;
+  $O = outcomes(s)$\;
+  \If{$O = 0$}{
+  	$\pi_c = PNP\_addFinal(s)$\;
+  	$genCondPlan(\{\pi-s\})$\;
   }
-  $addAction(\pi_c,action,current\_state)$\;
-  \ForEach{element $e$ of $v_o$\\}
+%  $PNP\_addAction(\pi_c,action,current\_state)$\;
+  \ForEach{element $o$ of $O$\\}
   {
-  	$succ\_state = successor(e)$\;
-  	$obs = observation(e)$\;
-  	\eIf{$M_V[succ\_state] == 0$}
-  	{$addBranch(\pi_c, obs)$\;
-  	 $SS.push(succ\_state)$\;
-  	 $M_V.add(succ\_state)$\;}
-  	{$addTransitionBack(\pi_c,obs)$\;}
+  	$s' = next(o)$\;
+  	$\phi = obs(o)$\;
+  	\eIf{$s' \not \in SS$}
+  	{$PNP\_addBranch(\pi_c, \phi)$\;
+  	 $SS.push(s')$\;}
+  	{$PNP\_GoBack(\pi_c)$\;}
   }
  }
- \caption{PNPgen from Conditional Plan}
+ 
+ }
+ 
+\caption{PNPgen from Conditional Plan}
 \end{algorithm}}\\
 
 \subsection{DIY Conditional Plan}
@@ -1253,7 +1242,7 @@ The plan is generated and then executed with "eyes closed". The advantage of thi
 I will present a solution in PDDL (ver. 1.2) to the example presented in \ref{sec:motivating}.
 %PDDL is the standard "de facto" for the specification of planning problems. 
 We must then characterise objects, predicates, actions, initial and final states.\\
-I used FF\cite{hoffmann:nebel:jair-01}\footnote{\url{https://fai.cs.uni-saarland.de/hoffmann/ff.html}}(ver. 2.3)  planner to check the satisfiability of the problem and to solve it.
+I used FF\cite{hoffmann2001ff}\footnote{\url{https://fai.cs.uni-saarland.de/hoffmann/ff.html}}(ver. 2.3)  planner to check the satisfiability of the problem and to solve it.
 For the sake of clarity, in the domain description I will consider only the agent $h2$ of the example. \\
 
 \noindent For the predicates we have:
