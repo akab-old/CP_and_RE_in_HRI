@@ -17,38 +17,37 @@
 \BOOKMARK [2][-]{subsection.2.3.7}{Markov Decision Process \(MDP\)}{section.2.3}% 17
 \BOOKMARK [2][-]{subsection.2.3.8}{Partially Observable MDP \(POMDP\)}{section.2.3}% 18
 \BOOKMARK [1][-]{section.2.4}{Analysis of Formalisms}{chapter.2}% 19
-\BOOKMARK [1][-]{section.2.5}{Considerations}{chapter.2}% 20
-\BOOKMARK [0][-]{chapter.3}{Conditional Planning and Execution}{}% 21
-\BOOKMARK [0][-]{chapter.4}{Foundation Tools}{}% 22
-\BOOKMARK [1][-]{section.4.1}{Petri Net Plan}{chapter.4}% 23
-\BOOKMARK [2][-]{subsection.4.1.1}{Formal Definition}{section.4.1}% 24
-\BOOKMARK [1][-]{section.4.2}{PNPgen}{chapter.4}% 25
-\BOOKMARK [2][-]{subsection.4.2.1}{Linear Plans}{section.4.2}% 26
-\BOOKMARK [2][-]{subsection.4.2.2}{Policy}{section.4.2}% 27
-\BOOKMARK [2][-]{subsection.4.2.3}{Execution Rules}{section.4.2}% 28
-\BOOKMARK [1][-]{section.4.3}{Robot Operating System \(ROS\)}{chapter.4}% 29
-\BOOKMARK [1][-]{section.4.4}{PNPros}{chapter.4}% 30
-\BOOKMARK [1][-]{section.4.5}{ROSPlan}{chapter.4}% 31
-\BOOKMARK [0][-]{chapter.5}{Conditional Plan to PNP Universal Translator}{}% 32
-\BOOKMARK [1][-]{section.5.1}{Conditional Plan Representation}{chapter.5}% 33
-\BOOKMARK [1][-]{section.5.2}{Translator Modules}{chapter.5}% 34
-\BOOKMARK [2][-]{subsection.5.2.1}{PDDL Translator}{section.5.2}% 35
-\BOOKMARK [2][-]{subsection.5.2.2}{KPDDL Translator}{section.5.2}% 36
-\BOOKMARK [2][-]{subsection.5.2.3}{ROSPlan Translator}{section.5.2}% 37
-\BOOKMARK [1][-]{section.5.3}{Generator Modules}{chapter.5}% 38
-\BOOKMARK [2][-]{subsection.5.3.1}{PNPgen: A Conditional Planning Extension}{section.5.3}% 39
-\BOOKMARK [2][-]{subsection.5.3.2}{the Generation Algorithm}{section.5.3}% 40
-\BOOKMARK [2][-]{subsection.5.3.3}{DIY Conditional Plan}{section.5.3}% 41
-\BOOKMARK [0][-]{chapter.6}{Use Cases}{}% 42
-\BOOKMARK [1][-]{section.6.1}{Fast-Forward \(PDDL\)}{chapter.6}% 43
-\BOOKMARK [2][-]{subsection.6.1.1}{Example 1: deterministic COACHES}{section.6.1}% 44
-\BOOKMARK [2][-]{subsection.6.1.2}{Example 2: Gripper Problem}{section.6.1}% 45
-\BOOKMARK [1][-]{section.6.2}{KPlanner \(KPDDL\)}{chapter.6}% 46
-\BOOKMARK [2][-]{subsection.6.2.1}{Example 1: COACHES v.1}{section.6.2}% 47
-\BOOKMARK [2][-]{subsection.6.2.2}{Example 2: COACHES v.2}{section.6.2}% 48
-\BOOKMARK [1][-]{section.6.3}{Closed-Loop Greedy Planner \(PDDL\)}{chapter.6}% 49
-\BOOKMARK [2][-]{subsection.6.3.1}{Example 1: COACHES v.3}{section.6.3}% 50
-\BOOKMARK [2][-]{subsection.6.3.2}{Example 2: COACHES v.4}{section.6.3}% 51
-\BOOKMARK [1][-]{section.6.4}{Discussion}{chapter.6}% 52
-\BOOKMARK [0][-]{chapter.7}{Conclusion}{}% 53
-\BOOKMARK [1][-]{section.7.1}{Future Development}{chapter.7}% 54
+\BOOKMARK [1][-]{section.2.5}{Conditional Planning and Execution}{chapter.2}% 20
+\BOOKMARK [1][-]{section.2.6}{Considerations}{chapter.2}% 21
+\BOOKMARK [0][-]{chapter.3}{Foundation Tools}{}% 22
+\BOOKMARK [1][-]{section.3.1}{Petri Net Plan}{chapter.3}% 23
+\BOOKMARK [2][-]{subsection.3.1.1}{Formal Definition}{section.3.1}% 24
+\BOOKMARK [1][-]{section.3.2}{PNPgen}{chapter.3}% 25
+\BOOKMARK [2][-]{subsection.3.2.1}{Linear Plans}{section.3.2}% 26
+\BOOKMARK [2][-]{subsection.3.2.2}{Policy}{section.3.2}% 27
+\BOOKMARK [2][-]{subsection.3.2.3}{Execution Rules}{section.3.2}% 28
+\BOOKMARK [1][-]{section.3.3}{Robot Operating System \(ROS\)}{chapter.3}% 29
+\BOOKMARK [1][-]{section.3.4}{PNPros}{chapter.3}% 30
+\BOOKMARK [1][-]{section.3.5}{ROSPlan}{chapter.3}% 31
+\BOOKMARK [0][-]{chapter.4}{Conditional Plan to PNP Translator}{}% 32
+\BOOKMARK [1][-]{section.4.1}{Conditional Plan Representation}{chapter.4}% 33
+\BOOKMARK [1][-]{section.4.2}{Translator Modules}{chapter.4}% 34
+\BOOKMARK [2][-]{subsection.4.2.1}{Sequential Translator}{section.4.2}% 35
+\BOOKMARK [2][-]{subsection.4.2.2}{DAG Translator}{section.4.2}% 36
+\BOOKMARK [2][-]{subsection.4.2.3}{Tree Translator}{section.4.2}% 37
+\BOOKMARK [1][-]{section.4.3}{Generator Modules}{chapter.4}% 38
+\BOOKMARK [2][-]{subsection.4.3.1}{PNPgen: A Conditional Planning Extension}{section.4.3}% 39
+\BOOKMARK [2][-]{subsection.4.3.2}{the Generation Algorithm}{section.4.3}% 40
+\BOOKMARK [0][-]{chapter.5}{Use Cases}{}% 41
+\BOOKMARK [1][-]{section.5.1}{Fast-Forward \(PDDL\)}{chapter.5}% 42
+\BOOKMARK [2][-]{subsection.5.1.1}{Example 1: deterministic COACHES}{section.5.1}% 43
+\BOOKMARK [2][-]{subsection.5.1.2}{Example 2: Gripper Problem}{section.5.1}% 44
+\BOOKMARK [1][-]{section.5.2}{KPlanner \(KPDDL\)}{chapter.5}% 45
+\BOOKMARK [2][-]{subsection.5.2.1}{Example 1: COACHES v.1}{section.5.2}% 46
+\BOOKMARK [2][-]{subsection.5.2.2}{Example 2: COACHES v.2}{section.5.2}% 47
+\BOOKMARK [1][-]{section.5.3}{Closed-Loop Greedy Planner \(PDDL\)}{chapter.5}% 48
+\BOOKMARK [2][-]{subsection.5.3.1}{Example 1: COACHES v.3}{section.5.3}% 49
+\BOOKMARK [2][-]{subsection.5.3.2}{Example 2: COACHES v.4}{section.5.3}% 50
+\BOOKMARK [1][-]{section.5.4}{Discussion}{chapter.5}% 51
+\BOOKMARK [0][-]{chapter.6}{Conclusion}{}% 52
+\BOOKMARK [1][-]{section.6.1}{Future Development}{chapter.6}% 53

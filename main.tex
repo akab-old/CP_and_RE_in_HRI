@@ -59,7 +59,6 @@ Namely, we need socially acceptable robotic systems. To achieve that, we must eq
 
 \noindent The primary intent of this thesis is to present a planning system that can represent the knowledge of an agent (the robot) about the current situation and the involved actors and that is robust with respect to execution failures. \\
 
-
 \noindent To motivate this work I will present in the next section an example \ref{sec:motivating}.\\
 In chapter \ref{sec:related_works} I will present the context of this work and the state of the art.\\ 
 In chapter \ref{sec:plan_repr} I will review some of the formalisms in literature, showing their pros and cons in terms of representation expressivity and computation complexity.\\ 
@@ -195,7 +194,7 @@ This situation is summarized in the following figure:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{images/coaches_graph.png}
+	\includegraphics[scale=0.5,trim=4cm 0cm 0cm 0cm]{images/coaches_graph.png}
 	\caption{a sketch that show a possible solution plan for the problem of h2.}
 	\label{fig:coaches_graph}
 \end{figure}
@@ -204,12 +203,12 @@ This situation is summarized in the following figure:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{images/coaches_graph_with_back.png}
+	\includegraphics[scale=0.5,trim=5cm 0cm 0cm 0cm]{images/coaches_graph_with_back.png}
 	\caption{a sketch that show a possible robust solution plan for the problem of h2.}
 	\label{fig:coaches_graph_nack}
 \end{figure}
 
-\noindent In \ref{fig:coaches_graph}, the the squares ($ \square $) represents sensing actions.\\ 
+\noindent In \ref{fig:coaches_graph}, the the squares ($ \square $) represents sensing actions.
 A \textbf{sensing action} is an action that incorporates an observation (a boolean evaluation) and it is used by the robot to characterise its (partial) knowledge of the environment. We assume that a state in which at least one of the $Z$ properties holds is a goal state. \\
 
 \noindent This example demonstrate the need for a robot that can properly represent the state of the world (both at epistemic and physic level), search a solution in a possibly, as we will see, huge state space and continuously execute it. 
@@ -222,7 +221,7 @@ This chapter identifies the field of interest of this work and reviews the state
 \textbf{Social Norms}: "\textit{Norms are cultural products (including values, customs, and traditions) which represent individuals' basic knowledge of what others do and think that they should do.}"\footnote{\url{https://en.wikipedia.org/wiki/Norm_(social)}}\\
 \newline
 \noindent While the previously stated definition of social norms fits very well in an environment populated exclusively by humans, when coming to robots we must do some considerations. Firs of all, what are the desirable characteristics that a robot must have in order to be defined "social"?\\
-\noindent Through recent years we have seen an increasing interest with respect to robotics and artificial intelligence. %TODO aggiungere qualche dato
+\noindent Through recent years we have seen an increasing interest with respect to robotics and artificial intelligence. 
 While the first "intelligent" personal assistants have made their appearance thanks to smartphones diffusion, robots for the major part are still relegated in a factory and seen as fictional characters.
 Even in the industrial context, where we can see some examples of human-robot cooperation, the interaction is far from being "social" since the human is seen as an obstacle to avoid and the interaction is programmatic.\\
 However, the precedent definition  give us some a hint:\\ 
@@ -258,7 +257,6 @@ In this cases the interaction between the human and the robot is minimal. The hu
 \subsection{Strictly Social Cases (HRI Mandatory)}
 Those cases represents the most significant for this work. In this case the interaction is the principal objective and the robot itself could start the interaction. A representation of the human state is maintained.\\
 \textbf{Examples:} \textit{Project COACHES (\url{https://coaches.greyc.fr/}), Amelia the Assistant (\url{http://www.ipsoft.com/amelia/}), assistance task}.\\
-%TODO add the found examples on nurse/waitress robot
 
 
 \noindent I will now talk about the formalisms in literature for planning problems.\\ 
@@ -611,26 +609,8 @@ where particle filters and PCA are respectively used to represent the belief sta
 The discussion of good heuristics and search algorithms that try to exploit the structure of such problems is not the purpose of this thesis.
 We will focus instead on the representation of the state space, relying on state of the art planners present in literature.
 
-\section{Considerations}
-Once a problem is characterised, we must define the techniques necessary to solve it.\\
-Planning is "\textit{the task of coming up with a sequence of actions that will achieve a goal}" \cite{russell2005ai}.
-When talking about complex problems, classical search-based planning approaches cease to be useful as any algorithm easily get lost in the possible huge state space.
-In this cases, a language for representing the problem represent a better solution.
-The convenience of using a formal language is that it guides the planning algorithms through the search of the solution by exploiting the problem logical structure. 
-On other hand, we must deal with some contraindications:
-\begin{itemize}
-\item \textbf{Uncertainty.} How to represent the uncertainty present in the domain.
-\item \textbf{Goal existence.} Does a goal exist? Is it possible to compute it?
-\item \textbf{Expressivity vs Complexity.} Can we represent the problem? Is it possible to compute a solution?
-\end{itemize} 
-\noindent Try to address all these questions is beyond the scope of this thesis.\\
-Instead, I will focus on representation uncertainty and robust planning, that is produce plans that can be executed safely with limited or no needs for replanning.\\
-
-
-\chapter{Conditional Planning and Execution}\label{sec:approach}
-In this chapter I will explain the reasons behind this work.\\
-\newline
-\noindent As we have seen in the previous chapter, different planning formalisms try to capture different aspects of real-world problems. By the way they model and abstract the world, they also produce different solution concepts.\\
+\section{Conditional Planning and Execution}\label{sec:approach} %TODO revise
+\noindent As we have seen in the previous section, different planning formalisms try to capture different aspects of real-world problems. By the way they model and abstract the world, they also produce different solution concepts.\\
 Is not always obvious in advance which formalism is the best for a specific problem. Less expressive formalism are often preferred due to the fact that are less expensive in terms of computational power.\\
 For instance if we consider decidable logic formalisms, $ALCK_{NF}$ is one of the more expressive and yet the planning in general it's included in PSPACE, so too complex to run on a real robot in realtime.\\ 
 Classical Planning models only deterministic actions, and the planner is often embedded in a controlled execution loop that replan on unexpected outcomes. In fully-observable and non-deterministic planners, actions are assumed to be non-deterministic but there is no uncertainty about the perception. They produce strategies that are guaranteed to reach the goal. \\
@@ -645,7 +625,7 @@ The problem with this representation is that the belief space is computationally
 %A solution is to maintain only a small group of states that represents a compact description of the epistemic knowledge of the robot.\\
 If we denote as $Z$ the states that represents the epistemic knowledge and with $Y$ the generic states, we have that:
 \begin{center}
-$|Y|$ + $|2^Z| \ll |2^X|$ and $X = Y \cup Z$
+$|Y|$ + $|2^Z| \ll |2^X|$ and $X = Y \cup Z$ %<---
 \end{center}
 
 \noindent The next step is to identify a group of formalisms from the ones described in \ref{sec:formalism} that allow us to represent explicitly the epistemic state.\\
@@ -653,7 +633,7 @@ In our case, a language must supply the syntactic constructs to define sensing a
 We can identify a bunch of properties that helps make this choice, as we can see from the following table:
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4,trim=30mm 0mm 0mm 0mm]{images/formalisms.png}
+	\includegraphics[scale=0.5,trim=30mm 0mm 0mm 0mm]{images/formalisms.png}
 	\caption{a comparison betweem different formalisms/planner.}
 	\label{fig:formalisms}
 \end{figure}
@@ -669,6 +649,21 @@ Where the properties showed are:
 \noindent Once we have identified the languages that matches our prerequisites, we select them to represent and  solve a test domains. The last step is to translate the computed plan into a conditional plan as we will discuss later.\\
 \newline
 \noindent Summarizing, our aim is to define an architecture capable of translate different formalisms into a conditional plan that will represent a PNP, in order to satisfy some tasks requirements, while finding the best trade-off between complexity and expressivity. \\
+
+\section{Considerations}
+Once a problem is characterised, we must define the techniques necessary to solve it.\\
+Planning is "\textit{the task of coming up with a sequence of actions that will achieve a goal}" \cite{russell2005ai}.
+When talking about complex problems, classical search-based planning approaches cease to be useful as any algorithm easily get lost in the possible huge state space.
+In this cases, a language for representing the problem represent a better solution.
+The convenience of using a formal language is that it guides the planning algorithms through the search of the solution by exploiting the problem logical structure. 
+On other hand, we must deal with some contraindications:
+\begin{itemize}
+\item \textbf{Uncertainty.} How to represent the uncertainty present in the domain.
+\item \textbf{Goal existence.} Does a goal exist? Is it possible to compute it?
+\item \textbf{Expressivity vs Complexity.} Can we represent the problem? Is it possible to compute a solution?
+\end{itemize} 
+\noindent Try to address all these questions is beyond the scope of this thesis.\\
+Instead, I will focus on representation uncertainty and robust planning, that is produce plans that can be executed safely with limited or no needs for replanning.\\
 
 \chapter{Foundation Tools}\label{sec:foundation}
 In the following I will illustrate the tools used for the development of this thesis.
@@ -752,11 +747,11 @@ Petri Net Plans are defined in terms of actions and operators. There are three t
 \end{figure}
 \end{itemize}
 
-\noindent In the following page there is an example of a complete PNP, with an interrupt defined during the action \textit{followperson}:
+\noindent In the following, an example of a complete PNP with an interrupt defined during the action \textit{followperson}:
 \newline
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4,  trim=20mm 10mm 10mm 10mm]{images/go_and_follow_person.png} %angle=270,
+	\includegraphics[scale=0.45,  trim=60mm 10mm 10mm 10mm]{images/go_and_follow_person.png} %angle=270,
 \end{figure}
 
 \section{PNPgen}
@@ -872,13 +867,13 @@ that accepts only domains with temporal constraints and no uncertainty.
 Anyway, is it possible to replace the planner, the problem generation and the plan dispatch by simply providing your implementation of this modules.\\
 This was also our case since to integrate the work of this thesis with the ROSPlan architecture some modification, in collaboration with the authors, was necessary. We will talk more about later.
 
-\chapter{Conditional Plan to PNP Universal Translator}\label{sec:system}
+\chapter{Conditional Plan to PNP Translator}\label{sec:system}
 In this chapter I will present the system infrastructure.\\
 \newline
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.35, trim=50mm 0mm 0mm 30mm]{images/system_architecture_v2.png}
+	\includegraphics[scale=0.4, trim=60mm 0mm 0mm 30mm]{images/system_architecture_v2.png}
 	\caption{This is a sketch of the system architecture. We can see how the PNP generation happens, from method choice to the final PNP.}
 \end{figure} 
 
@@ -894,15 +889,17 @@ The architecture presents two layers, each of which will be described in the fol
 \noindent The generator is represented in details the following figure:
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.35]{images/generator.png}
+	\includegraphics[scale=0.5]{images/generator.png}
 	\caption{A detail of the system.}
 \end{figure}
 
 \noindent As we can see from the figure, the translation process is independent of the generation.\\
-In fact, the system translates transparently any source formalism in the conditional plan representation to successively feeds the PNP Generator that will generate the actual PNP.
-The PNP obtained is then robustified either manually or automatically (using the ER rules mechanism described in \ref{sec:ER}).
+In fact, the system translates transparently any sources in a conditional plan representation to successively feeds the PNP Generator that will generate the actual PNP.
+The PNP obtained is then robustified either manually or automatically (using the ER rules mechanism described in \ref{sec:ER}).\\
 
+\newpage
 \section{Conditional Plan Representation}\label{cp_representation}
+Any planner has its own representation for the output plan, even when they share the same input language. So we need a convenient representation that uniformly represents a plan.\\
 A conditional plan is a plan that includes also observations.
 This lead to plan with branches, where a branch represent an action outcome that depends on a property (the observation) that holds true (or not). \\
 These observations are used to handle uncertainty that arises from the lack of knowledge. The uncertainty is handled at execution time, rather than a planning time, where undesirable events are more likely to appear.\\
@@ -921,29 +918,46 @@ plan{
     <state_id>[label=<state_label>,action=<action>]
                  ...
     "<state_0>" -> "<state_1>"
-    "<state_1>" [A] -> "<state_2>" ; "<state_1>" [not A] -> "<state_N>"
-                     ...
+    "<state_1>" -> "<state_2>" [obs1]; 
+                 ...
+    "<state_n>" -> "<state_m>" [obsN];
 }
 \end{verbatim}\\
-Where are first listed the state with their id and description, and then all the transitions. Transitions could be either deterministic or conditional, where the conditions, enclosed between the square brackets, are boolean predicates evaluated at runtime.
+Where are first listed the state with their id and description, and then all the transitions. Transitions could be either deterministic or conditional, where the conditions, enclosed between the square brackets, are boolean predicates evaluated at runtime. These conditions are mutually independent.\\
+For example, consider the following case in which the plan describes the possible outcomes of a rolling dice:
+\begin{verbatim}
+plan{
+    0[label=0,action="roll_dice"]
+    1[label=1,action=""]
+    2[label=2,action=""]
+    3[label=3,action=""]
+    4[label=4,action=""]
+    5[label=5,action=""]
+    6[label=6,action=""]
+    "0" -> "1" [observe_1];
+    "0" -> "2" [observe_2];
+    "0" -> "3" [observe_3];
+    "0" -> "4" [observe_4];
+    "0" -> "5" [observe_5];
+    "0" -> "6" [observe_6];
+}
+\end{verbatim}\\
+\noindent As this certainly increase the robustness of the computed plans, at the same time the search space increase considerably. Consider For instance an state space of observable properties of dimension $N$. If we consider only boolean evaluations, the complete space increases as $O(2^N)$. So we must be very careful when dealing with this kind of representation. The discussion of search algorithms that can exploit, for instance, the structure of the problem are beyond the discussion of this thesis. Instead, I will talk about the translation of this kind of plans into an executable PNP.
 
-\noindent As this certainly increase the robustness of the computed plans, at the same time the search space increase tremendously. Consider For instance an state space of observable properties of dimension $N$. If we consider only boolean evaluations, the complete space increases as $O(2^N)$. So we must be very careful when dealing with this kind of representation. The discussion of search algorithms that can exploit, for instance, the structure of the problem are beyond the discussion of this thesis. Instead, I will talk about the translation of this kind of plans into an executable PNP.
-
-
+\newpage
 \section{Translator Modules}
 The translator module maintain an internal representation of the conditional plan described in \ref{cp_representation} and is responsible for calling PNPgen, that will generate the actual PNP.
 The subset of languages/planners chosen in this thesis are PDDL, KPDDL and ROSPlan PDDL.\\
 In the following section I will discuss, for each of the chosen formalism, how the translation works.  
 
-\subsection{PDDL Translator}
+\subsection{Sequential Translator}
 PDDL, as stated in \ref{pddl}, is the standard de facto for AI planning. \\
-PDDL vers. 2.1 doesn't have natively syntax constructs that allow conditioning on action effects and this lead to the born of different extension, like KPDDL.
-%In PDDL however, one can use the "\textbf{when}" in the action description effect to discriminate cases at %planning time. 
-Thus, PDDL planners usually generate total ordered plans.\\ 
-Also in this case, the chosen planner (Fast-Forward) provides us an ordered list of actions. It estimate an heuristic by relaxing the problem and apply to it a graphplan algorithm.
-This kind of solution are interpreted as linear plans. 
-The algorithm that realize the translation is listed below:
-%The author consider also others planning systems for conformant, contingent and probabilistic planning, but these are not considered in this work.
+PDDL (vers. 2.1) natively doesn't have syntax constructs that allow conditioning on action effects and this lead to the born of different extension, like KPDDL.
+the PDDL planners usually generate total ordered plans.\\
+This is also our case since the chosen planner (Fast-Forward) provides us with an ordered list of actions. 
+%It estimates a heuristic by relaxing the problem and apply to it a GRAPHPLAN algorithm.
+This kind of solution is interpreted as linear plans. 
+The algorithm that realises the translation is listed below:
 \newline 
 \scalebox{0.85}{
 \begin{algorithm}[H]
@@ -952,28 +966,30 @@ The algorithm that realize the translation is listed below:
 \SetKwInOut{Output}{Output}
 \SetKwProg{Fn}{Function}{}{}
 \Input{$\pi$: the plan}
-\Output{$\pi'$: the Linear Plan corresponding to $\pi$}
-\Fn{$PDDL\_transl(\pi, \,\, \pi_{cp})$ : $\pi_{cp}$}{
-$a$ = $act(\pi)$\;
+\Output{$\lambda$: the Linear Plan corresponding to $\pi$}
+\Fn{$seq\_transl(\pi)$ : $\lambda$}{
+$\sigma$ = $first(\pi)$\;
 $\pi'$ = $rest(\pi)$\;
 
-\eIf{$a = 0$}{
-	\Return $\pi_{cp}$\;
-}{ $\pi_{cp} = addSerialAction(a)$}
-\Return $PDDL\_transl(\pi', \pi_{cp})$\;
+\eIf{$\sigma = 0$}{
+	\Return $\{\}$\;
+}{ 
+	$\lambda = CondPlan\_addSerialAction(\sigma)$\;
+	\Return $\sigma + seq\_transl(\pi')$\;}
 }
 \end{algorithm}}\\
 
-\noindent Where $act()$ is a function that returns the next action in the plan, when present, while $rest()$ returns the plan without $a$.
-\noindent The algorithm reads actions from the FF output; $addSerialAction()$ creates a conditional plan state and links it to one created earlier. \\
-\newline
-\noindent We decide to incorporate PDDL in our framework for multiple reasons.\\ 
-First of all, we want to show the actual needs for conditional plans in the study cases.
-Second, PDDL is the most diffused planning language. Since one of the primary intents of this work is to provide a general tool for PNP generation, it is clear that we cannot ignore it.\\
-Many formalisms derive from PDDL, so this class could represent a starting point to implement other translators for different PDDL extensions. \\
-Furthermore, the generation of this kind of plans is very fast (linear in time in the number of actions) as the time complexity is linear in the number of the plan actions.
+\noindent Where $first()$ is a function that returns the next action in the plan (when present), $rest()$ returns the plan without $a$ and the $+$ is a concatenation operator.
+\noindent The algorithm reads actions from the FF output; $CondPlan\_addSerialAction()$ creates a conditional plan state and links it to one created earlier. \\
+%\newline
+%\noindent We decide to incorporate PDDL in our framework for multiple reasons.\\ 
+%First of all, we want to show the actual needs for conditional plans in the study cases.
+%Second, PDDL is the most diffused planning language. Since one of the primary intents of this work is to provide a general tool for PNP generation, it is clear that we cannot ignore it.\\
+%Many formalisms derive from PDDL, so this class could represent a starting point to implement other translators for different PDDL extensions. \\
+%Furthermore, the generation of this kind of plans is fast and the planner algorithm complete.
+
 \newpage
-\subsection{KPDDL Translator}
+\subsection{DAG Translator}
 Linear plans are good to model simple cases, but the real world is full of non-determinism and uncertainty.
 KPDDL introduces a special construct to the classical PDDL structure that could model sensing effects, and allows formalising sensing actions. This helps the agent to disambiguate between two epistemic states: the one in which the sensed property holds and the case in which not.\\
 \newline
@@ -984,22 +1000,24 @@ KPDDL introduces a special construct to the classical PDDL structure that could 
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
 \SetKwProg{Fn}{Function}{}{}
-\Input{$\pi$: the KPDDL description of the plan}
-\Output{$\pi_{cp}$: the Condition Plan corresponding to $\pi$}
-\Fn{$KPDDL\_transl(\pi, \,\, \pi_{cp})$ : $\pi_{cp}$}{	
-	\eIf{$\pi$ = $0$}{
-		\Return $\pi_{cp}$\;
+\Input{$\pi$: the plan}
+\Output{$\lambda$: the Condition Plan corresponding to $\pi$}
+\Fn{$DAG\_transl(\pi)$ : $\lambda$}{	
+	$\sigma$ = $first(\pi)$\;
+	$\pi'$ = $rest(\pi)$\;
+	\eIf{$\sigma$ = $0$}{
+		\Return $\{\}$\;
 	}{
-		$<\Phi,S>$ = $read\_state(\pi)$\;
-		\eIf{$\Phi$ = $0$}{
-		$\pi_{cp}$ = $addOutcome(0,\{s\})$\;	
-		$KPDDL\_transl(\{\pi - s\}, \,\, \pi_{cp})$\;
+		\eIf{$\sigma =a_i$}{
+			$\lambda$ = $CondPlan\_addSerialAction(a)$\;		
 		}{
-			\ForEach{$(s \in S) \And (\phi \in \Phi)$}{
-				$\pi_{cp}$ = $addOutcome(<\phi_1,\phi_2>,<s_1,s_2>)$\;	
-				$KPDDL\_transl(\{\pi$ - $<s_1,s_2>\}, \,\, \pi_{cp})$\;
-			}
+		\If{$\sigma = \phi ? a_1 ; a_2$}{
+			$\lambda_1$ = $DAG\_transl(a_1)$\;
+			$\lambda_2$ = $DAG\_transl(a_2)$\;
+			$\lambda$ = $CondPlan\_addSensing(\phi,\lambda_1,\lambda_2)$\;
 		}
+		}
+	\Return $DAG\_transl(\pi')$\;	
 	}
 
 }
@@ -1008,8 +1026,14 @@ KPDDL introduces a special construct to the classical PDDL structure that could 
 \noindent $read\_state()$ returns, for each state, the corresponding outcomes. If no observation is involved this will be a single successor state, otherwise he provides a couple of states and their truth value($true$,$false$). These are added to the conditional plan with the $addOutcome()$ function.\\
 The time complexity of the algorithm is clearly linear in the number of states, since every time we reduce the size of the original plan by subtracting one or two states.
 
-\newpage
-\subsection{ROSPlan Translator}\label{sec:digraph_transl}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5,angle=270,trim=5cm 0cm 0cm 5cm]{images/medical.png}
+	\caption{PNP generated from KPlanner output. The problem represents a medical diagnosis. Notice the plan structure that represents a direct graph.}
+	\label{fig:inline_example}
+\end{figure}
+
+\subsection{Tree Translator}\label{sec:digraph_transl}
 ROSPlan offers different representation for plans, as discussed in \ref{sec:rosplan}. \\
 Nonetheless it was necessary to use a different planner respect to the one provided, namely CLG\cite{clg}\footnote{\url{http://www.ai.upf.edu/software/clg-contingent-planner}}. 
 CLG stand for Closed-Loop Greedy planner. \\
@@ -1018,62 +1042,140 @@ The description of the problem P, which represent a non-deterministic search pro
 CLG Planner then accepts P and solves it using X(P) for keeping track of the beliefs and a strengthening relaxation X+(P) to choose which action to apply next.
 The relaxation is a classical planning problem that provides an informed heuristic
 estimator which embeds the sensing. \\
-The solution is semantically interpreted as a digraph (a directed graph), which is represented as:
-\begin{verbatim}
-    digraph plan_#N{
-        state1[ label= "sense_action" ];
-        state2[ label= "action_param1_param2" ];
-                     ...
-        "state1" -> "state2" [ label="obs" ];
-        "state1" -> "stateN" [ label="(not(obs))" ];
-                     ...
-    }
-\end{verbatim}
-Each state is presented with the corresponding actions, and actions with multiple outcomes have multiple entries along with the property to observe (enclosed between square brackets).
+The solution is semantically interpreted as a tree.
+%, which is represented as
+%\begin{verbatim}
+%    digraph plan_#N{
+%        state1[ label= "sense_action" ];
+%        state2[ label= "action_param1_param2" ];
+%                     ...
+%        "state1" -> "state2" [ label="obs" ];
+%        "state1" -> "stateN" [ label="(not(obs))" ];
+%                     ...
+%    }
+%\end{verbatim}
+%Each state is presented with the corresponding actions, and actions with multiple outcomes have multiple entries along with the property to observe (enclosed between square brackets).
 This plan is published on a ROS topic and processed by our node, as we will discuss later.\\
-The algorithm is similar to the ones of KPDDL and PDDL:\\
-\scalebox{0.8}{
+The algorithm is similar to the ones of KPDDL; the previous is, in fact, a particular case in which only two observations are involved. In the general case, multiple observation may occur. Not only, a branch could contain other branches, making the recursion definition of plans possible.\\
+%\scalebox{0.8}{
+%\begin{algorithm}[H]
+%\caption{ConditionalPlan translation from CLG output}
+%\SetKwInOut{Input}{Input}
+%\SetKwInOut{Output}{Output}
+%\SetKwProg{Fn}{Function}{}{}
+%\Input{$\pi$: the digraph description}
+%\Output{$\lambda$: the Condition Plan corresponding to $\pi$}
+%\Fn{$Digraph_transl(\pi, \,\, \pi_{cp})$ : $\pi_{cp}$}{
+%
+%
+%initialize $\pi_{cp}$\;
+%\ForEach{p in $v_p$}{
+%	state\_name = first of p\;
+%	state\_action = second of p\;
+%	i-th element of $\pi_{cp}$ = state\;
+%}
+%
+%\While{line $\neq$ eof}{
+%	source = $findSource(line)$\;
+%	destination = $findDestination(line)$\;
+%	\eIf{line contains observation}{
+%		observation  = $findObservation(line)$\;
+%	}{
+%		observation = ""\;
+%	}
+%	\eIf{observation $\neq$ ""}{
+%		addConditionalOutcome(observation,$findPosition(\pi_{cp},destination)$)\;
+%	}{
+%		addDeterministicOutcome($findPosition(\pi_{cp},destination)$)\;
+%	}
+%	
+%	$getLine(line)$\;
+%}
+%$\pi_{cp} \leftarrow addGoal()$\;
+%\Return $\pi_{cp}$\;
+%}
+%\end{algorithm}}\\
+%\newline
+\scalebox{1}{
 \begin{algorithm}[H]
-\caption{ConditionalPlan translation from CLG output}
+\label{inline_gen}
+\caption{Conditional Plan translation from Tree/Description file}
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
 \SetKwProg{Fn}{Function}{}{}
-\Input{$\pi$: the digraph description}
-\Output{$\pi_{cp}$: the Condition Plan corresponding to $\pi$}
-\Fn{$Digraph_transl(\pi, \,\, \pi_{cp})$ : $\pi_{cp}$}{
-
-
-initialize $\pi_{cp}$\;
-\ForEach{p in $v_p$}{
-	state\_name = first of p\;
-	state\_action = second of p\;
-	i-th element of $\pi_{cp}$ = state\;
-}
-
-\While{line $\neq$ eof}{
-	source = $findSource(line)$\;
-	destination = $findDestination(line)$\;
-	\eIf{line contains observation}{
-		observation  = $findObservation(line)$\;
-	}{
-		observation = ""\;
+\Input{$\pi$: the plan}
+\Output{$\lambda$: the PNP corresponding to $\pi$}
+\Fn{$tree\_transl(\pi)$ : $\lambda$}{
+	$\sigma$ = $first(\pi)$\;
+	$\pi'$ = $rest(\pi)$\;
+	\eIf{$\pi = 0$}{
+		\Return $\{\}$\;
 	}
-	\eIf{observation $\neq$ ""}{
-		addConditionalOutcome(observation,$findPosition(\pi_{cp},destination)$)\;
-	}{
-		addDeterministicOutcome($findPosition(\pi_{cp},destination)$)\;
+	{
+		\eIf{$\sigma$ = $a_i$}{
+			$\lambda$ = $CondPlan\_addSerialAction(a_i)$\;
+		}
+		{
+			\If{$\sigma = \phi_1 ? \lambda_1 : ... : \phi_n ? \lambda_n$}{
+				$\Phi$ = $CondPlan\_splitBranch(\sigma)$\;
+				\ForEach{$\phi$ in $\Phi$}{
+					$\lambda_{1..n}$ = $tree\_transl(\phi)$\;
+				}
+				$\lambda$ = $CondPlan\_merge(\lambda_{1..n})$\;	
+			}
+		}
 	}
-	
-	$getLine(line)$\;
-}
-$\pi_{cp} \leftarrow addGoal()$\;
-\Return $\pi_{cp}$\;
+	\Return $\lambda$ + $tree\_transl(\pi')$\;
 }
 \end{algorithm}}\\
 \newline
-\noindent Notice that the planner doesn't specify a goal state, so we add a goal after each leaf for safety of execution.
-The solution and the correspondent translation are computed almost instantaneously, thanks to CLG heuristic, making it possible to run the complete algorithm on-line on a ROS node. 
+%\noindent Notice that the planner doesn't specify a goal state, so we add a goal after each leaf for safety of execution.
+%Due to the completeness of the planner algorithm, is it possible to use this approach on-line on a ROS node. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.41,trim=5cm 0cm 0cm 5cm]{images/unix.png}
+	\caption{PNP generated from CLG output. The problem represents a file search in a Unix system. Notice the plan structure that represents a tree.}
+	\label{fig:inline_example}
+\end{figure}
 
+\subsubsection{DIY Conditional Plan}
+Writing domains and waiting for a planner to compute a solution is a long process and is not always needed.
+For instance, think about the case in which we want simply to test the integration of a new perception module with the rest of the robotic architecture.
+So, as an additional feature, we provide the possibility to directly write the conditional plan in a formal language.\\
+A plan of this kind can be written in a txt file and has the following form:\\
+\begin{center}
+ $ P = t_1; t_2; ... ; t_n$\\ 
+\end{center}
+\noindent and:
+\begin{center} 
+$t_n = a \,\, | <c \,\, ? \,\, t_1; ... ; t_{k-1} : (not \,\, c) \,\, ? \,\, t_k; ...; t_n >$\\
+\end{center}
+$t_n$ are terms that represents atomic actions (\textbf{a}) or conditional branches, where (\textbf{c}) are the conditions. \\
+\textbf{c} could represents a boolean sensing, like in the definition above, or an action sensing with multiple outcomes:
+\begin{center}
+$<c_1 \,\, ? \,\, a_1 \,\, : c_2 \,\, ? \,\, a_2 \,\, : ... c_n \,\, ? \,\, a_n>$
+\end{center}
+As example, consider the following plan definition:
+\begin{verbatim}
+a1; a2; 
+    < 
+      c1 ? b1; b2; b3 : 
+      (not c1) ? c1; c2; < h1 ? a : h2 ? b : h3 ? c >; 
+    c4 >; 
+a3; a4
+\end{verbatim}
+This represent a plan with two conditional branches at the beginning and an additional branching in one of the two branch.	
+The corresponding conditional plan is represented in fig. \ref{fig:inline_example} while
+the algorithm is \ref{inline_gen}.
+\newpage
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6,angle=270,trim=5cm 0cm 0cm 0mm]{images/inline_ex3.png}
+	\caption{PNP generated from a file specification.}
+	\label{fig:inline_example}
+\end{figure}
+
+\newpage
 \section{Generator Modules}\label{sec:generator}
 \subsection{PNPgen: A Conditional Planning Extension}
 Summarizing, the languages formalism induce the following solutions:
@@ -1083,45 +1185,43 @@ Summarizing, the languages formalism induce the following solutions:
 \item \textbf{KPDDL (KPlanner)}: produce a direct graph.
 \end{itemize}
 In order to achieve our results, it was necessary to extend PNPgen module to consider also conditional plans.\\
-In particular, we realize a search on the graph represented by the conditional plan. The generation of the actual PNP, once we have the conditional plan, is common for every formalisms.\\
+In particular, we realize a search on the structure represented by the conditional plan. The generation of the actual PNP, once we have the conditional plan, is common for every formalisms.\\
 This is an important result as makes the PNP generation transparent to the framework user and
 independent from the chosen language.
 
 \noindent In the next section I will discuss the algorithm that is responsible for PNPs generation.
 \subsection{the Generation Algorithm}
-The algorithm responsible for the generation of the PNP performs a graph expansion using the conditional plan representation kept by the correspondent translator class.\\
-The simplest case is the one of the standard PDDL domain, in which the algorithm recursively expands the serial sequence of states. In fact, for each, there is only one successor and no observation. \\
+The algorithm responsible for the generation of the PNP performs a graph expansion using the conditional plan representation kept by the correspondent translator class.
+%The simplest case is the one of the standard PDDL domain, in which the algorithm recursively expands the serial sequence of states. In fact, for each, there is only one successor and no observation. \\
+%
+%\scalebox{0.9}{
+%\begin{algorithm}[H]
+%\SetKwInOut{Input}{Input}
+%\SetKwInOut{Output}{Output}
+%\SetKwProg{Fn}{Function}{}{}
+%\Input{$\pi$: the plan}
+%\Output{$\pi'$: PNP generated from the plan}
+%\Fn{$genLinear(\pi,\pi')$ : $\pi'$}{
+%\eIf{$\pi$ = $0$}{
+%	\Return $\pi'$\;
+%	}
+%	{
+%		$a$ = $read\_action(\pi)$\;
+%		$\pi' = PNP\_addAction(a)$\;
+%		$genLinear(\{\pi$ - $a\},\pi')$\;
+%	}
+%}
+%\caption{Generate Serial Plans Algorithm}
+%\end{algorithm}}\\
 
-\scalebox{0.9}{
-\begin{algorithm}[H]
-\SetKwInOut{Input}{Input}
-\SetKwInOut{Output}{Output}
-\SetKwProg{Fn}{Function}{}{}
-\Input{$\pi$: the plan}
-\Output{$\pi'$: PNP generated from the plan}
-\Fn{$genLinear(\pi,\pi')$ : $\pi'$}{
-\eIf{$\pi$ = $0$}{
-	\Return $\pi'$\;
-	}
-	{
-		$a$ = $read\_action(\pi)$\;
-		$\pi' = PNP\_addAction(a)$\;
-		$genLinear(\{\pi$ - $a\},\pi')$\;
-	}
-}
-\caption{Generate Serial Plans Algorithm}
-\end{algorithm}}\\
-
-\noindent More interesting is the case of the plans with observations, as showed in algorithm \ref{cond_gen}.\\
-In order to be sure that every node is visited only once, and thus to avoid dangerous loops in the generation procedure, we maintain a stack of the visited nodes.
+%\noindent More interesting is the case of the plans with observations, as showed in algorithm \ref{cond_gen}.\\
+\noindent In order to be sure that every node is visited only once, and thus to avoid dangerous loops in the generation procedure, we maintain a stack of the visited nodes.
 Each time, we take the top of this stack, check if it is a final state or has outgoing edges, and expand it.
-If it hasn't outcomes, we add a final state and continue with the search. Otherwise, for each edge, we check if the corresponding destination is already in the visited map. If this is the case, we connect it with the current state and close the loop. Otherwise we expand it and create a new branch. \\
-
-\noindent In the next chapter I will show some examples and results to demonstrate the approach. \\
-In particular, I will characterize the input/output of each problem and provide a sketch for a possible optimal solution.
+If it hasn't outcomes, we add a final state and continue with the search. Otherwise, for each edge, we check if the corresponding destination is already visited. If this is the case, we connect it with the current state and close the loop. Otherwise we expand it and create a new branch. 
+The algorithm is showed in \ref{cond_gen}.
 
 %\newpage
-\scalebox{0.8}{
+\scalebox{1}{
 \begin{algorithm}[H]
 \label{cond_gen}
 \SetKwInOut{Input}{Input}
@@ -1160,74 +1260,8 @@ In particular, I will characterize the input/output of each problem and provide 
 \caption{PNPgen from Conditional Plan}
 \end{algorithm}}\\
 
-\subsection{DIY Conditional Plan}
-Writing domains and waiting for a planner to compute a solution is a long process and is not always needed.
-For instance, think about the case in which we want simply to test the integration of a new perception module with the rest of the robotic architecture.
-So, as an additional feature, we provide the possibility to directly write the conditional plan in a formal language.\\
-A plan of this kind can be written in a txt file and has the following form:\\
-\begin{center}
- $ P = t_1; t_2; ... ; t_n$\\ 
-\end{center}
-\noindent and:
-\begin{center} 
-$t_n = a \,\, | <c \,\, ? \,\, t_1; ... ; t_{k-1} : (not \,\, c) \,\, ? \,\, t_k; ...; t_n >$\\
-\end{center}
-$t_n$ are terms that represents atomic actions (\textbf{a}) or conditional branches, where (\textbf{c}) are the conditions. \\
-\textbf{c} could represents a boolean sensing, like in the definition above, or an action sensing with multiple outcomes:
-\begin{center}
-$<c_1 \,\, ? \,\, a_1 \,\, : c_2 \,\, ? \,\, a_2 \,\, : ... c_n \,\, ? \,\, a_n>$
-\end{center}
-As example, consider the following plan definition:
-\begin{verbatim}
-a1; a2; 
-    < 
-      c1 ? b1; b2; b3 : 
-      (not c1) ? c1; c2; < h1 ? a : h2 ? b : h3 ? c >; 
-    c4 >; 
-a3; a4
-\end{verbatim}
-This represent a plan with two conditional branches at the beginning and an additional branching in one of the two branch.	
-The corresponding conditional plan is represented in fig. \ref{fig:inline_example} while
-the algorithm is showed in \ref{inline_gen}.
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.45,trim=5cm 0cm 0cm 0mm]{images/inline_ex3.png}
-	\caption{PNPgen generates the PNP from a file specification.}
-	\label{fig:inline_example}
-\end{figure}
-
-\scalebox{0.85}{
-\begin{algorithm}[H]
-\label{inline_gen}
-\caption{Conditional Plan Generation from description file}
-\SetKwInOut{Input}{Input}
-\SetKwInOut{Output}{Output}
-\SetKwProg{Fn}{Function}{}{}
-\Input{$\pi$: the plan}
-\Output{$\pi'$: the PNP corresponding to $\pi$}
-\Fn{$InLine\_gen(\pi)$ : $\pi'$}{
-
-	\eIf{$\pi = 0$}{
-		\Return $\pi'$\;
-	}
-	{
-		$\sigma$ = $getNext(\pi)$\;
-		\eIf{$\sigma$ = $a_i$}{
-			$\pi'$ = $PNP\_Action(a_i)$\;
-		}
-		{
-			\If{$\sigma = \phi ? \pi_1 : \pi_2$}{
-				$\Omega$ = $split\_branch(\sigma)$\;
-				\ForEach{$\omega$ in $\Omega$}{
-					$<\phi,\pi_n>$ = $InLine\_gen(\omega)$\;
-					$\pi'$ = $PNP\_Sensing(\phi,\pi_n)$\;
-				}	
-			}
-		}
-	}
-	\Return $InLine\_gen(\pi')$\;
-}
-\end{algorithm}}\\
+\noindent In the next chapter I will show some examples and results to demonstrate the approach. \\
+In particular, I will characterize the input/output of each problem and provide a sketch for a possible optimal solution.
 
 \chapter{Use Cases}\label{sec:use_cases}
 In this section I will characterize some examples, describing the whole process from the problem definition to the plan generation.\\ In order to do so I will start from the motivating example introduced in section \ref{sec:motivating}.
@@ -1237,7 +1271,6 @@ In this section I will characterize some examples, describing the whole process 
 \noindent PDDL was meant to express the "physics" of a domain, and could not represent the epistemic state of an agent.\\
 The plan is generated and then executed with "eyes closed". The advantage of this kind of approach is that is very fast, but it could easily fail due to mismatch between the planned plan and the real world.
 
-\newpage
 \subsection{Example 1: deterministic COACHES}
 I will present a solution in PDDL (ver. 2.1) to the example presented in \ref{sec:motivating}.
 %PDDL is the standard "de facto" for the specification of planning problems. 
@@ -1734,7 +1767,7 @@ The following picture depict the connection between our node (\textit{pnp\_rospl
 \newpage
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{images/rosplan_coaches1.png}
+	\includegraphics[scale=0.5,trim=6cm 0cm 0cm 0cm]{images/rosplan_coaches1.png}
 	\caption{a portion of the PNP generated from the ROSPlan Digraph. Notice that we had to move some places/transitions for a better visualization.}
 \end{figure}
 
@@ -1775,9 +1808,7 @@ As before, we must specify the possible outcomes in the initial state:
 
 %PNP stats: 'Actions: 70 Places: 212 Transitions: 211 Edges: 422
 \noindent We do not show the complete PNP since it is too big to fit in a page. Consider that for this case there are 211 places and 422 edges. As we can see from the image \ref{fig:rosplan_ex2}, the generated PNP is complete in the sense that it discern between all different cases (\textit{food}, \textit{clothes}, \textit{obj} etc.) and the generation happens almost instantaneously. 
-%However... %TODO parlare della rappresentazione ottenuta (albero - esempio porte)
-
-This example concludes our analysis.
+\noindent This example concludes our analysis.
 
 
 \begin{figure}[H]
