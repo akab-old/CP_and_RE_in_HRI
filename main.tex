@@ -927,7 +927,7 @@ plan{
 \end{verbatim}\\
 Where are first listed the state with their id and description, and then all the transitions. Transitions could be either deterministic or conditional, where the conditions, enclosed between the square brackets, are boolean predicates evaluated at runtime.
 
-\noindent As this certainly increase the robustness of the computed plans, at the same time the search space increase tremendously. Consider For instance an state space of observable properties of dimension $N$. If we consider only boolean evaluations, the complete space increases as $O(2^N)$. So we must be very careful when dealing with this kind of representation. The discussion of intelligent search algorithms that can exploit, for instance, the structure of the problem are beyond the discussion of this thesis. Instead, I will talk about the translation of this kind of plans into an executable PNP.
+\noindent As this certainly increase the robustness of the computed plans, at the same time the search space increase tremendously. Consider For instance an state space of observable properties of dimension $N$. If we consider only boolean evaluations, the complete space increases as $O(2^N)$. So we must be very careful when dealing with this kind of representation. The discussion of search algorithms that can exploit, for instance, the structure of the problem are beyond the discussion of this thesis. Instead, I will talk about the translation of this kind of plans into an executable PNP.
 
 
 \section{Translator Modules}
@@ -1239,7 +1239,7 @@ The plan is generated and then executed with "eyes closed". The advantage of thi
 
 \newpage
 \subsection{Example 1: deterministic COACHES}
-I will present a solution in PDDL (ver. 1.2) to the example presented in \ref{sec:motivating}.
+I will present a solution in PDDL (ver. 2.1) to the example presented in \ref{sec:motivating}.
 %PDDL is the standard "de facto" for the specification of planning problems. 
 We must then characterise objects, predicates, actions, initial and final states.\\
 I used FF\cite{hoffmann2001ff}\footnote{\url{https://fai.cs.uni-saarland.de/hoffmann/ff.html}}(ver. 2.3)  planner to check the satisfiability of the problem and to solve it.
@@ -1628,7 +1628,7 @@ It is clear that if we double the epistemic states, the planner runs indefinitel
 
 \section{Closed-Loop Greedy Planner (PDDL)}
 \noindent ROSPlan represents the most prominent solution for an on-line approach.
-The used planner, CLG, has a very intelligent heuristic that can present almost instantaneously a solution, when present, or communicate that this not exist. 
+The used planner, CLG, has a very effective heuristic that can present almost instantaneously a solution, when present, or communicate that this not exist. 
 The ROSPlan framework is perfectly integrated into ROS and, due to its modularity, it can be extended to consider other formalisms (like we have done for this work).\\
 
 \noindent The infrastructure provides a safe way to handle planning failures, since even when a solution is not found in the first place, it can replan a certain number of times based on a tunable parameter.\\
@@ -1775,7 +1775,7 @@ As before, we must specify the possible outcomes in the initial state:
 
 %PNP stats: 'Actions: 70 Places: 212 Transitions: 211 Edges: 422
 \noindent We do not show the complete PNP since it is too big to fit in a page. Consider that for this case there are 211 places and 422 edges. As we can see from the image \ref{fig:rosplan_ex2}, the generated PNP is complete in the sense that it discern between all different cases (\textit{food}, \textit{clothes}, \textit{obj} etc.) and the generation happens almost instantaneously. 
-However... %TODO parlare della rappresentazione ottenuta (albero - esempio porte)
+%However... %TODO parlare della rappresentazione ottenuta (albero - esempio porte)
 
 This example concludes our analysis.
 
@@ -1788,8 +1788,11 @@ This example concludes our analysis.
 \end{figure}
 
 \section{Discussion}
-As we have seen in the precedents example, we have found a first set of satisfying formalisms to describe and represents conditional plans.
-In fact
+As we have seen in the examples, we have found a possible set of satisfying formalisms to describe and represents conditional plans.
+I will now revise the cons and pros of all approaches. Planning in PDDL using FF reveals to be very fast.
+FF uses a relaxed GRAPHPLAN algorithms with an informed search based on goal distance. The derived search algorithm is called enforced hill-climbing. Beside from the fact that this version of the language lack of the expressivity necessary to describe epistemic states, this kind of approach rely on the fact that many problems have a similar structure. Namely, they present a search space. Nonetheless, the algorithm is complete.
+KPDDL has the syntactic power that matches our prerequisites. It was easy to describe our reference domain. However, the provided planner (KPlanner) is not complete.
+The CLG approach reveals to be the most promising since it unites the advantage of the PDDL approach with the expressivity of KPDDL. Its reliability resides in the fact that was build upon FF, so it shares with it all his benefits. The only compromise is that we must express the range of values and observed property could take. A small price to pay, considered that is hypothesis is suitable in most cases and that its algorithm is complete.
 
 \chapter{Conclusion}\label{sec:conclusion}
 One of the fundamental aspects of moving robots from laboratories to everyday environments is that the interaction with unaware persons should be the most natural and smooth as possible.\\
@@ -1812,12 +1815,11 @@ It is clear that if we want to expand our work considering more formalisms, a to
 \end{figure}
 
 \noindent Talking about formalisms to be added, we should certainly consider other PDDL extensions. In fact, given the current infrastructure, the procedure to add a new translator module is simple as expand the PDDL Translator class and implement the corresponding functions.\\
-In this work we do not take advantage of the execution rule mechanism described in \ref{sec:ER}. These  rules are easy to define and could further enhance the robustness of our approach. Even better, one could consider implementing a module that generates automatically, from a common sense knowledge base like \cite{liu2004conceptnet}, the execution rules needed. \\
-Another possible expansion could be to consider also high order logics in the conditions, instead of only boolean evaluations. This could help us to express more complex conditions, like ones with quantified variables or express temporal constraints. 
-As a long term development, one could think to expand the architecture with a tool that merges or concatenate the plans obtained from different formalisms. This would allow taking advantage of the benefits of each approach while overcoming the computation problems that was discussed in \ref{sec:analysis}. 
-Some possible approaches use a heuristic search technique to solve inconsistency between different plans or define a language that describes the relation between different formalisms.\\
+Another aspect to take into account regards the execution rules described in \ref{sec:ER}. These rules are easy to define and enhance the robustness of our approach. One could consider implementing a module that generates automatically, from a common sense knowledge base like \cite{liu2004conceptnet}, the execution rules needed. \\
+Another possible expansion could be to consider also high order logics in the conditions, instead of boolean evaluations. This could help us to express more complex conditions, like ones with quantified variables or express temporal constraints. 
+A long-term development could be to expand the architecture with a tool that merges or concatenates the plans obtained from different formalisms. This would allow taking advantage of the benefits of each approach while overcoming the computation problems that was discussed in \ref{sec:analysis}. 
+A possible approach could be to use a heuristic search technique to solve inconsistency between different plans or define a language that describes the relation between different formalisms.\\
 Examples of similar approaches are discussed in \cite{tsamardinos2000merging} and \cite{yang1992merging}.
-%TODO Parlare di Robustify 
 
 %A robot must be capable of discerning cases in which an interaction is desirable and cases in which is not. Like in the simple case of a "welcome robot", it is important that the robot says "hi" when a person shows in front of him but it must also take into account the fact that a person could appear in front of him multiple times. 
 %Another important but maybe trickier case is to equip the robot with the capability of understanding the mood of the person and than react consequently. Although this could be seen as a fictional case, since is impossible at the moment even for the most complex cognitive robot to understand emotions, there are some simple cases that could be treated. The goal, in this case, is not to reproduce a perfect model of the human mind state and how it could react to some sorts of events, but rather discover some patterns that could lead to undesirable outcomes. For instance, a person could be busy with its work and the interference of the robot, when is not helpful in the context of the human task, could be perceived as noise. Thus is important to maintain a representation of the person daily routines and enrich this when is possible with the information that comes from the social interactions that occurs from time to time between the two. If we are interested in developing robots strictly social, we cannot leave aside the emotional aspect of the interaction. 
