@@ -1,55 +1,61 @@
 \select@language {english}
-\contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}
-\contentsline {section}{\numberline {1.1}Motivating Example: COACHES}{4}{section.1.1}
-\contentsline {chapter}{\numberline {2}Related Works}{10}{chapter.2}
-\contentsline {section}{\numberline {2.1}Social Robotics}{10}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}Human Robot Interaction (HRI)}{11}{subsection.2.1.1}
-\contentsline {section}{\numberline {2.2}Some Examples}{12}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}Industrial Cases (No HRI)}{12}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Almost Social Cases (HRI Not Mandatory)}{12}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Strictly Social Cases (HRI Mandatory)}{12}{subsection.2.2.3}
-\contentsline {section}{\numberline {2.3}Planning}{13}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}STRIPS (Classical Planning)}{13}{subsection.2.3.1}
-\contentsline {subsection}{\numberline {2.3.2}PDDL}{14}{subsection.2.3.2}
-\contentsline {subsection}{\numberline {2.3.3}$ALCK_{NF}$}{16}{subsection.2.3.3}
-\contentsline {subsection}{\numberline {2.3.4}KPDDL}{17}{subsection.2.3.4}
-\contentsline {subsection}{\numberline {2.3.5}Answer Set Programming (ASP)}{18}{subsection.2.3.5}
-\contentsline {subsection}{\numberline {2.3.6}Situation Calculus}{20}{subsection.2.3.6}
-\contentsline {subsection}{\numberline {2.3.7}Markov Decision Process (MDP)}{22}{subsection.2.3.7}
-\contentsline {subsection}{\numberline {2.3.8}Partially Observable MDP (POMDP)}{24}{subsection.2.3.8}
-\contentsline {section}{\numberline {2.4}Analysis of Formalisms}{25}{section.2.4}
-\contentsline {section}{\numberline {2.5}Conditional Planning and Execution}{26}{section.2.5}
-\contentsline {section}{\numberline {2.6}Considerations}{29}{section.2.6}
-\contentsline {chapter}{\numberline {3}Foundation Tools}{30}{chapter.3}
-\contentsline {section}{\numberline {3.1}Petri Net Plan}{30}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}Formal Definition}{30}{subsection.3.1.1}
-\contentsline {section}{\numberline {3.2}PNPgen}{35}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Linear Plans}{35}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Policy}{36}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Execution Rules}{36}{subsection.3.2.3}
-\contentsline {section}{\numberline {3.3}Robot Operating System (ROS)}{38}{section.3.3}
-\contentsline {section}{\numberline {3.4}PNPros}{39}{section.3.4}
-\contentsline {section}{\numberline {3.5}ROSPlan}{40}{section.3.5}
-\contentsline {chapter}{\numberline {4}Conditional Plan to PNP Translator}{42}{chapter.4}
-\contentsline {section}{\numberline {4.1}Conditional Plan Representation}{44}{section.4.1}
-\contentsline {section}{\numberline {4.2}Translator Modules}{46}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}Sequential Translator}{46}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}DAG Translator}{47}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}Tree Translator}{49}{subsection.4.2.3}
-\contentsline {subsubsection}{DIY Conditional Plan}{52}{section*.24}
-\contentsline {section}{\numberline {4.3}Generator Modules}{54}{section.4.3}
-\contentsline {subsection}{\numberline {4.3.1}PNPgen: A Conditional Planning Extension}{54}{subsection.4.3.1}
-\contentsline {subsection}{\numberline {4.3.2}the Generation Algorithm}{54}{subsection.4.3.2}
-\contentsline {chapter}{\numberline {5}Use Cases}{56}{chapter.5}
-\contentsline {section}{\numberline {5.1}Fast-Forward (PDDL)}{56}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}Example 1: deterministic COACHES}{56}{subsection.5.1.1}
-\contentsline {subsection}{\numberline {5.1.2}Example 2: Gripper Problem}{63}{subsection.5.1.2}
-\contentsline {section}{\numberline {5.2}KPlanner (KPDDL)}{64}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Example 1: COACHES v.1}{64}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}Example 2: COACHES v.2}{69}{subsection.5.2.2}
-\contentsline {section}{\numberline {5.3}Closed-Loop Greedy Planner (PDDL)}{72}{section.5.3}
-\contentsline {subsection}{\numberline {5.3.1}Example 1: COACHES v.3}{72}{subsection.5.3.1}
-\contentsline {subsection}{\numberline {5.3.2}Example 2: COACHES v.4}{76}{subsection.5.3.2}
-\contentsline {section}{\numberline {5.4}Discussion}{79}{section.5.4}
-\contentsline {chapter}{\numberline {6}Conclusion}{80}{chapter.6}
-\contentsline {section}{\numberline {6.1}Future Development}{81}{section.6.1}
+\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}
+\contentsline {section}{\numberline {1.1}Motivating Example: COACHES}{5}{section.1.1}
+\contentsline {chapter}{\numberline {2}Related Works}{11}{chapter.2}
+\contentsline {section}{\numberline {2.1}Social Robotics}{11}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Human Robot Interaction (HRI)}{12}{subsection.2.1.1}
+\contentsline {section}{\numberline {2.2}Some Examples}{13}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Industrial Cases (No HRI)}{13}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Almost Social Cases (HRI Not Mandatory)}{13}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}Strictly Social Cases (HRI Mandatory)}{13}{subsection.2.2.3}
+\contentsline {section}{\numberline {2.3}Planning}{14}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}STRIPS (Classical Planning)}{14}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}PDDL}{15}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.3}$ALCK_{NF}$}{17}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {2.3.4}KPDDL}{18}{subsection.2.3.4}
+\contentsline {subsection}{\numberline {2.3.5}Answer Set Programming (ASP)}{19}{subsection.2.3.5}
+\contentsline {subsection}{\numberline {2.3.6}Situation Calculus}{21}{subsection.2.3.6}
+\contentsline {subsection}{\numberline {2.3.7}Markov Decision Process (MDP)}{23}{subsection.2.3.7}
+\contentsline {subsection}{\numberline {2.3.8}Partially Observable MDP (POMDP)}{25}{subsection.2.3.8}
+\contentsline {section}{\numberline {2.4}Analysis of Formalisms}{26}{section.2.4}
+\contentsline {section}{\numberline {2.5}Conditional Planning and Execution}{27}{section.2.5}
+\contentsline {section}{\numberline {2.6}Considerations}{30}{section.2.6}
+\contentsline {chapter}{\numberline {3}Foundation Tools}{31}{chapter.3}
+\contentsline {section}{\numberline {3.1}Petri Net Plan}{31}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Formal Definition}{31}{subsection.3.1.1}
+\contentsline {section}{\numberline {3.2}PNPgen}{36}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Linear Plans}{36}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Policy}{37}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Execution Rules}{37}{subsection.3.2.3}
+\contentsline {section}{\numberline {3.3}Robot Operating System (ROS)}{39}{section.3.3}
+\contentsline {section}{\numberline {3.4}PNPros}{40}{section.3.4}
+\contentsline {section}{\numberline {3.5}ROSPlan}{41}{section.3.5}
+\contentsline {chapter}{\numberline {4}Conditional Plan to PNP Translator}{43}{chapter.4}
+\contentsline {section}{\numberline {4.1}Conditional Plan Representation}{45}{section.4.1}
+\contentsline {section}{\numberline {4.2}Translator Modules}{47}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Sequential Translator}{47}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}DAG Translator}{48}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Tree Translator}{50}{subsection.4.2.3}
+\contentsline {subsubsection}{DIY Conditional Plan}{51}{section*.22}
+\contentsline {section}{\numberline {4.3}Generator Modules}{52}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}PNPgen: A Conditional Planning Extension}{52}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}the Generation Algorithm}{53}{subsection.4.3.2}
+\contentsline {section}{\numberline {4.4}Algorithms Analysis}{55}{section.4.4}
+\contentsline {section}{\numberline {4.5}Plan Examples}{55}{section.4.5}
+\contentsline {subsection}{\numberline {4.5.1}Example 1: Sequential Plan}{55}{subsection.4.5.1}
+\contentsline {subsection}{\numberline {4.5.2}Example 2: DAG Plan}{56}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.3}Example 3: Tree Plan}{58}{subsection.4.5.3}
+\contentsline {subsection}{\numberline {4.5.4}Example 4: DIY Plan}{60}{subsection.4.5.4}
+\contentsline {chapter}{\numberline {5}Use Cases}{61}{chapter.5}
+\contentsline {section}{\numberline {5.1}Fast-Forward (PDDL)}{61}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Example 1: deterministic COACHES}{61}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Example 2: Gripper Problem}{68}{subsection.5.1.2}
+\contentsline {section}{\numberline {5.2}KPlanner (KPDDL)}{69}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Example 1: COACHES v.1}{69}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Example 2: COACHES v.2}{74}{subsection.5.2.2}
+\contentsline {section}{\numberline {5.3}Closed-Loop Greedy Planner (PDDL)}{77}{section.5.3}
+\contentsline {subsection}{\numberline {5.3.1}Example 1: COACHES v.3}{77}{subsection.5.3.1}
+\contentsline {subsection}{\numberline {5.3.2}Example 2: COACHES v.4}{81}{subsection.5.3.2}
+\contentsline {section}{\numberline {5.4}Discussion}{84}{section.5.4}
+\contentsline {chapter}{\numberline {6}Conclusion}{85}{chapter.6}
+\contentsline {section}{\numberline {6.1}Future Development}{86}{section.6.1}
