@@ -39,6 +39,14 @@
 \onehalfspacing
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
+\newcommand{\todo}[1]{
+\noindent
+%\fbox
+\colorbox{yellow}{\parbox{\columnwidth}{
+{\bf TODO:} #1
+}} \vspace{1em}
+}
+
 \makeindex
 
 \begin{document}
@@ -613,7 +621,7 @@ We will focus instead on the representation of the state space, relying on state
 \noindent As we have seen in the previous section, different planning formalisms try to capture different aspects of real-world problems. By the way they model and abstract the world, they also produce different solution concepts.\\
 Is not always obvious in advance which formalism is the best for a specific problem. Less expressive formalism are often preferred due to the fact that are less expensive in terms of computational power.\\
 For instance if we consider decidable logic formalisms, $ALCK_{NF}$ is one of the more expressive and yet the planning in general it's included in PSPACE, so too complex to run on a real robot in realtime.\\ 
-Classical Planning models only deterministic actions, and the planner is often embedded in a controlled execution loop that replan on unexpected outcomes. In fully-observable and non-deterministic planners, actions are assumed to be non-deterministic but there is no uncertainty about the perception. They produce strategies that are guaranteed to reach the goal. \\
+Classical Planning models only deterministic actions, and the planner is often embedded in a controlled execution loop that re-plan on unexpected outcomes. In fully-observable and non-deterministic planners, actions are assumed to be non-deterministic but there is no uncertainty about the perception. They produce strategies that are guaranteed to reach the goal. \\
 If we expand the domain and consider also probabilistic planners, they introduce also outcome probabilities. Their aim is to maximise a cumulative reward. They are also the most expensive and often intractable at representation and/or execution level. \\
 Rule-bases are not manageable when they become larger. This rules are created by experts that express their knowledge through the rules and it is difficult to find all the inconsistencies and the side-effects when new rules are inserted.\\
 
@@ -628,12 +636,12 @@ If we denote as $Z$ the states that represents the epistemic knowledge and with 
 $|Y|$ + $|2^Z| \ll |2^X|$ and $X = Y \cup Z$ %<---
 \end{center}
 
-\noindent The next step is to identify a group of formalisms from the ones described in \ref{sec:formalism} that allow us to represent explicitly the epistemic state.\\
+\noindent The next step is to identify a group of formalisms from the ones described in \ref{sec:plan_repr} that allow us to represent explicitly the epistemic state.\\
 In our case, a language must supply the syntactic constructs to define sensing actions with which we can represent conditional plans.
 We can identify a bunch of properties that helps make this choice, as we can see from the following table:
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5,trim=30mm 0mm 0mm 0mm]{images/formalisms.png}
+	\includegraphics[scale=0.45,trim=30mm 0mm 0mm 0mm]{images/formalisms.png}
 	\caption{a comparison betweem different formalisms/planner.}
 	\label{fig:formalisms}
 \end{figure}
@@ -659,11 +667,16 @@ The convenience of using a formal language is that it guides the planning algori
 On other hand, we must deal with some contraindications:
 \begin{itemize}
 \item \textbf{Uncertainty.} How to represent the uncertainty present in the domain.
-\item \textbf{Goal existence.} Does a goal exist? Is it possible to compute it?
+\item \textbf{Goal existence.} Does a goal exist? 
 \item \textbf{Expressivity vs Complexity.} Can we represent the problem? Is it possible to compute a solution?
 \end{itemize} 
 \noindent Try to address all these questions is beyond the scope of this thesis.\\
-Instead, I will focus on representation uncertainty and robust planning, that is produce plans that can be executed safely with limited or no needs for replanning.\\
+Instead, I will focus on representation uncertainty and robust planning, that is produce plans that can be executed safely with limited or no needs for replanning.
+To this end we choose a first set of satisfying formalisms, namely PDDL, KPDDL and PDDL (CLG version).
+\noindent We decide to consider also standard PDDL in this work for multiple reasons.
+First of all, we want to show the actual needs for conditional plans in the study case.
+Second, PDDL is the most diffused planning language. Since one of the primary intents of this work is to provide a general tool for PNP generation, it is clear that we cannot ignore it.
+Many formalisms derive from PDDL, so this class represents a starting point to implement other translators for different PDDL extensions. \\
 
 \chapter{Foundation Tools}\label{sec:foundation}
 In the following I will illustrate the tools used for the development of this thesis.
@@ -1099,10 +1112,15 @@ The translation algorithm is similar to that of KPDDL; the previous is, in fact,
 \end{algorithm}}\\
 \newline
 $first()$, $rest()$ and $CondPlan\_addAction()$ functions are the same as before.
-The concatenation operator $+$ in this case has a more general meaning, since this algorithm works with both DAG and trees.\\ 
-In fact in case of trees, we have that for the leaves the algorithm will return $\lambda + \{\}$.
-For the general case of DAGs, the algorithm
-
+The concatenation operator $+$, in this case, has a more general meaning since the algorithm can generate both DAGs and trees.\\ 
+In fact, in the case of trees, we have that $\sigma$ will represents entire sub-trees and the algorithm will return the empty set ($\pi' = 0$) plus $\lambda$. In this case, there is nothing to concatenate, and the situation is safely handled by the operator.
+For the general case of DAGs, it must concatenate the result that comes from the sub-branches with the computed graph until that point. This situation is depicted in the following figure:
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5, trim=0cm 0cm 0cm 0mm]{images/+operator.png}
+	\caption{the + operator in the DAG case.}
+	\label{fig:inline_example}
+\end{figure}
 
 \subsubsection{DIY Conditional Plan}\label{sec:diy}
 Writing domains and waiting for a planner to compute a solution is a long process and is not always needed.
@@ -1135,7 +1153,7 @@ The algorithm is \ref{inline_gen}.
 
 \section{Generator Modules}\label{sec:generator}
 \subsection{PNPgen: A Conditional Planning Extension}
-Summarizing, the languages formalism induce the following solutions:
+Summarizing, the planners induce the following solutions:
 \begin{itemize}
 \item \textbf{PDDL (FF planner)}: produce a linear plan.
 \item \textbf{PDDL (CLG Planner)}: produce a tree. 
@@ -1199,26 +1217,24 @@ The algorithm is \ref{cond_gen}.
 \section{Algorithms Analysis}
 The complexity of the presented algorithms is linear in the number of plan states.\\
 In fact, for the translation algorithms, we generate a conditional plan state for each action in the computed plan.
-For the generation, we read these states and generate the correspondent PNP.\\
-the Conditional Planning approach guarantees the robustness of the computed plan, though the search space increase considerably. 
-For a state space of observable properties of dimension $N$, if we consider only boolean evaluations, the space grows as $O(2^N)$. 
-In this case however, we decouple the two types of variables (epistemic and environmental) and we rely on the completeness of the chosen planners.
-This guarantees a safe execution of the framework on a robot.\\
-\noindent We decide to consider also PDDL in this work for multiple reasons.\\ 
-First of all, we want to show the actual needs for conditional plans in the study case.
-Second, PDDL is the most diffused planning language. Since one of the primary intents of this work is to provide a general tool for PNP generation, it is clear that we cannot ignore it.\\
-Many formalisms derive from PDDL, so this class represents a starting point to implement other translators for different PDDL extensions. \\
+For the generation, we explore these states and generate the correspondent PNP.\\
+The functions used for the generation of the conditional plan and the PNP have a constant cost since they perform only local operations without looking at the whole plan.
+The system complexity, however, depends also on the planner algorithms.
+The conditional planning approach guarantees the robustness of the computed plan, though the search space for these algorithms increases considerably (as stated in \ref{sec:approach}).
+In this work, however, we decouple the two types of variables (epistemic and environmental) and we rely on the efficiency of the chosen planners. CLG and FF are proven to be complete.
+FF uses a relaxed GRAPHPLAN algorithms with an informed search based on goal distance. The derived search algorithm is called enforced hill-climbing.
+In CLG the description of the problem P, which represent a non-deterministic search problem in belief space, is translated into a non-deterministic problem X(P) in state space by the CLG suite.\\
+CLG then accepts P and solves it using X(P) for keeping track of the beliefs and a strengthening relaxation X+(P) to choose which action to apply next.
+The relaxation is a classical planning problem that provides an informed heuristic
+estimator which embeds the sensing. \\
+\noindent KPlanner algorithm instead is not complete. The author provides the possibility to drive the solution search by the means of a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while with 1 a depth-first search.\\ 
+Anyway, without an informed heuristic, the planner tend to get stuck even with a small number of epistemic variables.
+Typical HRI plans have not a huge number of states. This is for two reasons: due to the great non-determinism of person actions, failures are very likely. We can avoid this by computing shorter plans.
+The second reason is that too long interactions tend to be unsatisfying for the user. 
+The chosen approach guarantees a safe execution of the framework on a robot.\\
  
-%The description of the problem P, which represent a non-deterministic search problem in belief space, is translated into a non-deterministic problem X(P) in state space by the CLG suite.\\
-%CLG Planner then accepts P and solves it using X(P) for keeping track of the beliefs and a strengthening relaxation X+(P) to choose which action to apply next.
-%The relaxation is a classical planning problem that provides an informed heuristic
-%estimator which embeds the sensing. \\
-
-\noindent In the following section I will show the correspondent PNPs for the example presented in the Translator Modules section \ref{sec:transl_modules}. 
-In the next chapter I will show some examples and results to demonstrate the approach. \\
-In particular, I will characterize the input/output of each problem and provide a sketch for a possible optimal solution.
-
 \section{Plan Examples}
+\todo{fix images layout}
 \subsection{Example 1: Sequential Plan}
 This is the PNP generated from the example in \ref{sec:seq}.
 \begin{figure}[H]
@@ -1457,8 +1473,8 @@ Obviously also PNPs double their sizes, as we can see from the generation stats:
 
 \newpage
 \section{KPlanner (KPDDL)}
-\noindent KPDDL permits to represent conditional plans. The cons reside in the fact that depending on the written domain, the planner could take much time to compute a solution. The author provides the possibility to drive the solution search by the means of a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while with 1 a depth-first search.\\ 
-In any case, this not represents a safe solution for an on-line approach as there are no ways to know if a solution exist (see \ref{sec:analysis}).
+%\noindent KPDDL permits to represent conditional plans. The cons reside in the fact that depending on the written domain, the planner could take much time to compute a solution. The author provides the possibility to drive the solution search by the means of a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while with 1 a depth-first search.\\ 
+%In any case, this not represents a safe solution for an on-line approach as there are no ways to know if a solution exist (see \ref{sec:analysis}).
 
 \subsection{Example 1: COACHES v.1}
 In KPDDL sensing actions could be modelled using the syntactic construct \textbf{:sense}. Most of the predicates, actions and constants remain unchanged with respect to the PDDL case:
@@ -1812,9 +1828,10 @@ As before, we must specify the possible outcomes in the initial state:
 \end{figure}
 
 \section{Discussion}
+\todo{to revise}
 As we have seen in the examples, we have found a possible set of satisfying formalisms to describe and represents conditional plans.
 I will now revise the cons and pros of all approaches. Planning in PDDL using FF reveals to be very fast.
-FF uses a relaxed GRAPHPLAN algorithms with an informed search based on goal distance. The derived search algorithm is called enforced hill-climbing. Beside from the fact that this version of the language lack of the expressivity necessary to describe epistemic states, this kind of approach rely on the fact that many problems have a similar structure. Namely, they present a search space. Nonetheless, the algorithm is complete.
+Beside from the fact that PDDL 2.1 lack of the expressivity necessary to describe epistemic states, this kind of approach rely on the fact that many problems have a similar structure. Namely, they present a search space. Nonetheless, the algorithm is complete.
 KPDDL has the syntactic power that matches our prerequisites. It was easy to describe our reference domain. However, the provided planner (KPlanner) is not complete.
 The CLG approach reveals to be the most promising since it unites the advantage of the PDDL approach with the expressivity of KPDDL. Its reliability resides in the fact that was build upon FF, so it shares with it all his benefits. The only compromise is that we must express the range of values and observed property could take. A small price to pay, considered that is hypothesis is suitable in most cases and that its algorithm is complete.
 
