@@ -1,12 +1,13 @@
 %\documentclass[pdftex,12pt,a4paper]{article}
-\documentclass[pdftex,12pt,a4paper]{report}
+%\documentclass[pdftex,12pt,a4paper]{report}
+\documentclass[LaM,oneside,noexaminfo,english]{sapthesis}
 
 
-\usepackage[pdftex]{graphicx}
+%\usepackage[pdftex]{graphicx}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb}
-\usepackage{graphicx}
+%\usepackage{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{float}
@@ -73,7 +74,6 @@ In chapter \ref{sec:plan_repr} I will review some of the formalisms in literatur
 In chapter \ref{sec:approach} I make some consideration about the analysis done in the precedent chapter and I will introduce the used approach.\\ 
 In chapter \ref{sec:foundation} the tools used for the developing of the thesis are presented. In chapter \ref{sec:system} the system is presented, with the architecture and algorithms descriptions.\\ 
 Finally, in chapter \ref{sec:use_cases} and \ref{sec:conclusion} some problem examples are shown and considerations about the work are done.
-
 %\section{Planning}
 %\subsection{Planners Characteristics/Requirements}
 %\begin{enumerate}
@@ -887,7 +887,7 @@ In this chapter I will present the system infrastructure.\\
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4, trim=60mm 0mm 0mm 30mm]{images/system_architecture_v2.png}
+	\includegraphics[scale=0.4, trim=75mm 0mm 0mm 30mm]{images/system_architecture_v2.png}
 	\caption{This is a sketch of the system architecture. We can see how the PNP generation happens, from method choice to the final PNP.}
 \end{figure} 
 
@@ -903,7 +903,7 @@ The architecture presents two layers, each of which will be described in the fol
 \noindent The generator is represented in details the following figure:
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5]{images/generator.png}
+	\includegraphics[scale=0.5,trim=2cm 0cm 0cm 0cm]{images/generator.png}
 	\caption{A detail of the system.}
 \end{figure}
 
