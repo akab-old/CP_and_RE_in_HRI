@@ -458,7 +458,7 @@ p(T+1) :- p(T), not -p(T+1), time(T).
 
 \noindent ASP has been widely used in the service robotics context, both in simulated or real scenarios. Some examples are \cite{erdem2012answer} and \cite{chen2010developing}.%\cite{asp_ex1} and \cite{asp_ex2}.
 \\\noindent However, ASP is not well suited for modelling/reasoning about uncertainty in a domain. Incomplete information cannot be handled correctly due to the fact that stable model semantics is restricted to boolean values. Not only, there is no notion of probability and thus all stable models are equally probable. Some extension to ASP with probabilistic information has been proposed, like in \cite{wang2015handling}%\cite{asp+unc1} 
-where Markov Logic Networks (MLN) are used. %TODO add some references (ReearchGate requested, Zhang)
+where Markov Logic Networks (MLN) are used.
 \newline
 
 \subsection{Situation Calculus}
@@ -625,16 +625,17 @@ Classical Planning models only deterministic actions, and the planner is often e
 If we expand the domain and consider also probabilistic planners, they introduce also outcome probabilities. Their aim is to maximise a cumulative reward. They are also the most expensive and often intractable at representation and/or execution level. \\
 Rule-bases are not manageable when they become larger. This rules are created by experts that express their knowledge through the rules and it is difficult to find all the inconsistencies and the side-effects when new rules are inserted.\\
 
-
-\noindent This brief analysis shows that there is a compromise between expressivity and computational complexity. 
+\noindent This brief analysis shows that there is a compromise between expressivity and complexity. 
 Epistemic logics could helps us to represent real world uncertainties.\\
 In this case the states of the planning problem are called belief states, since they represent the uncertainty of the agent about the world.
 The problem with this representation is that the belief space is computationally exponentially bigger than classical state space. A good representation is thus needed.\\
 %A solution is to maintain only a small group of states that represents a compact description of the epistemic knowledge of the robot.\\
-If we denote as $Z$ the states that represents the epistemic knowledge and with $Y$ the generic states, we have that:
+If we denote as $Z$ the states that represents the human-needs and with $Y$ the generic states, we have that:
 \begin{center}
-$|Y|$ + $|2^Z| \ll |2^X|$ and $X = Y \cup Z$ %<---
+%$|Y|$ + $|2^Z| \ll |2^X|$ and $X = Y \cup Z$
+$X = Y \cup Z$
 \end{center}
+If we maintain the number of unknowns $Z$ small, the problem becomes tractable. In fact, the number of sensing actions will be $|Z|$, and we have $1+2^{|Z|}$ possible initial states.
 
 \noindent The next step is to identify a group of formalisms from the ones described in \ref{sec:plan_repr} that allow us to represent explicitly the epistemic state.\\
 In our case, a language must supply the syntactic constructs to define sensing actions with which we can represent conditional plans.
@@ -836,7 +837,7 @@ where also a third method to generate PNPs from progressive reasoning unit (PRU)
 \noindent ROS was originally developed at Stanford Artificial Intelligence Laboratory in support of the Stanford AI Robot STAIR (STanford AI Robot) project. From 2008 to 2013 the development take place at Willow Garage, a robotics research institute. Finally, from 2013, ROS become part of the Open Source Robotics Foundation.\\
 During all this time, ROS has growth in importance and diffusion. \\
 In fact, before ROS advent, each laboratory or research group had to write down from scratch specific code for his platform and for every task, even the more mundane. This not only is a time expensive task but restrains the diffusion of new algorithms and ideas.
-With the layer of abstraction offered by ROS, it is possible to write nodes for common tasks and specific hardware that are reusable and so more easy to diffuse. For instance, ROS offers packages for perception, object identification, segmentation and recognition, face recognition, planning, grasping, localization, mapping and much more. The main limitation of ROS resides in its latency since is built on top of Linux and is not a real-time OS. This led to the born of ROS 2.0, which support real-time operations, and RT-ROS, which is natively real-time. %TODO talk about STAGE and actionlib module
+With the layer of abstraction offered by ROS, it is possible to write nodes for common tasks and specific hardware that are reusable and so more easy to diffuse. For instance, ROS offers packages for perception, object identification, segmentation and recognition, face recognition, planning, grasping, localization, mapping and much more. The main limitation of ROS resides in its latency since is built on top of Linux and is not a real-time OS. This led to the born of ROS 2.0, which support real-time operations, and RT-ROS, which is natively real-time.
 
 \section{PNPros}
 PNPros serves as bridge between ROS and PNP.\\
@@ -1166,7 +1167,7 @@ independent from the chosen language.
 
 \noindent In the next section I will discuss the algorithm that is responsible for PNPs generation.
 \subsection{the Generation Algorithm}
-The algorithm responsible for the generation of the PNP performs a graph expansion using the conditional plan representation kept by the correspondent translator class.\\
+The algorithm responsible for the generation of the PNP performs a graph expansion using the conditional plan representation.\\
 In order to be sure that every node is visited only once, and thus to avoid dangerous loops in the generation procedure, we maintain a stack of the visited nodes.
 Each time, we take the top of this stack, check if it is a final state or has outgoing edges, and expand it.
 If it hasn't outcomes, we add a final state and continue with the search. Otherwise, for each edge, we check if the corresponding destination is already visited. If this is the case, we connect it with the current state and close the loop. Otherwise we expand it and create a new branch. 
@@ -1234,46 +1235,38 @@ The second reason is that too long interactions tend to be unsatisfying for the 
 The chosen approach guarantees a safe execution of the framework on a robot.\\
  
 \section{Plan Examples}
-\todo{fix images layout}
-\subsection{Example 1: Sequential Plan}
-This is the PNP generated from the example in \ref{sec:seq}.
+In this section I will show for each introduced formalisms the correspondent PNP generated. The examples are the ones presented in the previous section.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.6, trim=5cm 0cm 0cm 0mm]{images/hanoi_3.png}
-	\caption{PNP generated from the Conditional Plan. This is a solution for the hanoi problem with three disks.}
+	\caption{PNP generated from the example in \ref{sec:seq}. This is a solution for the hanoi problem with three disks.}
 	\label{fig:inline_example}
 \end{figure}
 
-\subsection{Example 2: DAG Plan}
-This is the PNP generated from the example in \ref{sec:dag}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5,angle=270,trim=5cm 0cm 0cm 5cm]{images/medical.png}
-	\caption{PNP generated from the Conditional Plan. The problem represents a medical diagnosis. Notice the plan structure that represents a direct graph.}
+	\caption{PNP generated from the example in \ref{sec:dag}. The problem represents a medical diagnosis. Notice the plan structure that represents a direct graph.}
 	\label{fig:inline_example}
 \end{figure}
 
-\subsection{Example 3: Tree Plan}
-This is the PNP generated from the example in \ref{sec:digraph_transl}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.41,trim=5cm 0cm 0cm 5cm]{images/unix.png}
-	\caption{PNP generated from the Conditional Plan. The problem represents a file search in a Unix system. Notice the plan structure that represents a tree.}
+	\caption{PNP generated from the the example in \ref{sec:digraph_transl}. The problem is a file search in a Unix system. Notice the plan structure that represents a tree.}
 	\label{fig:inline_example}
 \end{figure}
 
-\subsection{Example 4: DIY Plan}
-This is the PNP generated from the example in \ref{sec:diy}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.45]{images/inline_ex3.png}
-	\caption{PNP generated from a file specification.}
+	\caption{PNP generated from the example in \ref{sec:diy}.}
 	\label{fig:inline_example}
 \end{figure}
 
 \chapter{Use Cases}\label{sec:use_cases}
-In this section I will characterize some examples, describing the whole process from the problem definition to the plan generation.\\ In order to do so I will start from the motivating example introduced in section \ref{sec:motivating}.
-%PDDL like languages, planner in title
+In this section I will characterize some examples, describing the whole process from the problem definition to the plan generation implemented by our architecture.\\ In order to do so I will start from the motivating example introduced in section \ref{sec:motivating}.
 
 \section{Fast-Forward (PDDL)}
 \noindent PDDL was meant to express the "physics" of a domain, and could not represent the epistemic state of an agent.\\
@@ -1309,8 +1302,8 @@ For the sake of clarity, in the domain description I will consider only the agen
 
 )
 \end{verbatim}
-Beside from predicates that model environmental properties, we notice the ones that (tries to) describe agents state. 
-\noindent For what concern actions, I will not list them all, but I rather focus on the ones that are supposed to be sensing actions:
+Beside from predicates that model environmental properties, we notice the ones that describe agents state. 
+\noindent For what concern actions, I will not list all of them but I rather focus on the ones that represent deterministic sensing actions:
 \begin{verbatim}
 (:action sense-person
                       :parameters ( ?r ?p)
@@ -1411,7 +1404,7 @@ step    0: SENSE-PERSON R H2
         5: ADVERTISE-FASHION SHOP4 H2
         6: CHECK_SATISFACTION H2
 \end{verbatim}
-\noindent In this scenario, we can imagine an infrastructure with a planning system responsible of the generation of the problem instances and a module responsible for gathering the informations (through sensors and physical interfaces) and that manage fluents. This module, for instance, would be the one responsible for the Knowledge Base updates so to justify the presence of  "\textit{desire-fashion h2}" ground in the initial state description.\\
+\noindent In this scenario, we can imagine the classical infrastructure with a planning system responsible of the generation of the problem instances and a module responsible for gathering the informations through sensors and physical interfaces and that manages fluents. This is to justify the presence of "\textit{desire-fashion h2}" ground in the initial state description.\\
 
 \noindent Once the solution is computed and stored in a file, the PDDL translator fills its internal structure to represent the plan and subsequently expose it to PNPgen. The correspondent translation is the following:
 
@@ -1473,8 +1466,8 @@ Obviously also PNPs double their sizes, as we can see from the generation stats:
 
 \newpage
 \section{KPlanner (KPDDL)}
-%\noindent KPDDL permits to represent conditional plans. The cons reside in the fact that depending on the written domain, the planner could take much time to compute a solution. The author provides the possibility to drive the solution search by the means of a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while with 1 a depth-first search.\\ 
-%In any case, this not represents a safe solution for an on-line approach as there are no ways to know if a solution exist (see \ref{sec:analysis}).
+\noindent KPDDL allows to represent conditional plans. The cons reside in the fact that depending on the written domain, the planner could take much time to compute a solution. The author provides the possibility of driving the solution search by the means of a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while with 1 a depth-first search.\\ 
+In any case, this not represents a safe solution as the algorithm is not complete (see \ref{sec:analysis}).
 
 \subsection{Example 1: COACHES v.1}
 In KPDDL sensing actions could be modelled using the syntactic construct \textbf{:sense}. Most of the predicates, actions and constants remain unchanged with respect to the PDDL case:
@@ -1528,7 +1521,7 @@ In KPDDL sensing actions could be modelled using the syntactic construct \textbf
   )
 )
 \end{verbatim}
-\noindent As we can see, we do not need to model explicitly in the initial state the knowledge about the person needs.\\
+\noindent We do not need to model explicitly in the initial state the knowledge about the person needs.\\
 \textit{satisfied} is a predicate to indicate a final state and became true after the action \textit{bye}, when the robot as finished to acquire information from the human:
 
 \begin{verbatim}
@@ -1567,7 +1560,7 @@ In particular, after \textit{ask\_food} execution, we can observe two distinct s
 	\caption{PNPgen generates the PNP from KPlanner output. the observation are enclosed between square brackets.}
 \end{figure}
 
-\noindent We translate the solution in our conditional plan representation format. Notice that even the KPlanner output doesn't differ so much from our representation, this is meant to be the same for every considered formalisms (present and future).
+\noindent We translate the solution in our conditional plan representation format. Notice that the KPlanner output doesn't differ so much from our representation, this is meant to be the same for every considered formalisms (present and future).
 
 \begin{verbatim}
 plan{ 
@@ -1609,7 +1602,7 @@ The translation+generation takes only 0.008s time to run. We will compare this r
 \newpage
 
 \subsection{Example 2: COACHES v.2}
-In this example we have progressively augmented the space state to see how the planner performs.
+In this example we have progressively augmented the human-needs variables to see how the planner performs.
 Consider the following domain in which we have modified the bye action and we ask the agent to sense for two properties:
 \begin{verbatim}
 (:action bye
@@ -1656,7 +1649,7 @@ plan{
 \end{verbatim}
 As we can see is significantly more complex than the previous, as we can also see from the correspondent PNP depicted in \ref{fig:kpddl_ex2}.\\
 Such complex PNPs are very time consuming to be manually constructed and error prone. However, we can notice that doubling the number of epistemic variables, the time for the planner to run increases exponentially from 0.569s to 23,8252s! The run time of our system however remain almost the same (from 0,008s to 0,009).
-It is clear that if we double the epistemic states, the planner runs indefinitely.
+It is clear that if we double again the unknowns, the planner runs indefinitely.
 
 \newpage
 \begin{figure}[H]
@@ -1668,17 +1661,14 @@ It is clear that if we double the epistemic states, the planner runs indefinitel
 \newpage
 
 \section{Closed-Loop Greedy Planner (PDDL)}
-This planner is included in the ROSPlan fra
-\noindent ROSPlan represents the most prominent solution for an on-line approach.
-The used planner, CLG, has a very effective heuristic that can present almost instantaneously a solution, when present, or communicate that this not exist. 
-The ROSPlan framework is perfectly integrated into ROS and, due to its modularity, it can be extended to consider other formalisms (like we have done for this work).\\
-
+This planner is included in the ROSPlan framework.
+CLG has a very effective heuristic that can present instantaneously a solution, when present, or communicate that this not exist. 
+The ROSPlan framework is integrated into ROS and, due to its modularity, it can be extended to consider other formalisms and planners.\\
 \noindent The infrastructure provides a safe way to handle planning failures, since even when a solution is not found in the first place, it can replan a certain number of times based on a tunable parameter.\\
-This comes in handy since if the PNP execution fails, we have a second level of redundancy to make sure that the robot doesn't suddenly stop. \\
-The integration between ROSPlan and PNP is an ongoing work and I will discuss possible future implementations in the next chapter.
+The integration between ROSPlan and our infrastructure is an ongoing work and I will discuss possible future implementations in the next chapter.
 
 \subsection{Example 1: COACHES v.3}
-This is a simplified version of the coaches example, in which the robot inspects only the person position.
+This is a simplified version of the coaches example, in which the only unknowns are in the person position.
 We must introduce a slightly different version of PDDL, similar to KPDDL, that is used in the ROSPlan Framework.\\
 As in KPDDL, in this case PDDL is extended with introduction of the \textbf{:observe} construct for action effects, used to define sensing actions.\\
 For instance, a sensing action has the following form:
@@ -1783,7 +1773,7 @@ The following picture depict the connection between our node (\textit{pnp\_rospl
 %PNP stats: 'Actions: 22 Places: 68 Transitions: 67 Edges: 134
 
 \subsection{Example 2: COACHES v.4}
-This is the complete coaches example, as presented in the previous sections. Namely, we try to infer also the person needs using the following sensing action:
+This is the complete coaches example, as presented in \ref{sec:motivating}. Namely, we try to infer the person needs using the following sensing action:
 \begin{verbatim}
   (:action ask
     :parameters ( ?p - person ?x - desire)
@@ -1816,7 +1806,7 @@ As before, we must specify the possible outcomes in the initial state:
 \end{verbatim}
 
 %PNP stats: 'Actions: 70 Places: 212 Transitions: 211 Edges: 422
-\noindent We do not show the complete PNP since it is too big to fit in a page. Consider that for this case there are 211 places and 422 edges. As we can see from the image \ref{fig:rosplan_ex2}, the generated PNP is complete in the sense that it discern between all different cases (\textit{food}, \textit{clothes}, \textit{obj} etc.) and the generation happens almost instantaneously. 
+\noindent We do not show the complete PNP since it is too big to fit in a page. Consider that for this case there are 211 places and 422 edges. As we can see from the image \ref{fig:rosplan_ex2}, the generated PNP is complete in the sense that it discern between all different cases (\textit{food}, \textit{clothes}, \textit{obj} etc.) and the generation happens instantaneously. 
 \noindent This example concludes our analysis.
 
 
@@ -1828,10 +1818,11 @@ As before, we must specify the possible outcomes in the initial state:
 \end{figure}
 
 \section{Discussion}
-As we have seen in the examples, we have found a set of satisfying formalisms to describe and represents conditional plans. I will now revise the cons and pros of all approaches. Planning in PDDL using FF reveals to be very fast.
-Beside from the fact that PDDL 2.1 lack of the expressivity necessary to describe sensing actions, this kind of approach rely on the fact that many of classical problems have a similar structure. Nonetheless, the algorithm is complete.
-KPDDL has the syntactic power that matches our prerequisites and it was easy to describe our reference domain. However, the provided planner (KPlanner) is not complete.
-The CLG approach reveals to be the most promising since it unites the advantage of the PDDL approach with the expressivity of KPDDL. Its reliability resides in the fact that was build upon FF, so it shares with it all his benefits. The only compromise is that we must express the range of values that the observed properties could take. A small price to pay, considered that is hypothesis is suitable in most cases and that its algorithm is complete.
+As we have seen in the examples, we have found a set of satisfying formalisms to describe and represents conditional plans. I will now revise the cons and pros of all approaches.\\ 
+Planning in PDDL using FF reveals to be very fast. The planner relies on the fact that many of classical problems present a similar structure.
+PDDL 2.1 lack of the expressivity necessary to describe sensing actions, but the planner algorithm is complete and so reliable for simple applications.
+KPDDL has the syntactic power that matches our prerequisites and it was easy to describe our reference domain. However, the provided planner (KPlanner) is not scalable. It is in fact shown that if we increase the number of the unknown variables in the planning domains, the running time for the algorithms increase exponentially. 
+The CLG approach reveals to be the most promising since it unites the advantage of the PDDL approach with the expressivity of KPDDL. Its reliability resides in the fact that was build upon FF, so it shares with it all his benefits. The only compromise is that we must express the range of values that the observed properties should take. A small price to pay, considered that is hypothesis is suitable in most cases and that its algorithm is complete.
 
 \chapter{Conclusion}\label{sec:conclusion}
 One of the fundamental aspects of moving robots from laboratories to everyday environments is that the interaction with unaware persons should be the most natural and smooth as possible.\\
