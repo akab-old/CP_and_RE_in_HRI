@@ -686,7 +686,7 @@ We need a language that can represent non-instantaneous and conditional actions.
 Petri Net Plans (PNP)\cite{ziparo2006petri}%\cite{pnp}
 \cite{ziparo2008pnp}%\cite{pnp2} 
 is a formalism for represent complex plans using an high-level description.
-It is inspired by languages for reasoning about actions, like the ones presented in \ref{sec:formalism}, but it is more expressive and offer all the operators needed for representing conditional plans, concurrent actions and multi-agent plans.
+It is inspired by languages for reasoning about actions, like the ones presented in \ref{sec:plan_repr}, but it is more expressive and offer all the operators needed for representing conditional plans, concurrent actions and multi-agent plans.
 They also offer non-deterministic choice operator for representing non-deterministic choice action, useful in learning algorithms. \\
 The execution of a PNP is very efficient, and allow the design of real-time and active behaviours.
 Some examples of PNPs applications are \cite{bastianelli2013line}\cite{palamara2008robotic}\cite{farinelli2006assignment}.
@@ -1828,26 +1828,25 @@ As before, we must specify the possible outcomes in the initial state:
 \end{figure}
 
 \section{Discussion}
-\todo{to revise}
-As we have seen in the examples, we have found a possible set of satisfying formalisms to describe and represents conditional plans.
-I will now revise the cons and pros of all approaches. Planning in PDDL using FF reveals to be very fast.
-Beside from the fact that PDDL 2.1 lack of the expressivity necessary to describe epistemic states, this kind of approach rely on the fact that many problems have a similar structure. Namely, they present a search space. Nonetheless, the algorithm is complete.
-KPDDL has the syntactic power that matches our prerequisites. It was easy to describe our reference domain. However, the provided planner (KPlanner) is not complete.
-The CLG approach reveals to be the most promising since it unites the advantage of the PDDL approach with the expressivity of KPDDL. Its reliability resides in the fact that was build upon FF, so it shares with it all his benefits. The only compromise is that we must express the range of values and observed property could take. A small price to pay, considered that is hypothesis is suitable in most cases and that its algorithm is complete.
+As we have seen in the examples, we have found a set of satisfying formalisms to describe and represents conditional plans. I will now revise the cons and pros of all approaches. Planning in PDDL using FF reveals to be very fast.
+Beside from the fact that PDDL 2.1 lack of the expressivity necessary to describe sensing actions, this kind of approach rely on the fact that many of classical problems have a similar structure. Nonetheless, the algorithm is complete.
+KPDDL has the syntactic power that matches our prerequisites and it was easy to describe our reference domain. However, the provided planner (KPlanner) is not complete.
+The CLG approach reveals to be the most promising since it unites the advantage of the PDDL approach with the expressivity of KPDDL. Its reliability resides in the fact that was build upon FF, so it shares with it all his benefits. The only compromise is that we must express the range of values that the observed properties could take. A small price to pay, considered that is hypothesis is suitable in most cases and that its algorithm is complete.
 
 \chapter{Conclusion}\label{sec:conclusion}
 One of the fundamental aspects of moving robots from laboratories to everyday environments is that the interaction with unaware persons should be the most natural and smooth as possible.\\
 In fact, a robot that "freeze" during an interaction or that could not response actively to the external stimuli is very far from the definition of social.\\
-In this work we have discussed an approach that tries to take advantage of the expressivity of some of the languages and formalisms present in the literature to represent, generate and execute conditional plans, i.e. plans that incorporates observations.\\
-This kind of plans are robust with respect to action failures since we can represent very complex plans that are otherwise impossible to write "manually".
-Using the PNP framework we can easily visualize and eventually modify a plan.\\
-Furthermore, we have demonstrated the integration of our work with an infrastructure that runs on-line on the robot and how promising this approach is. We are indeed collaborating with ROSPlan \ref{sec:rosplan} authors to extend further this work. 
+In this work we have discussed an approach that take advantage of the expressivity of some of the languages and formalisms present in the literature, and derives an architecture capable of generating plans that are robust with respect to action failures. This is due to the fact that  we can represent very complex conditions that are otherwise impossible to write "manually".
+In addition, we use the existing tools (the ER) to further enhance the reliability of this plans.
+This infrastructure was successfully tested during the Maker Faire 2016 event, where the plans have been generated on the fly and executed hundred of times.
+Furthermore, we have demonstrated the integration of our work with the ROSPlan\ref{sec:rosplan} framework, and we are actively collaborating with authors to extend further this approach.\\
+The work described in this thesis will be submitted at the ICAPS conference 2017.
 
 
 \section{Future Development}
 There are some things still missing in our framework that can be considered for future implementations.\\
-For instance, it is evident the lack of a graphical interface.
-It is clear that if we want to expand our work considering more formalisms, a tool that automatically selects one or another based on desired properties becomes fundamental.
+For instance, it is evident the lack of a user friendly interface.
+It is clear that if we want to expand our work considering more formalisms, a tool that allows to select one or another will be very useful.
 
 \begin{figure}[H]
 	\centering
@@ -1855,10 +1854,10 @@ It is clear that if we want to expand our work considering more formalisms, a to
 	\caption{the current interface to generate PNPs from (K)PDDL.}
 \end{figure}
 
-\noindent Talking about formalisms to be added, we should certainly consider other PDDL extensions. In fact, given the current infrastructure, the procedure to add a new translator module is simple as expand the PDDL Translator class and implement the corresponding functions.\\
-Another aspect to take into account regards the execution rules described in \ref{sec:ER}. These rules are easy to define and enhance the robustness of our approach. One could consider implementing a module that generates automatically, from a common sense knowledge base like \cite{liu2004conceptnet}, the execution rules needed. \\
+\noindent Talking about formalisms to be added, we should certainly consider probabilistic formalisms. In fact, given the modularity of the infrastructure, the procedure to add a new translator module is very simple.\\
+Another aspect to take into account regards the execution rules described in \ref{sec:ER}. These rules are easy to define and enhance the robustness of our approach. These contributes to the ongoing work with the ROSPlan authors that has to be submitted at the ICAPS conference 2017.
 Another possible expansion could be to consider also high order logics in the conditions, instead of boolean evaluations. This could help us to express more complex conditions, like ones with quantified variables or express temporal constraints. 
-A long-term development could be to expand the architecture with a tool that merges or concatenates the plans obtained from different formalisms. This would allow taking advantage of the benefits of each approach while overcoming the computation problems that was discussed in \ref{sec:analysis}. 
+An important improvement could be to expand the architecture with a tool that merges or concatenates the plans obtained from different formalisms. This would allow taking advantage of the benefits of each approach while overcoming the computation problems that was discussed in \ref{sec:analysis}. 
 A possible approach could be to use a heuristic search technique to solve inconsistency between different plans or define a language that describes the relation between different formalisms.\\
 Examples of similar approaches are discussed in \cite{tsamardinos2000merging} and \cite{yang1992merging}.
 
