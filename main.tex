@@ -50,14 +50,55 @@
 
 \makeindex
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PDF Informations
+\usepackage{hyperref}
+\hypersetup{pdftitle={Integrating Conditional Planning and Robust Execution in Human-Robot Interaction},pdfauthor={Valerio Sanelli}}
+
+\renewcommand*\rmdefault{ppl}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+%\def\gunther{\includegraphics[width=0.8\textwidth]{Figures/gunther.jpg}}
+
+\title{Integrating Conditional Planning and\\ Robust Execution in Human-Robot Interaction}
+\author{Valerio Sanelli}
+\IDnumber{126714}
+
+\course[Artificial Intelligence and Robotics]{Intelligenza Artificiale e Robotica\\
+											(Master in Artificial Intelligence and Robotics)}
+\courseorganizer{Facolt\`{a} di Ingegneria dell'informazione, Informatica e Statistica}
+\AcademicYear{2015/2016}
+\copyyear{2016}
+\advisor{Prof. Luca Iocchi}
+\authoremail{valerio.sanelli@gmail.com}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{document}
 
-\input{./title.tex}
+\frontmatter
+
+\maketitle
+
+\dedication{Ai coraggiosi e ai tenaci.\\ Alla famiglia, all'amore e agli amici.}
+
+\begin{abstract}
+This thesis deals with the integration of conditional planning and robust execution in human-robot interaction.
+In this work I have developed a framework for the generation of plans that are robust and reliable with respect to the context, i.e. social interaction between human and robots. The architecture proposed operates on plans with an additional layer of representation that adds the complexity necessary to produce robust plans.
+With the proposed approach, we are able to provide plans that are more complex that the ones provided by any formalism/planner.
+The work developed in this thesis was tested during the Maker Faire 2016 (Rome) event, where the proposed approach has proven to be flexible and robust. Furthermore, this work is part of an ongoing collaboration with the Imperial College of London to develop a framework for general and robust planning in ROS. We intend to submit the contribution produced in this thesis to the ICAPS 2017 conference. The framework is released as Open Source Software and available on-line.
+\end{abstract}
+
+%\input{./title.tex}
 
 \newpage
 \tableofcontents
 \newpage
 
+\mainmatter
 \chapter{Introduction}
 This chapter presents the thesis, with motivations and goal of this work.\\
 \newline
@@ -66,85 +107,19 @@ This new era imposes us to reason about how the integration with this systems mu
 We must ensure that this process is the smoothest as possible, in a way that is natural for human beings.
 Namely, we need socially acceptable robotic systems. To achieve that, we must equip these systems with the ability to represent the knowledge about the state of the involved agents (humans), in order to produce the most accurate response to their needs. \\
 
-\noindent The primary intent of this thesis is to present a planning system that can represent the knowledge of an agent (the robot) about the current situation and the involved actors and that is robust with respect to execution failures. \\
+\noindent The primary intent of this thesis is to present an architecture that produces robust conditional plans that may deals with the uncertainty present in the human-robot interaction context.
 
-\noindent To motivate this work I will present in the next section an example \ref{sec:motivating}.\\
-In chapter \ref{sec:related_works} I will present the context of this work and the state of the art.\\ 
-In chapter \ref{sec:plan_repr} I will review some of the formalisms in literature, showing their pros and cons in terms of representation expressivity and computation complexity.\\ 
-In chapter \ref{sec:approach} I make some consideration about the analysis done in the precedent chapter and I will introduce the used approach.\\ 
+\noindent To motivate this work I will present in the next section \ref{sec:motivating} an example of a problem in HRI context.\\
+In chapter \ref{sec:related_works} I will characterize the context of this work and the state of the art.\\ 
+In section \ref{sec:plan_repr} I will review some of the formalisms in literature, showing their pros and cons in terms of representation expressivity and computation complexity.\\ 
+In section \ref{sec:approach} I make some consideration about the analysis done in the precedent chapter and I will introduce the used approach.\\ 
 In chapter \ref{sec:foundation} the tools used for the developing of the thesis are presented. In chapter \ref{sec:system} the system is presented, with the architecture and algorithms descriptions.\\ 
 Finally, in chapter \ref{sec:use_cases} and \ref{sec:conclusion} some problem examples are shown and considerations about the work are done.
-%\section{Planning}
-%\subsection{Planners Characteristics/Requirements}
-%\begin{enumerate}
-%\item  How to handle failures $\shortrightarrow$ Replanning avoiding loops
-%\item  How to represent uncertainty $\shortrightarrow$ Probabilistic reasoning
-%\item  How to deal with Exogenous Events $\shortrightarrow$ Implicit/Explicit Modelling 
-%\item  Hyerarchical Tasks
-%\item  Frame Problem: how to represent the fact that things do not arbitrarly changes.
-%\item  Qualification problem: how to deal with the things that prevent me from achieving my intendend result (impossibility of list all preconditions). 
-%\item  How to model/deal time (explicit/implicit)
-%\item  World-based (STRIPS) vs Plan-based Planner (Partial-order Planning)
-%\item  Total-order (HTN) vs Partial-order planning
-%\item  Variables Observation, Exception generation and handling
-%\item  Evaluate solution quality, planning time and the ability to avoid deadend states
-%\item  Exploit the restrictions placed on the states and actions, on observability, and on the value function    and optimality criterion
-%\item Computational complexity of the plan existence problem
-%\item Tradeoff between complexity of representation and execution
-%\end{enumerate}
-%
-%\subsection{Partial Ordering}
-%\noindent
-%Partial-order planning, as opposed to total-ordering, is a search in plan space where every node of the problem represents a partial plan. A plan is complete iff every precondition is achieved and that happen when the precondition is the effect of an earlier step and no possibly intervening step undoes it.
-%A plan is represented as
-%\begin{itemize}
-%\item a set of steps
-%\item ordering constraints
-%\item causal links from outcome of one step to precondition of another
-%\item open preconditions
-%\end{itemize}
-%A start step has the initial state description as its effect while a finish step has the goal description as its precondition. 
-%The search procedure picks one open precondition of an action \textit{B}, and one action of \textit{A} that achieves the precondition of \textit{B}. Add the causal links for the actions and the ordering constraints for \textit{A},\textit{B}, \textit{Start}, \textit{Finish} and tries to resolve conflicts when possible, otherwise backtracks. A conflict is resolved by adding ordering constraints called demotion and promotion that move the conflictual action after of before the causal link, respectively. When there are no more open preconditions the goal is satisfied.
-%Partial-order planning produces more trivial serializability than total-order planning that allows performing quickly when dealing with goals that contain sub-goals. A sub-goal is trivially or laboriously serializable depending on the search space. For the stated properties,Partial-order planning is more likely to find the quickest path.
-%Not only, it could be very difficult to write good knowledge bases for Total-order planner because the total-ordering requirement for the subtasks is restrictive. 
-%One drawback of this type of planning system is that it requires a lot more computational power for each node.
-%This depends on the higher complexity of this type of algorithms and has a huge impact on the applicability on robots in real world scenarios because the energy consumption.
-%
-%\subsection{Uncertainty}
-%Uncertainties generally interfere with two aspects of planning:
-%\begin{itemize}
-%\item \textbf{Predictability:} due to uncertainties it is not known what will happen in the future when certain actions are applied. This means that future states are not necessarily predictable.
-%\item \textbf{Sensing:} due to uncertainties, the current state is not necessarily known. Information regarding the state is obtained from initial conditions, sensors, and the memory of previously applied actions.
-%\end{itemize}
-%
-%\noindent
-%Classical planning is fast, but cannot reason about multiple action outcomes, unreliable observations, or multiple possible worlds. Decision-theoretic planning, by contrast, produces a policy maximizing the probability of success (expected value) from any belief state the robot might reach during plan execution, taking account of the probabilities of every possible action outcome in those states. Decision-theoretic planning handles multiple action outcomes (Markov decision processes, MDPs) and unreliable observations (POMDPs), but at an infeasible computational cost given the size of typical robot domains.
-%
-%\subsection{Epistemic}
-%
-%\subsection{Exogenous Event}
-%
-%A robotic system must deal with the external world that is, by its own nature, a dynamic system itself.
-%This external world produce a series of stimuli that must be treated carefully when accomplish a task. 
-%The interaction between the two systems is two-way, since the robot could influence the state of the world through its action and vice versa. The actions performed by the robot are called \textit{control} actions, while the actions that the world exert on the robot are called \textit{exogenous} actions.
-%Is it possible to model this events in two ways: implicit-event model and explicit-event model.
-%In implicit-event models the effects of the exogenous event are folded into the transition probabilities associated with the action. 
-%Instead, when the effects of actions are decomposed so that a transition is determined by the effects of agent actions and external events that occur with a certain probability we call it explicit-event model.\\
-%
-%\subsection{qualification problem, ramification problem, frame problem}
-%PDDL
-%\begin{itemize}
-%\item Frame problem: everything not explicitly change by effects persist.
-%\item Qualification problem: as SitCalc,can never finish listing all the required preconditions and possible conditional outcomes of actions
-%\end{itemize}
-%\newpage
 
 \section{Motivating Example: COACHES}
 \label{sec:motivating}
 This example is taken from \cite{iocchi2016practical} \\ %\cite{coaches}. \\
 It describes a service robot acting in a shopping mall,  assisting people and presenting the available services.
-The input to the problem is a qualitative information about the location of the robot. 
-The output is the executed behaviour which tries to infer people's needs and satisfy it when they are clarified.
 The robot can then execute some actions and provide some services. These are: 
 \begin{itemize}
 \item move to a location
@@ -153,9 +128,8 @@ The robot can then execute some actions and provide some services. These are:
 \item bring a person to a location
 \item help people carry things
 \end{itemize}
-For the sake of clarity, I will introduce a simple example in which we focus on the aspects of the interaction and we do not consider other uncertainties coming from the perception system (issues in localisation and navigation, face detection, etc). 
+I will focus on the aspects of the interaction and I do not consider other uncertainties coming from the perception system, since they are not relevant for this work.
 
-\newpage
 \noindent Consider the situation in the following image:
 \begin{figure}[H]
 	\centering
@@ -165,24 +139,23 @@ For the sake of clarity, I will introduce a simple example in which we focus on 
 \end{figure}
 
 \noindent We assume that the entire mall space is discretized in a grid fashion, so we can identify robot/person positions by the place nearby (i.e. shop1, shop2, entrance1, etc.). 
-\noindent The image shows that there is a person in front of shop 2, another wandering nearby shop 6 and a third person in front of him. \\
-The robot
-\noindent The set of executable actions is \\ 
+\noindent The image shows that there is a person in front of shop 2 ($h2$), another wandering nearby shop 6 ($h3$) and a third person in front of him ($h1$). We will focus on $h2$. \\
+\noindent The set of actions that the robot can perform is: \\ 
 
 $A = \{sense\_person, move, bringto, approach\_person, advertise,carry\_bags,\\
        wait, ask\_bags, ask\_clothes, ask\_food, ask\_object, ask\_WC, bye\}$\\ 
 
-\noindent The robot is able to acquire and represent knowledge about the environment and try to guess what people wishes.
+\noindent We assume that the robot is able, through its perception and planning systems, to acquire and represent knowledge about the environment and try to guess what people wishes.
 For instance, based on the people locations, he tries to infer if a person is interested in one particular shop or services and can provide suggestions in the form of advertisements. \\
 
-\noindent Given these informations, the whole state space can be subdivided in two groups: one that describes generic information about the environment (robot and person location, the type of shop, etc.) and one for describing the knowledge of the robot. In particular, we have that:\\
+\noindent Given these informations, the whole state space can be subdivided in two groups: one that describes generic information about the environment (robot and person location, the type of shop, etc.) and one for describing the knowledge of the robot about the human needs. In particular, we have that:\\
 \centerline{$X = Y \cup Z$}
-\noindent where $X$ represents the complete state space, $Y$ are the environmental state variables while $Z$ are the epistemic state variables (i.e. the state the characterise the robot knowledge). \\
+\noindent where $X$ represents the complete state space, $Y$ are the environmental variables while $Z$ are the variables that describe the human needs. \\
 \noindent $Z = \{food, clothes, object, WC, help, none\}$\\
 \noindent $Y = \{at$-$person, at$-$robot, close$-$to, store$-$type \}$\\
 
-\noindent where $food, clothes, WC, help, none$ represent the person interest in a service. 
-Consider person $h2$, that is standing in front of shop 2. \\
+\noindent where $food, clothes, WC, help, none$ represent the person interest in a service.\\
+Consider person $h2$, that is standing in front of shop 2. 
 Let's assume that 
 \begin{itemize}
 \item shop 1 is a market
@@ -194,20 +167,20 @@ This situation is summarized in the following figure:
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{images/mall_situation2.png}
-	\caption{}
+	\caption{A possible configuration for the mall problem.}
 	\label{fig:mall_2}
 \end{figure} 
-\noindent Given this situation we can reasonably assume that the person is interested in a clothes stores, but we cannot exclude others situations (for instance, he can be hungry). \\
-\noindent A possible non-optimal plan that inspects $h2$ state of mind is:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5,trim=4cm 0cm 0cm 0cm]{images/coaches_graph.png}
+	\includegraphics[scale=0.45,trim=0cm 0cm 0cm 0cm]{images/coaches_graph.png}
 	\caption{a sketch that show a possible solution plan for the problem of h2.}
 	\label{fig:coaches_graph}
 \end{figure}
 
-\noindent We say non-optimal on purpose since the presented plan can infer only a property at the time. This is a plan that is guaranteed to terminate but only when multiple goals are defined (like in this case). If is it the case where only a goal is present, we need at least an edge going back to the initial place of the plan to guaranteed that the robot doesn't get stuck in some situation, and can traverse multiple paths to reach the goal.
+\noindent Given the situation in figure \ref{fig:mall_2} we can reasonably assume that the person is interested in a clothes stores, but we cannot exclude others situations (for instance, he can be hungry). \\
+\noindent A possible non-optimal plan that inspects $h2$ needs is depicted in \ref{fig:coaches_graph}.
+\noindent We say non-optimal on purpose since the presented plan can infer only a property at the time. This is a plan that is guaranteed to terminate but only when multiple goals are defined (like in this case). If is it the case where only a goal is present, we need at least an edge going back to the initial place of the plan to guaranteed that the robot doesn't get stuck in some situation, and can traverse multiple paths to reach the goal. A more robust plan is shown in the following figure:
 
 \begin{figure}[H]
 	\centering
@@ -216,11 +189,10 @@ This situation is summarized in the following figure:
 	\label{fig:coaches_graph_nack}
 \end{figure}
 
-\noindent In \ref{fig:coaches_graph}, the the squares ($ \square $) represents sensing actions.
-A \textbf{sensing action} is an action that incorporates an observation (a boolean evaluation) and it is used by the robot to characterise its (partial) knowledge of the environment. We assume that a state in which at least one of the $Z$ properties holds is a goal state. \\
+\noindent In the images, the squares ($ \square $) represents sensing actions.
+A \textbf{sensing action} is an action that incorporates an observation (a boolean evaluation) and it is used by the robot to characterise its knowledge. We assume that a state in which at least one of the $Z$ properties holds is a goal state. As we can see from the example, in this kind of domains the initial state is partially known.
 
-\noindent This example demonstrate the need for a robot that can properly represent the state of the world (both at epistemic and physic level), search a solution in a possibly, as we will see, huge state space and continuously execute it. 
-We will resume this example in following chapters.
+\noindent This example shows the needs for an infrastructure that is able to characterise the state of the world, taking into account all the possible outcomes that may arise when dealing with humans. We will resume this example in following chapters.
 
 \chapter{Related Works}\label{sec:related_works}
 This chapter identifies the field of interest of this work and reviews the state of the art.
@@ -236,15 +208,15 @@ However, the precedent definition  give us some a hint:\\
 \noindent\textit{"basic knowledge of what others do and think that they should do."}\\
 The importance of developing a robot that is human aware reside in its ability of model human state of mind, especially when we talk about robots that must deliver services.\\
 We have started to see some examples of robots operating in public environments, and we always come to an end: people are for the most part frightened by robots as they do not know what to expect from it.
-Thus, when developing robots for operating beside humans, it is important that the robot has also the ability of  drive the interaction, i.e. be an active (not passive) actor. Beside from have an "attractive" design, a robot of this kind must promote different modalities for interaction and maintain at any time a snapshot of person state of mind. The proactivity helps the robot to reduce is uncertainty about the human and ensure, with appropriate behaviours, that the person is always comfortable when in presence of the robot.\\
+Thus, when developing robots for operating beside humans, it is important that the robot has also the ability of  drive the interaction, i.e. be an active (not passive) actor. Beside from have an "attractive" design, a robot of this kind must promote different modalities for interaction and maintain at any time a snapshot of person needs. The proactivity helps the robot to reduce is uncertainty about the human and ensure, with appropriate behaviours, that the person is always comfortable when in presence of the robot.\\
 In general we can state that social robotics norms are norms of human being imitated/reproduced by the robot in order to encourage collaboration and that are socially acceptable, depending also on the cultural context.\\ 
 \subsection{Human Robot Interaction (HRI)}
 \textbf{HRI}: \textit{“Understand and shape the interactions between
 one or more humans and one or more robots”} (Goodrich\&Schultz 2007)\\
 \newline
-Human-robot Interaction study the interaction between human and robots. Its a multidisciplinary field, and attracts researcher from robotics, AI, cognitive psychology, and many more.
+Human-robot Interaction studies the interaction between human and robots. It is a multidisciplinary field that attracts researcher from robotics, AI, cognitive psychology, and much more.
 Its main objective is to develop models for natural and social interaction between humans and robots. 
-A central idea in HRI research is that humans expect from a robot to exhibit a human-like behaviour when interacting with them, so they can feel comfortable as when interacting with a person. Is is important to underline that a social robot must interact with non-expert users, that don't know what to expect when dealing with it.\\
+A central idea in HRI research is that humans expect that robots exhibit a human-like behaviour when interacting with them, so they can feel comfortable as when interacting with a person. Is is important to underline that a social robot must interact with non-expert users, that don't know what to expect when dealing with it.\\
 \noindent Nowadays the most prominent context in which a social robot can be implied are:
 \begin{itemize}
 \item Entertainment 
@@ -264,7 +236,7 @@ In this cases the interaction between the human and the robot is minimal. The hu
 
 \subsection{Strictly Social Cases (HRI Mandatory)}
 Those cases represents the most significant for this work. In this case the interaction is the principal objective and the robot itself could start the interaction. A representation of the human state is maintained.\\
-\textbf{Examples:} \textit{Project COACHES (\url{https://coaches.greyc.fr/}), Amelia the Assistant (\url{http://www.ipsoft.com/amelia/}), assistance task}.\\
+\textbf{Examples:} \textit{Project COACHES (\url{https://coaches.greyc.fr/}), Amelia the Assistant (\url{http://www.ipsoft.com/amelia/}), general assistance task}.\\
 
 
 \noindent I will now talk about the formalisms in literature for planning problems.\\ 
@@ -598,7 +570,7 @@ Given an action $a$ and a belief state $b$, the next belief state deriving from 
 The introduced formalisms and models show the essential bond between expressiveness and computational complexity. The planning problem in classic logic is decidable but the complexity varies from constant to EXPTIME depending on which characteristics are added to the language. 
 \newline
 
-\noindent For instance, STRIPS is the less expressive of the presented formalisms, still deciding whether a plan exists is PSPACE-complete \cite{bylander1994computational}.%\cite{strips_comp}. 
+\noindent For instance, STRIPS is the less expressive of the presented formalisms, still deciding whether a plan exists is PSPACE-complete \cite{bylander1994computational}.
 Many restrictions can be enforced in order to make this problem decidable in polynomial time, like restricting the type of formulas or the number of pre-postconditions. 
 \newline
 
@@ -613,23 +585,23 @@ and \cite{brafman2014contingent},%\cite{belief_particle},
 where particle filters and PCA are respectively used to represent the belief state compactly or exploit its properties.
 \newline
 
-\noindent Planning with partial observability is the most difficult planning task as, in general, it falls in EXPSPACE-complete class of complexity \cite{rintanen2004complexity}. The difficulty resides in the plan verification since the state space, in this case, is doubly exponentially bigger in the size of the problem instance with respect to classical planning case.
+\noindent Planning with partial observability is the most difficult planning task as, in general, it falls in EXPSPACE-complete class of complexity \cite{rintanen2004complexity}. The difficulty resides in the plan verification since the state space, in this case, is doubly exponentially bigger in the size of the problem instance with respect to classical planning case.\\
+\newline
 The discussion of good heuristics and search algorithms that try to exploit the structure of such problems is not the purpose of this thesis.
-We will focus instead on the representation of the state space, relying on state of the art planners present in literature.
+We will focus instead on the representation of the state space, relying on state of the art planners.
 
-\section{Conditional Planning and Execution}\label{sec:approach} %TODO revise
+\section{Conditional Planning and Execution}\label{sec:approach}
 \noindent As we have seen in the previous section, different planning formalisms try to capture different aspects of real-world problems. By the way they model and abstract the world, they also produce different solution concepts.\\
 Is not always obvious in advance which formalism is the best for a specific problem. Less expressive formalism are often preferred due to the fact that are less expensive in terms of computational power.\\
-For instance if we consider decidable logic formalisms, $ALCK_{NF}$ is one of the more expressive and yet the planning in general it's included in PSPACE, so too complex to run on a real robot in realtime.\\ 
+For instance if we consider decidable logic formalisms, $ALCK_{NF}$ is one of the more expressive and yet the planning in general it's included in PSPACE, so too complex to run on a robot in realtime.\\ 
 Classical Planning models only deterministic actions, and the planner is often embedded in a controlled execution loop that re-plan on unexpected outcomes. In fully-observable and non-deterministic planners, actions are assumed to be non-deterministic but there is no uncertainty about the perception. They produce strategies that are guaranteed to reach the goal. \\
 If we expand the domain and consider also probabilistic planners, they introduce also outcome probabilities. Their aim is to maximise a cumulative reward. They are also the most expensive and often intractable at representation and/or execution level. \\
 Rule-bases are not manageable when they become larger. This rules are created by experts that express their knowledge through the rules and it is difficult to find all the inconsistencies and the side-effects when new rules are inserted.\\
 
 \noindent This brief analysis shows that there is a compromise between expressivity and complexity. 
-Epistemic logics could helps us to represent real world uncertainties.\\
+Our work is developed in a middle situation, in which the space of the state is not entirely known but the unknown properties represent only a small observable set.
 In this case the states of the planning problem are called belief states, since they represent the uncertainty of the agent about the world.
 The problem with this representation is that the belief space is computationally exponentially bigger than classical state space. A good representation is thus needed.\\
-%A solution is to maintain only a small group of states that represents a compact description of the epistemic knowledge of the robot.\\
 If we denote as $Z$ the states that represents the human-needs and with $Y$ the generic states, we have that:
 \begin{center}
 %$|Y|$ + $|2^Z| \ll |2^X|$ and $X = Y \cup Z$
@@ -654,10 +626,10 @@ Where the properties showed are:
 \item \textbf{Sensing}: the capability of define sensing actions.
 \item \textbf{CP Gen.}: the capability (of the planner) to generate conditional plans.
 \end{itemize}
-\noindent As we can see, PDDL (ROSPlan version), KPDDL, ASP and RDDL seems to fit our prerequisites. For this work we decide to consider the two version of PDDL (standard and ROSPlan) plus KPDDL. We will motivate this choice in the upcoming chapters.\\
-\noindent Once we have identified the languages that matches our prerequisites, we select them to represent and  solve a test domains. The last step is to translate the computed plan into a conditional plan as we will discuss later.\\
+\noindent As we can see, PDDL (ROSPlan version), KPDDL, ASP and RDDL seems to fit our prerequisites. For this work we decided to consider PDDL version 2.1 plus two of his extensions, namely KPDDL and PDDL for CLG. \\
+\noindent Once we have identified the languages that matches our prerequisites, we use them to represent and solve tests domains. Once a plan is computed, our architecture translate it into a conditional plan as we will discuss later.\\
 \newline
-\noindent Summarizing, our aim is to define an architecture capable of translate different formalisms into a conditional plan that will represent a PNP, in order to satisfy some tasks requirements, while finding the best trade-off between complexity and expressivity. \\
+\noindent Our aim is to define an architecture capable of translate different formalisms results into a conditional plan that will be refined and enhanced using the PNP formalism, that is much more expressive that any other formalism. \\
 
 \section{Considerations}
 Once a problem is characterised, we must define the techniques necessary to solve it.\\
@@ -866,7 +838,6 @@ The main modules are the \textbf{Knowledge Base}, that stores PDDL models, and t
 \end{figure} 
 
 \noindent The Knowledge Base stores both the problem domain and problem instance, along with any information to support the planning and stored in a ROS MongoDB. The KB can be updated with ROS messages and queried on-line.
-\newpage
 \noindent The Planning System:
 \begin{enumerate}
 \item Fetch information from the KB and generates the PDDL problem file.
@@ -907,8 +878,9 @@ The architecture presents two layers, each of which will be described in the fol
 	\caption{A detail of the system.}
 \end{figure}
 
-\noindent As we can see from the figure, the translation process is independent of the generation.\\
-In fact, the system translates transparently any sources in a conditional plan representation to successively feeds the PNP Generator that will generate the actual PNP.
+\noindent As we can see from the figure, the translation process is independent of the generation.
+In fact, the system translates transparently any sources in a conditional plan representation to successively feeds the PNP Generator that will generate the actual PNP.\\
+Notice that the translations of the planners output are mutually exclusive and do not run in parallel, that is we operate only on one planner output at the time.
 The PNP obtained is then robustified either manually or automatically (using the ER rules mechanism described in \ref{sec:ER}).\\
 
 \newpage
@@ -962,13 +934,13 @@ plan{
 \newpage
 \section{Translator Modules}\label{sec:transl_modules}
 The translator module maintain an internal representation of the conditional plan described in \ref{cp_representation} and is responsible for calling PNPgen, that will generate the actual PNP.
-The subset of languages/planners chosen in this thesis are PDDL, KPDDL and ROSPlan PDDL.\\
+The subset of languages/planners chosen in this thesis are PDDL, KPDDL and CLG PDDL.\\
 In the following section I will discuss, for each of the chosen formalism, how the translation works.  
 
 \subsection{Sequential Translator}\label{sec:seq}
 PDDL, as stated in \ref{pddl}, is the standard de facto for AI planning. \\
-PDDL (vers. 2.1) natively doesn't have syntax constructs that allow conditioning on action effects and this lead to the born of different extension, like KPDDL.
-the PDDL planners usually generate total ordered plans.\\
+PDDL (vers. 2.1) doesn't have syntax constructs that allow conditioning on action effects and this lead to the born of different extension, like KPDDL.
+PDDL planners usually generate total ordered plans.
 This is also our case since the chosen planner (Fast-Forward) provides us with an ordered list of actions. This kind of solution is interpreted as linear plans. \\
 The algorithm that realises the translation is listed below:
 \newline 
@@ -1135,12 +1107,13 @@ A plan of this kind can be written in a txt file and has the following form:\\
 \begin{center} 
 $t_n = a \,\, | <c \,\, ? \,\, t_1; ... ; t_{k-1} : (not \,\, c) \,\, ? \,\, t_k; ...; t_n >$\\
 \end{center}
-$t_n$ are terms that represents atomic actions (\textbf{a}) or conditional branches, where (\textbf{c}) are the conditions. \\
-\textbf{c} could represents a boolean sensing, like in the definition above, or an action sensing with multiple outcomes:
+$t_n$ are terms that represents atomic actions (\textit{a}) or conditional branches, where (\textit{c}) are the conditions. \\
+\textit{c} could represents a boolean sensing, like in the definition above, or an action sensing with multiple outcomes:
 \begin{center}
 $<c_1 \,\, ? \,\, a_1 \,\, : c_2 \,\, ? \,\, a_2 \,\, : ... c_n \,\, ? \,\, a_n>$
 \end{center}
 As example, consider the following plan definition:
+\newpage
 \begin{verbatim}
 a1; a2; 
     < 
@@ -1149,12 +1122,12 @@ a1; a2;
     c4 >; 
 a3; a4
 \end{verbatim}
-This represent a plan with two conditional branches at the beginning and an additional branching in the second of the two branch.	
+This represent a plan with two conditional branches at the beginning and an additional branching in the second of the two branches.	
 The algorithm is \ref{inline_gen}.
 
 \section{Generator Modules}\label{sec:generator}
 \subsection{PNPgen: A Conditional Planning Extension}
-Summarizing, the planners induce the following solutions:
+The planners induce the following semantical structures in the solution:
 \begin{itemize}
 \item \textbf{PDDL (FF planner)}: produce a linear plan.
 \item \textbf{PDDL (CLG Planner)}: produce a tree. 
@@ -1215,6 +1188,7 @@ The algorithm is \ref{cond_gen}.
 \caption{PNPgen from Conditional Plan}
 \end{algorithm}}\\
 
+\newpage
 \section{Algorithms Analysis}
 The complexity of the presented algorithms is linear in the number of plan states.\\
 In fact, for the translation algorithms, we generate a conditional plan state for each action in the computed plan.
@@ -1222,24 +1196,26 @@ For the generation, we explore these states and generate the correspondent PNP.\
 The functions used for the generation of the conditional plan and the PNP have a constant cost since they perform only local operations without looking at the whole plan.
 The system complexity, however, depends also on the planner algorithms.
 The conditional planning approach guarantees the robustness of the computed plan, though the search space for these algorithms increases considerably (as stated in \ref{sec:approach}).
-In this work, however, we decouple the two types of variables (epistemic and environmental) and we rely on the efficiency of the chosen planners. CLG and FF are proven to be complete.
+In this work, however, we decouple the two types of variables (epistemic and environmental) and we rely on the efficiency of the chosen planners. CLG and FF are proven to be complete;
 FF uses a relaxed GRAPHPLAN algorithms with an informed search based on goal distance. The derived search algorithm is called enforced hill-climbing.
-In CLG the description of the problem P, which represent a non-deterministic search problem in belief space, is translated into a non-deterministic problem X(P) in state space by the CLG suite.\\
+In CLG the description of the problem P, which represent a non-deterministic search problem in belief space, is translated into a non-deterministic problem X(P) in state space.\\
 CLG then accepts P and solves it using X(P) for keeping track of the beliefs and a strengthening relaxation X+(P) to choose which action to apply next.
 The relaxation is a classical planning problem that provides an informed heuristic
 estimator which embeds the sensing. \\
 \noindent KPlanner algorithm instead is not complete. The author provides the possibility to drive the solution search by the means of a heuristic factor that varies in the range of $[0.0 - 1.0]$, indicating with 0 a breadth-first search while with 1 a depth-first search.\\ 
-Anyway, without an informed heuristic, the planner tend to get stuck even with a small number of epistemic variables.
+Anyway, without an informed heuristic, the planner run time grows exponentially in the number of the properties to sense.
 Typical HRI plans have not a huge number of states. This is for two reasons: due to the great non-determinism of person actions, failures are very likely. We can avoid this by computing shorter plans.
 The second reason is that too long interactions tend to be unsatisfying for the user. 
 The chosen approach guarantees a safe execution of the framework on a robot.\\
  
+\newpage
 \section{Plan Examples}
 In this section I will show for each introduced formalisms the correspondent PNP generated. The examples are the ones presented in the previous section.
-
+%\newline
+%\newline
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6, trim=5cm 0cm 0cm 0mm]{images/hanoi_3.png}
+	\includegraphics[scale=0.6, trim=5cm 0cm 0cm -5cm]{images/hanoi_3.png}
 	\caption{PNP generated from the example in \ref{sec:seq}. This is a solution for the hanoi problem with three disks.}
 	\label{fig:inline_example}
 \end{figure}
@@ -1440,7 +1416,7 @@ The whole process, translation+generation, take place in 0,005s (average time). 
 \newpage
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.48, angle=270, trim=60mm 0mm 0mm 0mm]{images/coaches_pddl.png}
+	\includegraphics[scale=0.48, angle=270, trim=0mm 0mm 0mm 0mm]{images/coaches_pddl.png}
 	\caption{the PNP generated from the coaches PDDL domain. Notice that we had to modify the PNP for a better visualization.}
 	\label{fig:pddl_coaches}
 \end{figure}
@@ -1595,7 +1571,7 @@ The translation+generation takes only 0.008s time to run. We will compare this r
 \newpage
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5, angle=270, trim=50mm 0mm 0mm 50mm]{images/coaches_kpddl.png}
+	\includegraphics[scale=0.5, angle=270, trim=0mm 0mm 0mm 50mm]{images/coaches_kpddl.png}
 	\caption{the PNP generated from the coaches KPDDL domain. Notice that we had to modify the PNP for a better visualization.}
 	\label{fig:coaches_kpddlgen}
 \end{figure}
@@ -1654,7 +1630,7 @@ It is clear that if we double again the unknowns, the planner runs indefinitely.
 \newpage
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5, angle=270, trim=73mm 0mm 0mm -80mm]{images/kpddl_ex2.png}
+	\includegraphics[scale=0.5, angle=270, trim=0mm 0mm 0mm -80mm]{images/kpddl_ex2.png}
 	\caption{the PNP generated from the modified coaches KPDDL domain. Notice that we had to modify the PNP for a better visualization.}
 	\label{fig:kpddl_ex2}
 \end{figure}
@@ -1812,7 +1788,7 @@ As before, we must specify the possible outcomes in the initial state:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.5,angle=270, trim=50mm 0mm 0mm 0mm]{images/rosplan_coaches2.png}
+	\includegraphics[scale=0.5,angle=270, trim=0mm 0mm 0mm 0mm]{images/rosplan_coaches2.png}
 	\caption{a small portion of the PNP generated from the complete coaches domain. Notice that we had to modify the PNP for a better visualization.}
 	\label{fig:rosplan_ex2}
 \end{figure}
@@ -1827,12 +1803,12 @@ The CLG approach reveals to be the most promising since it unites the advantage 
 \chapter{Conclusion}\label{sec:conclusion}
 One of the fundamental aspects of moving robots from laboratories to everyday environments is that the interaction with unaware persons should be the most natural and smooth as possible.\\
 In fact, a robot that "freeze" during an interaction or that could not response actively to the external stimuli is very far from the definition of social.\\
-In this work we have discussed an approach that take advantage of the expressivity of some of the languages and formalisms present in the literature, and derives an architecture capable of generating plans that are robust with respect to action failures. This is due to the fact that  we can represent very complex conditions that are otherwise impossible to write "manually".
+In this work we have discussed an approach that takes advantage of the expressivity of some of the languages and formalisms present in the literature, and derives an architecture capable of generating plans that are robust with respect to action failures. This is due to the fact that  we can represent very complex conditions that are otherwise impossible to write "manually".
 In addition, we use the existing tools (the ER) to further enhance the reliability of this plans.
 This infrastructure was successfully tested during the Maker Faire 2016 event, where the plans have been generated on the fly and executed hundred of times.
-Furthermore, we have demonstrated the integration of our work with the ROSPlan\ref{sec:rosplan} framework, and we are actively collaborating with authors to extend further this approach.\\
-The work described in this thesis will be submitted at the ICAPS conference 2017.
-
+The contribution produced in this thesis is part of an ongoing work with the ROSPlan authors. We are actively collaborating to extend further this approach. Our aim is to provide an infrastructure for general and robust planning under ROS.
+The obtained results will be submitted at the ICAPS conference 2017.\\
+Finally, the software developed in this thesis is released under Open Source License.
 
 \section{Future Development}
 There are some things still missing in our framework that can be considered for future implementations.\\
@@ -1845,24 +1821,11 @@ It is clear that if we want to expand our work considering more formalisms, a to
 	\caption{the current interface to generate PNPs from (K)PDDL.}
 \end{figure}
 
-\noindent Talking about formalisms to be added, we should certainly consider probabilistic formalisms. In fact, given the modularity of the infrastructure, the procedure to add a new translator module is very simple.\\
-Another aspect to take into account regards the execution rules described in \ref{sec:ER}. These rules are easy to define and enhance the robustness of our approach. These contributes to the ongoing work with the ROSPlan authors that has to be submitted at the ICAPS conference 2017.
+\noindent Talking about formalisms to be added, we should certainly consider probabilistic formalisms.  In fact, it could be useful to take advantage of plans that represent uncertainty also quantitatively. Not only, given the modular nature of the infrastructure, the procedure to add a new translator module is very simple.\\
 Another possible expansion could be to consider also high order logics in the conditions, instead of boolean evaluations. This could help us to express more complex conditions, like ones with quantified variables or express temporal constraints. 
 An important improvement could be to expand the architecture with a tool that merges or concatenates the plans obtained from different formalisms. This would allow taking advantage of the benefits of each approach while overcoming the computation problems that was discussed in \ref{sec:analysis}. 
 A possible approach could be to use a heuristic search technique to solve inconsistency between different plans or define a language that describes the relation between different formalisms.\\
 Examples of similar approaches are discussed in \cite{tsamardinos2000merging} and \cite{yang1992merging}.
-
-%A robot must be capable of discerning cases in which an interaction is desirable and cases in which is not. Like in the simple case of a "welcome robot", it is important that the robot says "hi" when a person shows in front of him but it must also take into account the fact that a person could appear in front of him multiple times. 
-%Another important but maybe trickier case is to equip the robot with the capability of understanding the mood of the person and than react consequently. Although this could be seen as a fictional case, since is impossible at the moment even for the most complex cognitive robot to understand emotions, there are some simple cases that could be treated. The goal, in this case, is not to reproduce a perfect model of the human mind state and how it could react to some sorts of events, but rather discover some patterns that could lead to undesirable outcomes. For instance, a person could be busy with its work and the interference of the robot, when is not helpful in the context of the human task, could be perceived as noise. Thus is important to maintain a representation of the person daily routines and enrich this when is possible with the information that comes from the social interactions that occurs from time to time between the two. If we are interested in developing robots strictly social, we cannot leave aside the emotional aspect of the interaction. 
-
-
-%\begin{itemize}
-%\item Add More Formalisms -- PDDL extensions in the translation
-%\item Planner selection/study
-%\item from Boolean Evaluation to an Higher Logic
-%\item Merging plans ?
-%\item ER rules
-%\end{itemize}
 
 
 \bibliographystyle{plain}

@@ -35,21 +35,22 @@
 \BOOKMARK [2][-]{subsection.4.2.1}{Sequential Translator}{section.4.2}% 35
 \BOOKMARK [2][-]{subsection.4.2.2}{DAG Translator}{section.4.2}% 36
 \BOOKMARK [2][-]{subsection.4.2.3}{Tree Translator}{section.4.2}% 37
-\BOOKMARK [1][-]{section.4.3}{Generator Modules}{chapter.4}% 38
-\BOOKMARK [2][-]{subsection.4.3.1}{PNPgen: A Conditional Planning Extension}{section.4.3}% 39
-\BOOKMARK [2][-]{subsection.4.3.2}{the Generation Algorithm}{section.4.3}% 40
-\BOOKMARK [1][-]{section.4.4}{Algorithms Analysis}{chapter.4}% 41
-\BOOKMARK [1][-]{section.4.5}{Plan Examples}{chapter.4}% 42
-\BOOKMARK [0][-]{chapter.5}{Use Cases}{}% 43
-\BOOKMARK [1][-]{section.5.1}{Fast-Forward \(PDDL\)}{chapter.5}% 44
-\BOOKMARK [2][-]{subsection.5.1.1}{Example 1: deterministic COACHES}{section.5.1}% 45
-\BOOKMARK [2][-]{subsection.5.1.2}{Example 2: Gripper Problem}{section.5.1}% 46
-\BOOKMARK [1][-]{section.5.2}{KPlanner \(KPDDL\)}{chapter.5}% 47
-\BOOKMARK [2][-]{subsection.5.2.1}{Example 1: COACHES v.1}{section.5.2}% 48
-\BOOKMARK [2][-]{subsection.5.2.2}{Example 2: COACHES v.2}{section.5.2}% 49
-\BOOKMARK [1][-]{section.5.3}{Closed-Loop Greedy Planner \(PDDL\)}{chapter.5}% 50
-\BOOKMARK [2][-]{subsection.5.3.1}{Example 1: COACHES v.3}{section.5.3}% 51
-\BOOKMARK [2][-]{subsection.5.3.2}{Example 2: COACHES v.4}{section.5.3}% 52
-\BOOKMARK [1][-]{section.5.4}{Discussion}{chapter.5}% 53
-\BOOKMARK [0][-]{chapter.6}{Conclusion}{}% 54
-\BOOKMARK [1][-]{section.6.1}{Future Development}{chapter.6}% 55
+\BOOKMARK [3][-]{subsubsection.4.2.3.1}{DIY Conditional Plan}{subsection.4.2.3}% 38
+\BOOKMARK [1][-]{section.4.3}{Generator Modules}{chapter.4}% 39
+\BOOKMARK [2][-]{subsection.4.3.1}{PNPgen: A Conditional Planning Extension}{section.4.3}% 40
+\BOOKMARK [2][-]{subsection.4.3.2}{the Generation Algorithm}{section.4.3}% 41
+\BOOKMARK [1][-]{section.4.4}{Algorithms Analysis}{chapter.4}% 42
+\BOOKMARK [1][-]{section.4.5}{Plan Examples}{chapter.4}% 43
+\BOOKMARK [0][-]{chapter.5}{Use Cases}{}% 44
+\BOOKMARK [1][-]{section.5.1}{Fast-Forward \(PDDL\)}{chapter.5}% 45
+\BOOKMARK [2][-]{subsection.5.1.1}{Example 1: deterministic COACHES}{section.5.1}% 46
+\BOOKMARK [2][-]{subsection.5.1.2}{Example 2: Gripper Problem}{section.5.1}% 47
+\BOOKMARK [1][-]{section.5.2}{KPlanner \(KPDDL\)}{chapter.5}% 48
+\BOOKMARK [2][-]{subsection.5.2.1}{Example 1: COACHES v.1}{section.5.2}% 49
+\BOOKMARK [2][-]{subsection.5.2.2}{Example 2: COACHES v.2}{section.5.2}% 50
+\BOOKMARK [1][-]{section.5.3}{Closed-Loop Greedy Planner \(PDDL\)}{chapter.5}% 51
+\BOOKMARK [2][-]{subsection.5.3.1}{Example 1: COACHES v.3}{section.5.3}% 52
+\BOOKMARK [2][-]{subsection.5.3.2}{Example 2: COACHES v.4}{section.5.3}% 53
+\BOOKMARK [1][-]{section.5.4}{Discussion}{chapter.5}% 54
+\BOOKMARK [0][-]{chapter.6}{Conclusion}{}% 55
+\BOOKMARK [1][-]{section.6.1}{Future Development}{chapter.6}% 56

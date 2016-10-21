@@ -49,6 +49,11 @@ Amanda~Jane Coles, Andrew Coles, Maria Fox, and Derek Long.
 \newblock Forward-chaining partial-order planning.
 \newblock In {\em ICAPS}, pages 42--49, 2010.
 
+\bibitem{donini1997autoepistemic}
+Francesco~M Donini, Daniele Nardi, and Riccardo Rosati.
+\newblock Autoepistemic description logics.
+\newblock In {\em IJCAI (1)}, pages 136--141, 1997.
+
 \bibitem{erdem2012answer}
 Esra Erdem, Erdi Aker, and Volkan Patoglu.
 \newblock Answer set programming for collaborative housekeeping robotics:

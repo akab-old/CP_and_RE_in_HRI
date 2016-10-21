@@ -139,14 +139,6 @@
   year={2004}
 }
 
-@article{sanner2010relational,
-  title={Relational dynamic influence diagram language (rddl): Language description},
-  author={Sanner, Scott},
-  journal={Unpublished ms. Australian National University},
-  year={2010},
-  publisher={Citeseer}
-}
-
 @inproceedings{iocchi2003,
   title={A PDDL Extension for Describing Planning Domains with Incomplete Information and Sensing},
   author={Iocchi, Luca and Nardi, Daniele and Rosati, Riccardo}
@@ -307,6 +299,14 @@ We  show formally under which conditions the introduced translations are polynom
   volume={92},
   pages={342--353},
   year={1992}
+}
+
+@inproceedings{donini1997autoepistemic,
+  title={Autoepistemic description logics},
+  author={Donini, Francesco M and Nardi, Daniele and Rosati, Riccardo},
+  booktitle={IJCAI (1)},
+  pages={136--141},
+  year={1997}
 }
 
 
